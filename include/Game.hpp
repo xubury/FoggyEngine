@@ -24,10 +24,6 @@ class Game {
 
     void ProcessEvent();
 
-    const int m_width;
-
-    const int m_height;
-
     sf::RenderWindow m_window;
 
     sf::Time m_time_since_last_update;

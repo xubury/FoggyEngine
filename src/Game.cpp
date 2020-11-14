@@ -5,9 +5,7 @@
 namespace foggy {
 
 Game::Game(int width, int height, const std::string &title)
-    : m_width(width),
-      m_height(height),
-      m_window(sf::VideoMode(width, height), title) {}
+    : m_window(sf::VideoMode(width, height), title) {}
 
 void Game::Run(int min_fps) {
     sf::Clock clock;
