@@ -1,3 +1,6 @@
+#ifndef CONVERTER_HPP
+#define CONVERTER_HPP
+
 namespace foggy {
 namespace converter {
 
@@ -27,3 +30,5 @@ inline constexpr T RadToDeg(const T& x) {
 
 } /* namespace converter */
 } /* namespace foggy */
+
+#endif

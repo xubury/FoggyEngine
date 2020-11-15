@@ -5,6 +5,8 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <list>
+
+#include "GameWorld.hpp"
 namespace foggy {
 
 class Game {
@@ -20,9 +22,6 @@ class Game {
 
     float GetFps();
 
-    static b2Body *CreateBody(b2World &world, int pox_x, int pos_y, int size_x,
-                              int size_y, b2BodyType type = b2_dynamicBody);
-
    private:
     void Render();
 
@@ -34,9 +33,7 @@ class Game {
 
     sf::Time m_time_since_last_update;
 
-    std::list<b2Body *> m_bodies;
-
-    b2World m_world;
+    GameWorld m_world;
 };
 
 inline float Game::GetFps() {
