@@ -16,8 +16,10 @@ class Entity {
    public:
     using Ptr = std::shared_ptr<Entity>;
 
+    using ShapePtr = std::unique_ptr<sf::Shape>;
+
    public:
-    Entity(b2BodyType type);
+    Entity(ShapePtr shape, b2BodyType type);
 
     virtual ~Entity() = 0;
 
