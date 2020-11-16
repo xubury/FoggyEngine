@@ -8,7 +8,7 @@ find_package(box2d REQUIRED)
 add_executable(foggy 
     src/main.cpp src/Game.cpp 
     src/Entity.cpp src/GameWorld.cpp
-    src/RectangleEntity.cpp)
+    src/RectangleEntity.cpp src/CircleEntity.cpp)
 
 target_link_libraries(foggy PUBLIC sfml-audio sfml-graphics sfml-window sfml-system sfml-network box2d)
 target_compile_options(foggy PUBLIC -Wall -Wextra -Wundef -pedantic)
