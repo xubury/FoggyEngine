@@ -42,6 +42,6 @@ inline void Entity::SetShape(std::unique_ptr<sf::Shape> shape) {
     m_shape = std::move(shape);
 }
 
-}  // namespace foggy
+} /* namespace foggy */
 
 #endif /* ENTITY_H */

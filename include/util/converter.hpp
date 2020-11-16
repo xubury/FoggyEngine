@@ -31,4 +31,4 @@ inline constexpr T RadToDeg(const T& x) {
 } /* namespace converter */
 } /* namespace foggy */
 
-#endif
+#endif /* CONVERTER_HPP */

@@ -25,6 +25,6 @@ inline RectangleEntity::Ptr RectangleEntity::Create(const sf::Vector2f &pos,
     return entity;
 }
 
-}  // namespace foggy
+} /* namespace foggy */
 
 #endif /* RECTANGLEENTITY_H */

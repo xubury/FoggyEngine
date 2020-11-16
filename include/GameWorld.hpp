@@ -24,6 +24,6 @@ class GameWorld : public b2World {
     std::list<Entity::Ptr> m_entites;
 };
 
-}  // namespace foggy
+} /* namespace foggy */
 
 #endif /* GAMEWORLD_H */
