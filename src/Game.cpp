@@ -68,7 +68,7 @@ void Game::ProcessEvent() {
     }
 }
 
-void Game::Update(sf::Time &time) { m_world.Step(time.asSeconds(), 8, 3); }
+void Game::Update(sf::Time &time) { m_world.Update(time); }
 
 void Game::Render() {
     m_window.clear();

@@ -44,8 +44,12 @@ class Entity {
 
     std::unique_ptr<sf::Shape> m_shape;
 
-    sf::Clock m_spawn_time;
+    /* Timer that store how much time have passed
+     * since this entity spawned */
+    sf::Clock m_spawn_timer;
 
+    /* How much time this entity can live.
+     * If the time is negative, then this object can live forever. */
     sf::Time m_life_time;
 };
 
@@ -63,7 +67,7 @@ inline bool Entity::IsAlive() const {
     if (m_life_time == sf::seconds(-1)) {
         return true;
     } else
-        return m_spawn_time.getElapsedTime() < m_life_time;
+        return m_spawn_timer.getElapsedTime() < m_life_time;
 }
 
 template <typename T>

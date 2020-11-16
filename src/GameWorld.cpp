@@ -12,10 +12,15 @@ namespace foggy {
 GameWorld::GameWorld(const sf::Vector2f &gravity)
     : b2World(b2Vec2(gravity.x, gravity.y)) {}
 
+void GameWorld::Update(const sf::Time &delta_time) {
+    Step(delta_time.asSeconds(), 8, 3);
+}
+
 void GameWorld::RenderOn(sf::RenderWindow &window) {
     b2Body *body = GetBodyList();
     while (body != nullptr) {
         Entity *entity = static_cast<Entity *>(body->GetUserData());
+        // TODO: Move this to Update
         if (!entity->IsAlive()) {
             b2Body *next = body->GetNext();
             m_entites.remove_if(

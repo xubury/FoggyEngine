@@ -16,6 +16,8 @@ class GameWorld : public b2World {
    public:
     GameWorld(const sf::Vector2f &gravity = sf::Vector2f(0.f, 9.8f));
 
+    void Update(const sf::Time &delta_time);
+
     void RenderOn(sf::RenderWindow &window);
 
     void SpawnEntity(Entity::Ptr entity);
