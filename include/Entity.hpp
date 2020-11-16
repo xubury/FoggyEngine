@@ -27,13 +27,11 @@ class Entity {
     static bool CheckType(Entity *entity);
 
    public:
+    friend class GameWorld;
+
     Entity(ShapePtr shape, b2BodyType type, const sf::Time &life_time);
 
     virtual ~Entity() = 0;
-
-    sf::Shape *GetShape() const;
-
-    b2BodyType GetType() const;
 
     bool IsAlive() const;
 
@@ -49,12 +47,17 @@ class Entity {
         bool operator()(const Entity::Ptr &lhs, const Entity::Ptr &rhs) const;
     };
 
+   protected:
+    void SetShape(std::unique_ptr<sf::Shape> shape);
+
+    sf::Shape *GetShape() const;
+
+   private:
+    b2BodyType GetType() const;
+
     void SetB2BodyRef(b2Body *ref);
 
     b2Body *GetB2BodyRef();
-
-   protected:
-    void SetShape(std::unique_ptr<sf::Shape> shape);
 
    private:
     b2BodyType m_b2_type;

@@ -2,7 +2,7 @@
 
 namespace foggy {
 
-const sf::Time Entity::PERSISTANT = sf::seconds(-1);
+const sf::Time Entity::PERSISTANT = sf::seconds(0);
 
 Entity::Entity(ShapePtr shape, b2BodyType type, const sf::Time &life_time)
     : m_b2_type(type), m_shape(std::move(shape)), m_life_time(life_time) {
