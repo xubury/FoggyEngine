@@ -18,6 +18,11 @@ class Entity {
 
     using ShapePtr = std::unique_ptr<sf::Shape>;
 
+    enum class Type { Rectangle, Circle };
+
+    template <typename T>
+    static bool CheckType(Entity *entity);
+
    public:
     Entity(ShapePtr shape, b2BodyType type);
 
@@ -44,6 +49,13 @@ inline b2BodyType Entity::GetType() const { return m_b2_type; }
 
 inline void Entity::SetShape(std::unique_ptr<sf::Shape> shape) {
     m_shape = std::move(shape);
+}
+
+template <typename T>
+inline bool Entity::CheckType(Entity *entity) {
+    static_assert(std::is_base_of<Entity, T>::value,
+                  "T muse be derived from Entity!");
+    return dynamic_cast<T *>(entity) != nullptr;
 }
 
 } /* namespace foggy */

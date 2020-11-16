@@ -21,6 +21,8 @@ class GameWorld : public b2World {
     void SpawnEntity(Entity::Ptr entity);
 
    private:
+    std::unique_ptr<b2Shape> CreateShape(Entity::Ptr entity, Entity::Type type);
+
     std::list<Entity::Ptr> m_entites;
 };
 
