@@ -19,7 +19,7 @@ class Entity {
    public:
     Entity(b2BodyType type);
 
-    virtual ~Entity() = default;
+    virtual ~Entity() = 0;
 
     sf::Shape *GetShape() const;
 
@@ -33,6 +33,8 @@ class Entity {
 
     std::unique_ptr<sf::Shape> m_shape;
 };
+
+inline Entity::~Entity() = default;
 
 inline sf::Shape *Entity::GetShape() const { return m_shape.get(); }
 
