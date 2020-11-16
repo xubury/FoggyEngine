@@ -13,9 +13,18 @@ GameWorld::GameWorld(const sf::Vector2f &gravity)
     : b2World(b2Vec2(gravity.x, gravity.y)) {}
 
 void GameWorld::RenderOn(sf::RenderWindow &window) {
-    for (b2Body *body = GetBodyList(); body != nullptr;
-         body = body->GetNext()) {
+    b2Body *body = GetBodyList();
+    while (body != nullptr) {
         Entity *entity = static_cast<Entity *>(body->GetUserData());
+        if (!entity->IsAlive()) {
+            b2Body *next = body->GetNext();
+            m_entites.remove_if(
+                [entity](const auto &v) -> bool { return v.get() == entity; });
+            DestroyBody(body);
+            body = next;
+            continue;
+        }
+
         sf::Vector2f position(converter::MetersToPixels(body->GetPosition().x),
                               converter::MetersToPixels(body->GetPosition().y));
         float rotation = converter::RadToDeg<float>(body->GetAngle());
@@ -26,6 +35,7 @@ void GameWorld::RenderOn(sf::RenderWindow &window) {
             sf::Shape *shape = entity->GetShape();
             window.draw(*shape);
         }
+        body = body->GetNext();
     }
 }
 

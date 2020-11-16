@@ -4,6 +4,7 @@
 #include <Box2D/Box2D.h>
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <list>
 
 #include "GameWorld.hpp"
@@ -33,11 +34,15 @@ class Game {
 
     sf::Time m_time_since_last_update;
 
+    sf::Clock m_fps_clock;
+
+    sf::Text m_fps;
+
     GameWorld m_world;
 };
 
 inline float Game::GetFps() {
-    return 1.f / m_time_since_last_update.asSeconds();
+    return 1.f / m_fps_clock.getElapsedTime().asSeconds();
 }
 
 } /* namespace foggy */

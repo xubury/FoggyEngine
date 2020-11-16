@@ -5,6 +5,8 @@
 
 #include <SFML/Graphics/Shape.hpp>
 #include <SFML/Graphics/Transformable.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <memory>
 namespace foggy {
@@ -24,13 +26,15 @@ class Entity {
     static bool CheckType(Entity *entity);
 
    public:
-    Entity(ShapePtr shape, b2BodyType type);
+    Entity(ShapePtr shape, b2BodyType type, const sf::Time &life_time);
 
     virtual ~Entity() = 0;
 
     sf::Shape *GetShape() const;
 
     b2BodyType GetType() const;
+
+    bool IsAlive() const;
 
    protected:
     void SetShape(std::unique_ptr<sf::Shape> shape);
@@ -39,6 +43,10 @@ class Entity {
     b2BodyType m_b2_type;
 
     std::unique_ptr<sf::Shape> m_shape;
+
+    sf::Clock m_spawn_time;
+
+    sf::Time m_life_time;
 };
 
 inline Entity::~Entity() = default;
@@ -49,6 +57,13 @@ inline b2BodyType Entity::GetType() const { return m_b2_type; }
 
 inline void Entity::SetShape(std::unique_ptr<sf::Shape> shape) {
     m_shape = std::move(shape);
+}
+
+inline bool Entity::IsAlive() const {
+    if (m_life_time == sf::seconds(-1)) {
+        return true;
+    } else
+        return m_spawn_time.getElapsedTime() < m_life_time;
 }
 
 template <typename T>
