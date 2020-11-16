@@ -16,6 +16,7 @@ namespace foggy {
  * So we can attach sprite etc to it. */
 class Entity {
    public:
+    static const sf::Time PERSISTANT;
     using Ptr = std::shared_ptr<Entity>;
 
     using ShapePtr = std::unique_ptr<sf::Shape>;
@@ -36,6 +37,22 @@ class Entity {
 
     bool IsAlive() const;
 
+    bool IsPersistent() const;
+
+    sf::Time GetRemainingTime() const;
+
+    struct LessRemainingTime {
+        bool operator()(const Entity::Ptr &lhs, const Entity::Ptr &rhs) const;
+    };
+
+    struct GreaterRemainingTime {
+        bool operator()(const Entity::Ptr &lhs, const Entity::Ptr &rhs) const;
+    };
+
+    void SetB2BodyRef(b2Body *ref);
+
+    b2Body *GetB2BodyRef();
+
    protected:
     void SetShape(std::unique_ptr<sf::Shape> shape);
 
@@ -51,7 +68,18 @@ class Entity {
     /* How much time this entity can live.
      * If the time is negative, then this object can live forever. */
     sf::Time m_life_time;
+
+    b2Body *m_b2_body_ref;
 };
+
+inline bool Entity::LessRemainingTime::operator()(
+    const Entity::Ptr &lhs, const Entity::Ptr &rhs) const {
+    return lhs->GetRemainingTime() < rhs->GetRemainingTime();
+}
+inline bool Entity::GreaterRemainingTime::operator()(
+    const Entity::Ptr &lhs, const Entity::Ptr &rhs) const {
+    return lhs->GetRemainingTime() > rhs->GetRemainingTime();
+}
 
 inline Entity::~Entity() = default;
 
@@ -64,11 +92,21 @@ inline void Entity::SetShape(std::unique_ptr<sf::Shape> shape) {
 }
 
 inline bool Entity::IsAlive() const {
-    if (m_life_time == sf::seconds(-1)) {
+    if (IsPersistent()) {
         return true;
     } else
         return m_spawn_timer.getElapsedTime() < m_life_time;
 }
+
+inline bool Entity::IsPersistent() const { return m_life_time == PERSISTANT; }
+
+inline sf::Time Entity::GetRemainingTime() const {
+    return m_life_time - m_spawn_timer.getElapsedTime();
+}
+
+inline void Entity::SetB2BodyRef(b2Body *ref) { m_b2_body_ref = ref; }
+
+inline b2Body *Entity::GetB2BodyRef() { return m_b2_body_ref; }
 
 template <typename T>
 inline bool Entity::CheckType(Entity *entity) {

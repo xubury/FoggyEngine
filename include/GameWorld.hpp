@@ -6,7 +6,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <list>
+#include <algorithm>
+#include <queue>
 
 #include "Entity.hpp"
 
@@ -25,7 +26,10 @@ class GameWorld : public b2World {
    private:
     std::unique_ptr<b2Shape> CreateShape(Entity::Ptr entity, Entity::Type type);
 
-    std::list<Entity::Ptr> m_entites;
+    std::priority_queue<Entity::Ptr, std::vector<Entity::Ptr>,
+                        Entity::GreaterRemainingTime>
+        m_entities;
+    std::vector<Entity::Ptr> m_persistant_entities;
 };
 
 } /* namespace foggy */

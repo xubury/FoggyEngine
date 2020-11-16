@@ -13,6 +13,10 @@ GameWorld::GameWorld(const sf::Vector2f &gravity)
     : b2World(b2Vec2(gravity.x, gravity.y)) {}
 
 void GameWorld::Update(const sf::Time &delta_time) {
+    while (!m_entities.empty() && !m_entities.top()->IsAlive()) {
+        DestroyBody(m_entities.top()->GetB2BodyRef());
+        m_entities.pop();
+    }
     Step(delta_time.asSeconds(), 8, 3);
 }
 
@@ -20,15 +24,6 @@ void GameWorld::RenderOn(sf::RenderWindow &window) {
     b2Body *body = GetBodyList();
     while (body != nullptr) {
         Entity *entity = static_cast<Entity *>(body->GetUserData());
-        // TODO: Move this to Update
-        if (!entity->IsAlive()) {
-            b2Body *next = body->GetNext();
-            m_entites.remove_if(
-                [entity](const auto &v) -> bool { return v.get() == entity; });
-            DestroyBody(body);
-            body = next;
-            continue;
-        }
 
         sf::Vector2f position(converter::MetersToPixels(body->GetPosition().x),
                               converter::MetersToPixels(body->GetPosition().y));
@@ -45,6 +40,11 @@ void GameWorld::RenderOn(sf::RenderWindow &window) {
 }
 
 void GameWorld::SpawnEntity(Entity::Ptr entity) {
+    if (entity->IsPersistent())
+        m_persistant_entities.push_back(entity);
+    else
+        m_entities.push(entity);
+
     b2BodyDef body_def;
     sf::Vector2f pos = entity->GetShape()->getPosition();
     body_def.position.Set(converter::PixelsToMeters<float>(pos.x),
@@ -67,7 +67,7 @@ void GameWorld::SpawnEntity(Entity::Ptr entity) {
     b2Body *res = CreateBody(&body_def);
     res->CreateFixture(&fixture_def);
     res->SetUserData(entity.get());
-    m_entites.push_back(entity);
+    entity->SetB2BodyRef(res);
 }
 
 std::unique_ptr<b2Shape> GameWorld::CreateShape(Entity::Ptr entity,

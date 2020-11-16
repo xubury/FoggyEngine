@@ -26,7 +26,7 @@ void Game::Run(int min_fps) {
     sf::Time time_per_frame = sf::seconds(1.f / min_fps);
     m_world.SpawnEntity(
         RectangleEntity::Create(sf::Vector2f(500, 800), sf::Vector2f(1000, 40),
-                                b2_staticBody, sf::seconds(-1)));
+                                b2_staticBody, Entity::PERSISTANT));
 
     while (m_window.isOpen()) {
         ProcessEvent();
