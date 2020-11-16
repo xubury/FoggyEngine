@@ -2,8 +2,6 @@
 
 namespace foggy {
 
-Entity::Entity(const sf::Vector2f &pos, b2BodyType type) : m_b2_type(type) {
-    setPosition(pos);
-}
+Entity::Entity(b2BodyType type) : m_b2_type(type) {}
 
 }  // namespace foggy

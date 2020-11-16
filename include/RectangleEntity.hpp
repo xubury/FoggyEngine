@@ -7,22 +7,21 @@ namespace foggy {
 
 class RectangleEntity : public Entity {
    public:
-    static std::shared_ptr<RectangleEntity> Create(const sf::Vector2f &pos,
+    static RectangleEntity::Ptr Create(const sf::Vector2f &pos,
                                        const sf::Vector2f &size,
                                        b2BodyType type);
 
    public:
     RectangleEntity(const sf::Vector2f &pos, const sf::Vector2f &size,
                     b2BodyType type);
-    void UpdateRenderStatus() override;
 
    private:
 };
 
-inline std::shared_ptr<RectangleEntity> RectangleEntity::Create(const sf::Vector2f &pos,
+inline RectangleEntity::Ptr RectangleEntity::Create(const sf::Vector2f &pos,
                                                     const sf::Vector2f &size,
                                                     b2BodyType type) {
-    std::shared_ptr<RectangleEntity> entity(new RectangleEntity(pos, size, type));
+    RectangleEntity::Ptr entity(new RectangleEntity(pos, size, type));
     return entity;
 }
 

@@ -12,23 +12,21 @@ namespace foggy {
 /** Design idea:
  * Think of Entity as a hitbox stuff.
  * So we can attach sprite etc to it. */
-class Entity : public sf::Transformable {
+class Entity {
    public:
     using Ptr = std::shared_ptr<Entity>;
 
    public:
-    Entity(const sf::Vector2f &pos, b2BodyType type);
+    Entity(b2BodyType type);
 
     virtual ~Entity() = default;
 
     sf::Shape *GetShape() const;
 
-    virtual void UpdateRenderStatus() = 0;
-
     b2BodyType GetType() const;
 
    protected:
-    void SetShape(std::unique_ptr<sf::Shape> drawable);
+    void SetShape(std::unique_ptr<sf::Shape> shape);
 
    private:
     b2BodyType m_b2_type;

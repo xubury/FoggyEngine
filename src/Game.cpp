@@ -46,7 +46,7 @@ void Game::ProcessEvent() {
             int x = sf::Mouse::getPosition(m_window).x;
             int y = sf::Mouse::getPosition(m_window).y;
             m_world.SpawnEntity(RectangleEntity::Create(
-                sf::Vector2f(x, y), sf::Vector2f(30, 60), b2_dynamicBody));
+                sf::Vector2f(x, y), sf::Vector2f(30, 15), b2_dynamicBody));
             ;
         }
     }
