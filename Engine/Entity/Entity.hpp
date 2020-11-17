@@ -58,7 +58,6 @@ class Entity {
 
     sf::Shape *GetShape() const;
 
-   private:
     b2BodyType GetType() const;
 
     void SetB2BodyRef(b2Body *ref);

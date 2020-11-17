@@ -1,6 +1,6 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
-#include "RectangleEntity.hpp"
+#include "Entity/RectangleEntity.hpp"
 
 namespace foggy {
 

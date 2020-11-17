@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics/CircleShape.hpp>
 
-#include "Entity.hpp"
+#include "Entity/Entity.hpp"
 
 namespace foggy {
 

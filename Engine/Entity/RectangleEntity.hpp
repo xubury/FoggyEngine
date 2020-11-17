@@ -1,7 +1,7 @@
 #ifndef RECTANGLEENTITY_H
 #define RECTANGLEENTITY_H
 
-#include "Entity.hpp"
+#include "Entity/Entity.hpp"
 #include "util/converter.hpp"
 namespace foggy {
 

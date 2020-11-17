@@ -8,7 +8,7 @@
 #include <list>
 
 #include "Engine/GameWorld.hpp"
-namespace foggy {
+#include "Player.hpp"
 
 class Game {
    public:
@@ -38,13 +38,13 @@ class Game {
 
     sf::Text m_fps;
 
-    GameWorld m_world;
+    foggy::GameWorld m_world;
+
+    std::shared_ptr<Player> m_player;
 };
 
 inline float Game::GetFps() {
     return 1.f / m_fps_clock.getElapsedTime().asSeconds();
 }
-
-} /* namespace foggy */
 
 #endif /* GAME_H */
