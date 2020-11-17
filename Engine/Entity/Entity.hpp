@@ -29,7 +29,7 @@ class Entity {
     static bool CheckType(Entity *entity);
 
    public:
-    friend class GameWorld;
+    friend class World;
 
     Entity(ShapePtr shape, b2BodyType type, const sf::Time &life_time);
 

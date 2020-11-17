@@ -5,14 +5,14 @@
 #include "Entity/CircleEntity.hpp"
 #include "Entity/Entity.hpp"
 #include "Entity/RectangleEntity.hpp"
-#include "GameWorld.hpp"
+#include "World/World.hpp"
 #include "util/converter.hpp"
 
 namespace foggy {
-GameWorld::GameWorld(const sf::Vector2f &gravity)
+World::World(const sf::Vector2f &gravity)
     : b2World(b2Vec2(gravity.x, gravity.y)) {}
 
-void GameWorld::Update(const sf::Time &delta_time) {
+void World::Update(const sf::Time &delta_time) {
     while (!m_entities.empty() && !m_entities.top()->IsAlive()) {
         DestroyBody(m_entities.top()->GetB2BodyRef());
         m_entities.pop();
@@ -20,7 +20,7 @@ void GameWorld::Update(const sf::Time &delta_time) {
     Step(delta_time.asSeconds(), 8, 3);
 }
 
-void GameWorld::RenderOn(sf::RenderWindow &window) {
+void World::RenderOn(sf::RenderWindow &window) {
     for (b2Body *body = GetBodyList(); body != nullptr;
          body = body->GetNext()) {
         Entity *entity = static_cast<Entity *>(body->GetUserData());
@@ -43,7 +43,7 @@ void GameWorld::RenderOn(sf::RenderWindow &window) {
     }
 }
 
-void GameWorld::SpawnEntity(Entity::Ptr entity) {
+void World::SpawnEntity(Entity::Ptr entity) {
     if (entity->IsPersistent())
         m_persistant_entities.push_back(entity);
     else
@@ -74,8 +74,8 @@ void GameWorld::SpawnEntity(Entity::Ptr entity) {
     entity->SetB2BodyRef(res);
 }
 
-std::unique_ptr<b2Shape> GameWorld::CreateShape(Entity::Ptr entity,
-                                                Entity::Type type) {
+std::unique_ptr<b2Shape> World::CreateShape(Entity::Ptr entity,
+                                            Entity::Type type) {
     std::unique_ptr<b2Shape> b2_shape;
     switch (type) {
         case Entity::Type::Rectangle: {

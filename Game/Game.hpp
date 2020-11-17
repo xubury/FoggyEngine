@@ -7,8 +7,8 @@
 #include <SFML/Graphics/Text.hpp>
 #include <list>
 
-#include "Engine/GameWorld.hpp"
 #include "Player.hpp"
+#include "World/World.hpp"
 
 class Game {
    public:
@@ -38,7 +38,7 @@ class Game {
 
     sf::Text m_fps;
 
-    foggy::GameWorld m_world;
+    foggy::World m_world;
 
     std::shared_ptr<Player> m_player;
 };

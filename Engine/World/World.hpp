@@ -18,9 +18,9 @@ namespace foggy {
  * and X+ is right. So everything inside GameWorld is in World Coordinate
  * System. The Render function will convert World coordinate to Screen
  * coordinate. */
-class GameWorld : public b2World {
+class World : public b2World {
    public:
-    GameWorld(const sf::Vector2f &gravity = sf::Vector2f(0.f, 9.8f));
+    World(const sf::Vector2f &gravity = sf::Vector2f(0.f, 9.8f));
 
     void Update(const sf::Time &delta_time);
 
