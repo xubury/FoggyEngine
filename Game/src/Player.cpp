@@ -3,6 +3,7 @@
 #include "Player.hpp"
 #include "util/converter.hpp"
 
+// TODO: Make a manager class manage these inputs
 foggy::ActionMap<int> Player::s_player_inputs;
 
 Player::Player(const sf::Vector2f &pos)
