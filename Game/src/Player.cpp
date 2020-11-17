@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Player.hpp"
+#include "util/converter.hpp"
 
 foggy::ActionMap<int> Player::s_player_inputs;
 
@@ -13,17 +14,18 @@ Player::Player(const sf::Vector2f &pos)
     s_player_inputs.Map(PlayerInput::Left, foggy::Action(sf::Keyboard::A));
 
     Bind(PlayerInput::Up,
-         [this](const sf::Event &) { Move(sf::Vector2f(0, 20)); });
+         [this](const sf::Event &) { Move(sf::Vector2f(0, 1)); });
     Bind(PlayerInput::Down,
-         [this](const sf::Event &) { Move(sf::Vector2f(0, -20)); });
+         [this](const sf::Event &) { Move(sf::Vector2f(0, -1)); });
     Bind(PlayerInput::Left,
-         [this](const sf::Event &) { Move(sf::Vector2f(-20, 0)); });
+         [this](const sf::Event &) { Move(sf::Vector2f(-1, 0)); });
     Bind(PlayerInput::Right,
-         [this](const sf::Event &) { Move(sf::Vector2f(20, 0)); });
+         [this](const sf::Event &) { Move(sf::Vector2f(1, 0)); });
 }
 
-void Player::Move(const sf::Vector2f &acc) {
-    float mass = GetB2BodyRef()->GetMass();
-    GetB2BodyRef()->ApplyForce(b2Vec2(acc.x * mass, acc.y * mass),
-                               GetB2BodyRef()->GetWorldCenter(), true);
+void Player::Move(const sf::Vector2f &impulse) {
+    GetB2BodyRef()->ApplyLinearImpulse(
+        b2Vec2(foggy::converter::PixelsToMeters(impulse.x),
+               foggy::converter::PixelsToMeters(impulse.y)),
+        GetB2BodyRef()->GetWorldCenter(), true);
 }

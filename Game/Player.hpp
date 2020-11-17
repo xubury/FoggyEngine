@@ -13,7 +13,7 @@ class Player : public foggy::CircleEntity, public foggy::ActionTarget<int> {
 
     Player(const sf::Vector2f &pos);
 
-    void Move(const sf::Vector2f &acc);
+    void Move(const sf::Vector2f &impulse);
 
    private:
 };
