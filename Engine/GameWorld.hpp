@@ -13,6 +13,11 @@
 
 namespace foggy {
 
+/* The World cooridate system is right-handed, i.e. Y+ is up and X+ is
+ * right. The Screen cooridate system is left-handed, i.e. Y+ is down
+ * and X+ is right. So everything inside GameWorld is in World Coordinate
+ * System. The Render function will convert World coordinate to Screen
+ * coordinate. */
 class GameWorld : public b2World {
    public:
     GameWorld(const sf::Vector2f &gravity = sf::Vector2f(0.f, 9.8f));

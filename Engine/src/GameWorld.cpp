@@ -21,13 +21,18 @@ void GameWorld::Update(const sf::Time &delta_time) {
 }
 
 void GameWorld::RenderOn(sf::RenderWindow &window) {
-    b2Body *body = GetBodyList();
-    while (body != nullptr) {
+    for (b2Body *body = GetBodyList(); body != nullptr;
+         body = body->GetNext()) {
         Entity *entity = static_cast<Entity *>(body->GetUserData());
 
+        /* The World cooridate system is right-handed, i.e. Y+ is up and X+ is
+         * right. The Screen cooridate system is left-handede, i.e. Y+ is down
+         * and X+ is right.
+         * Here, we convert World cooridate to Screen coordinate.*/
         sf::Vector2f position(converter::MetersToPixels(body->GetPosition().x),
-                              converter::MetersToPixels(body->GetPosition().y));
-        float rotation = converter::RadToDeg<float>(body->GetAngle());
+                              window.getSize().y - converter::MetersToPixels(
+                                                       body->GetPosition().y));
+        float rotation = -converter::RadToDeg<float>(body->GetAngle());
         if (entity != nullptr) {
             entity->GetShape()->setPosition(position);
             entity->GetShape()->setRotation(rotation);
@@ -35,7 +40,6 @@ void GameWorld::RenderOn(sf::RenderWindow &window) {
             sf::Shape *shape = entity->GetShape();
             window.draw(*shape);
         }
-        body = body->GetNext();
     }
 }
 

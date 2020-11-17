@@ -13,9 +13,9 @@ Player::Player(const sf::Vector2f &pos)
     s_player_inputs.Map(PlayerInput::Left, foggy::Action(sf::Keyboard::A));
 
     Bind(PlayerInput::Up,
-         [this](const sf::Event &) { Move(sf::Vector2f(0, -20)); });
-    Bind(PlayerInput::Down,
          [this](const sf::Event &) { Move(sf::Vector2f(0, 20)); });
+    Bind(PlayerInput::Down,
+         [this](const sf::Event &) { Move(sf::Vector2f(0, -20)); });
     Bind(PlayerInput::Left,
          [this](const sf::Event &) { Move(sf::Vector2f(-20, 0)); });
     Bind(PlayerInput::Right,
