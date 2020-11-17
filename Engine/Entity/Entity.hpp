@@ -24,14 +24,12 @@ class Entity {
 
     enum class Type { Rectangle, Circle };
 
-    /* Check if entity is a Type of T */
-    template <typename T>
-    static bool CheckType(Entity *entity);
+    virtual Type GetType() = 0;
 
    public:
     friend class World;
 
-    Entity(ShapePtr shape, b2BodyType type, const sf::Time &life_time);
+    Entity(ShapePtr shape, const sf::Time &life_time);
 
     virtual ~Entity() = 0;
 
@@ -54,11 +52,11 @@ class Entity {
     };
 
    protected:
+    virtual std::unique_ptr<b2Shape> CreateB2Shape() = 0;
+
     void SetShape(std::unique_ptr<sf::Shape> shape);
 
     sf::Shape *GetShape() const;
-
-    b2BodyType GetType() const;
 
     void SetB2BodyRef(b2Body *ref);
 
@@ -75,19 +73,9 @@ class Entity {
      * If the time is negative, then this object can live forever. */
     sf::Time m_life_time;
 
-    /* The box2d type of this entity. */
-    b2BodyType m_b2_type;
-
     /* The box2d body pointer that is binded with this entity. */
     b2Body *m_b2_body_ref;
 };
-
-template <typename T>
-bool Entity::CheckType(Entity *entity) {
-    static_assert(std::is_base_of<Entity, T>::value,
-                  "T muse be derived from Entity!");
-    return dynamic_cast<T *>(entity) != nullptr;
-}
 
 } /* namespace foggy */
 

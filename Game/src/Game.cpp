@@ -22,10 +22,11 @@ void Game::Run(int min_fps) {
     m_time_since_last_update = sf::Time::Zero;
     sf::Time time_per_frame = sf::seconds(1.f / min_fps);
     m_player = std::make_shared<Player>(sf::Vector2f(500, 40));
-    m_world.SpawnEntity(m_player);
+    m_world.SpawnEntity(m_player, b2_dynamicBody);
     m_world.SpawnEntity(foggy::RectangleEntity::Create(
-        sf::Vector2f(500, 20), sf::Vector2f(1000, 40), b2_staticBody,
-        foggy::Entity::PERSISTANT));
+                            sf::Vector2f(500, 20), sf::Vector2f(1000, 40),
+                            foggy::Entity::PERSISTANT),
+                        b2_staticBody);
 
     while (m_window.isOpen()) {
         ProcessEvent();
@@ -60,14 +61,16 @@ void Game::ProcessEvent() {
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             int x = sf::Mouse::getPosition(m_window).x;
             int y = m_window.getSize().y - sf::Mouse::getPosition(m_window).y;
-            m_world.SpawnEntity(foggy::RectangleEntity::Create(
-                sf::Vector2f(x, y), sf::Vector2f(30, 15), b2_dynamicBody,
-                sf::seconds(3)));
+            m_world.SpawnEntity(
+                foggy::RectangleEntity::Create(
+                    sf::Vector2f(x, y), sf::Vector2f(30, 15), sf::seconds(3)),
+                b2_dynamicBody);
         } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
             int x = sf::Mouse::getPosition(m_window).x;
             int y = m_window.getSize().y - sf::Mouse::getPosition(m_window).y;
-            m_world.SpawnEntity(foggy::CircleEntity::Create(
-                sf::Vector2f(x, y), 30, b2_dynamicBody, sf::seconds(3)));
+            m_world.SpawnEntity(foggy::CircleEntity::Create(sf::Vector2f(x, y),
+                                                            30, sf::seconds(3)),
+                                b2_dynamicBody);
         } else {
             m_player->ProcessEvent(event);
         }

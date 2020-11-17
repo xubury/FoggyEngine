@@ -4,10 +4,9 @@ namespace foggy {
 
 const sf::Time Entity::PERSISTANT = sf::seconds(0);
 
-Entity::Entity(ShapePtr shape, b2BodyType type, const sf::Time &life_time)
+Entity::Entity(ShapePtr shape, const sf::Time &life_time)
     : m_shape(std::move(shape)),
       m_life_time(life_time),
-      m_b2_type(type),
       m_b2_body_ref(nullptr) {
     m_spawn_timer.restart();
     m_shape->setFillColor(sf::Color::Transparent);
@@ -27,8 +26,6 @@ bool Entity::GreaterRemainingTime::operator()(const Entity::Ptr &lhs,
 Entity::~Entity() = default;
 
 sf::Shape *Entity::GetShape() const { return m_shape.get(); }
-
-b2BodyType Entity::GetType() const { return m_b2_type; }
 
 void Entity::SetShape(std::unique_ptr<sf::Shape> shape) {
     m_shape = std::move(shape);

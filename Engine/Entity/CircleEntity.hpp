@@ -10,19 +10,22 @@ namespace foggy {
 class CircleEntity : public Entity {
    public:
     static CircleEntity::Ptr Create(const sf::Vector2f &pos, float radius,
-                                    b2BodyType type, const sf::Time &life_time);
+                                    const sf::Time &life_time);
 
    public:
-    CircleEntity(const sf::Vector2f &pos, float radius, b2BodyType type,
+    CircleEntity(const sf::Vector2f &pos, float radius,
                  const sf::Time &life_time);
 
+    Type GetType() override;
+
    private:
+    std::unique_ptr<b2Shape> CreateB2Shape() override;
 };
 
 inline CircleEntity::Ptr CircleEntity::Create(const sf::Vector2f &pos,
-                                              float radius, b2BodyType type,
+                                              float radius,
                                               const sf::Time &life_time) {
-    CircleEntity::Ptr entity(new CircleEntity(pos, radius, type, life_time));
+    CircleEntity::Ptr entity(new CircleEntity(pos, radius, life_time));
     return entity;
 }
 

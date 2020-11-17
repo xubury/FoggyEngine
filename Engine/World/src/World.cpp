@@ -43,7 +43,7 @@ void World::RenderOn(sf::RenderWindow &window) {
     }
 }
 
-void World::SpawnEntity(Entity::Ptr entity) {
+void World::SpawnEntity(Entity::Ptr entity, b2BodyType type) {
     if (entity->IsPersistent())
         m_persistant_entities.push_back(entity);
     else
@@ -53,14 +53,8 @@ void World::SpawnEntity(Entity::Ptr entity) {
     sf::Vector2f pos = entity->GetShape()->getPosition();
     body_def.position.Set(converter::PixelsToMeters<float>(pos.x),
                           converter::PixelsToMeters<float>(pos.y));
-    body_def.type = entity->GetType();
-    std::unique_ptr<b2Shape> b2_shape;
-    if (Entity::CheckType<RectangleEntity>(entity.get())) {
-        b2_shape = CreateShape(entity, Entity::Type::Rectangle);
-
-    } else if (Entity::CheckType<CircleEntity>(entity.get())) {
-        b2_shape = CreateShape(entity, Entity::Type::Circle);
-    }
+    body_def.type = type;
+    std::unique_ptr<b2Shape> b2_shape = entity->CreateB2Shape();
 
     b2FixtureDef fixture_def;
     fixture_def.density = 1.0;
@@ -72,34 +66,6 @@ void World::SpawnEntity(Entity::Ptr entity) {
     res->CreateFixture(&fixture_def);
     res->SetUserData(entity.get());
     entity->SetB2BodyRef(res);
-}
-
-std::unique_ptr<b2Shape> World::CreateShape(Entity::Ptr entity,
-                                            Entity::Type type) {
-    std::unique_ptr<b2Shape> b2_shape;
-    switch (type) {
-        case Entity::Type::Rectangle: {
-            b2_shape = std::make_unique<b2PolygonShape>();
-            sf::FloatRect rect = entity->GetShape()->getLocalBounds();
-            dynamic_cast<b2PolygonShape *>(b2_shape.get())
-                ->SetAsBox(converter::PixelsToMeters<float>(rect.width / 2.0),
-                           converter::PixelsToMeters<float>(rect.height / 2.0));
-            break;
-        }
-        case Entity::Type::Circle: {
-            b2_shape = std::make_unique<b2CircleShape>();
-            dynamic_cast<b2CircleShape *>(b2_shape.get())->m_radius =
-                converter::PixelsToMeters<float>(
-                    dynamic_cast<sf::CircleShape *>(entity->GetShape())
-                        ->getRadius());
-            break;
-        }
-        default: {
-            std::cerr << "undefined type" << std::endl;
-            break;
-        }
-    }
-    return b2_shape;
 }
 
 }  // namespace foggy

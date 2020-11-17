@@ -6,7 +6,7 @@
 foggy::ActionMap<int> Player::s_player_inputs;
 
 Player::Player(const sf::Vector2f &pos)
-    : foggy::CircleEntity(pos, 30, b2_dynamicBody, foggy::Entity::PERSISTANT),
+    : foggy::CircleEntity(pos, 30, foggy::Entity::PERSISTANT),
       foggy::ActionTarget<int>(s_player_inputs) {
     s_player_inputs.Map(PlayerInput::Up, foggy::Action(sf::Keyboard::W));
     s_player_inputs.Map(PlayerInput::Down, foggy::Action(sf::Keyboard::S));

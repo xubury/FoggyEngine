@@ -26,11 +26,9 @@ class World : public b2World {
 
     void RenderOn(sf::RenderWindow &window);
 
-    void SpawnEntity(Entity::Ptr entity);
+    void SpawnEntity(Entity::Ptr entity, b2BodyType type);
 
    private:
-    std::unique_ptr<b2Shape> CreateShape(Entity::Ptr entity, Entity::Type type);
-
     std::priority_queue<Entity::Ptr, std::vector<Entity::Ptr>,
                         Entity::GreaterRemainingTime>
         m_entities;
