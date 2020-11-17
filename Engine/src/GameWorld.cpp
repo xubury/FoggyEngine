@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-#include "CircleEntity.hpp"
-#include "Entity.hpp"
+#include "Entity/CircleEntity.hpp"
+#include "Entity/Entity.hpp"
+#include "Entity/RectangleEntity.hpp"
 #include "GameWorld.hpp"
-#include "RectangleEntity.hpp"
 #include "util/converter.hpp"
 
 namespace foggy {

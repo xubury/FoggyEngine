@@ -7,7 +7,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <list>
 
-#include "GameWorld.hpp"
+#include "Engine/GameWorld.hpp"
 namespace foggy {
 
 class Game {

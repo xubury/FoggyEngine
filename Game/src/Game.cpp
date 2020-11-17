@@ -3,10 +3,10 @@
 #include <SFML/Window/Event.hpp>
 #include <iostream>
 
-#include "CircleEntity.hpp"
+#include "Engine/Entity/CircleEntity.hpp"
+#include "Engine/Entity/RectangleEntity.hpp"
+#include "Engine/util/converter.hpp"
 #include "Game.hpp"
-#include "RectangleEntity.hpp"
-#include "util/converter.hpp"
 
 namespace foggy {
 

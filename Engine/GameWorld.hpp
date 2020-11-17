@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <queue>
 
-#include "Entity.hpp"
+#include "Entity/Entity.hpp"
 
 namespace foggy {
 
