@@ -51,6 +51,11 @@ void Game::ProcessEvent() {
             if (event.key.code == sf::Keyboard::Escape) {
                 m_window.close();
             }
+        } else if (event.type == sf::Event::Resized) {
+            // update the view to the new size of the window
+            sf::FloatRect visibleArea(0, 0, event.size.width,
+                                      event.size.height);
+            m_window.setView(sf::View(visibleArea));
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             int x = sf::Mouse::getPosition(m_window).x;
