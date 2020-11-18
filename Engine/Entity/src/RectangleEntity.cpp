@@ -1,7 +1,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
 #include "Entity/RectangleEntity.hpp"
-
+#include "util/converter.hpp"
 namespace foggy {
 
 RectangleEntity::RectangleEntity(const sf::Vector2f &pos,

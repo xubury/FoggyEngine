@@ -26,6 +26,7 @@ bool Entity::LessRemainingTime::operator()(const Entity::Ptr &lhs,
         }
     }
 }
+
 bool Entity::GreaterRemainingTime::operator()(const Entity::Ptr &lhs,
                                               const Entity::Ptr &rhs) const {
     if (!lhs->IsPersistent() && !rhs->IsPersistent()) {

@@ -24,7 +24,7 @@ void CircleEntity::CreateB2Body(b2World &world, b2BodyType type) {
         dynamic_cast<sf::CircleShape *>(GetShape())->getRadius());
 
     b2FixtureDef fixture_def;
-    fixture_def.density = 1.0;
+    fixture_def.density = 1.0 / (b2_shape.m_radius * b2_shape.m_radius);
     fixture_def.friction = 0.4;
     fixture_def.restitution = 0.5;
     fixture_def.shape = &b2_shape;

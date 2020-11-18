@@ -5,7 +5,7 @@
 #include "util/converter.hpp"
 
 Player::Player(const sf::Vector2f &pos)
-    : foggy::CircleEntity(pos, 30, foggy::Entity::PERSISTANT),
+    : foggy::CircleEntity(pos, 15, foggy::Entity::PERSISTANT),
       foggy::ActionTarget<Configuration::PlayerInput>(
           Configuration::player_inputs) {
     Bind(Configuration::PlayerInput::Up,

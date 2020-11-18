@@ -2,7 +2,7 @@
 #define RECTANGLEENTITY_H
 
 #include "Entity/Entity.hpp"
-#include "util/converter.hpp"
+
 namespace foggy {
 
 class RectangleEntity : public Entity {
