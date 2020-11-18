@@ -12,7 +12,9 @@ set(Engine_Src
     Engine/ActionSystem/src/Action.cpp
     Engine/Camera/src/Camera.cpp)
 
-add_executable(foggy ${Engine_Src} Game/src/main.cpp Game/src/Game.cpp Game/src/Player.cpp)
+add_executable(foggy 
+    ${Engine_Src} Game/src/main.cpp Game/src/Game.cpp 
+    Game/src/Player.cpp Game/Configuration/src/Configuration.cpp)
 
 target_link_libraries(foggy PUBLIC sfml-audio sfml-graphics sfml-window sfml-system sfml-network box2d)
 target_compile_options(foggy PUBLIC -Wall -Wextra -Wundef -pedantic)

@@ -2,6 +2,7 @@
 #include <SFML/Window/Event.hpp>
 #include <iostream>
 
+#include "Configuration/Configuration.hpp"
 #include "Engine/Entity/CircleEntity.hpp"
 #include "Engine/Entity/RectangleEntity.hpp"
 #include "Engine/util/converter.hpp"
@@ -14,11 +15,9 @@ Game::Game(int width, int height, const std::string &title)
       m_hud_camera(m_window.getDefaultView()) {}
 
 void Game::Run(int min_fps) {
-    sf::Font font;
-    if (!font.loadFromFile("arial.ttf")) {
-        std::cout << "Load font failed" << std::endl;
-    }
-    m_fps = sf::Text("FPS: " + std::to_string(GetFps()), font);
+    Configuration::Initialize();
+    m_fps = sf::Text("FPS: " + std::to_string(GetFps()),
+                     Configuration::fonts.Get(Configuration::Font::GUI));
 
     sf::Clock clock;
     m_time_since_last_update = sf::Time::Zero;

@@ -9,8 +9,6 @@ class Player : public foggy::CircleEntity, public foggy::ActionTarget<int> {
     enum PlayerInput : int { Up, Down, Left, Right };
 
    public:
-    static foggy::ActionMap<int> s_player_inputs;
-
     Player(const sf::Vector2f &pos);
 
     void Move(const sf::Vector2f &impulse);
