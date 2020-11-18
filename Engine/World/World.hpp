@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <queue>
 
+#include "Camera/Camera.hpp"
 #include "Entity/Entity.hpp"
 
 namespace foggy {

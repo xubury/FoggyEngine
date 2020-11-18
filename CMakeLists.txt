@@ -9,7 +9,8 @@ set(Engine_Src
     Engine/World/src/World.cpp
     Engine/Entity/src/Entity.cpp
     Engine/Entity/src/RectangleEntity.cpp Engine/Entity/src/CircleEntity.cpp
-    Engine/ActionSystem/src/Action.cpp)
+    Engine/ActionSystem/src/Action.cpp
+    Engine/Camera/src/Camera.cpp)
 
 add_executable(foggy ${Engine_Src} Game/src/main.cpp Game/src/Game.cpp Game/src/Player.cpp)
 

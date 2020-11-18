@@ -40,6 +40,10 @@ class Game {
 
     foggy::World m_world;
 
+    foggy::Camera m_camera;
+
+    foggy::Camera m_hud_camera;
+
     std::shared_ptr<Player> m_player;
 };
 

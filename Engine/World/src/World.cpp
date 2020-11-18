@@ -21,6 +21,7 @@ void World::Update(const sf::Time &delta_time) {
 }
 
 void World::RenderOn(sf::RenderWindow &window) {
+    Camera camera;
     for (b2Body *body = GetBodyList(); body != nullptr;
          body = body->GetNext()) {
         Entity *entity = static_cast<Entity *>(body->GetUserData());

@@ -9,7 +9,9 @@
 
 Game::Game(int width, int height, const std::string &title)
     : m_window(sf::VideoMode(width, height), title),
-      m_world(sf::Vector2f(0, -9.8f)) {}
+      m_world(sf::Vector2f(0, -9.8f)),
+      m_camera(m_window.getDefaultView()),
+      m_hud_camera(m_window.getDefaultView()) {}
 
 void Game::Run(int min_fps) {
     sf::Font font;
@@ -52,13 +54,20 @@ void Game::ProcessEvent() {
             if (event.key.code == sf::Keyboard::Escape) {
                 m_window.close();
             }
+            if (event.key.code == sf::Keyboard::Left) {
+                m_camera.move(sf::Vector2f(-1, 0));
+            }
         } else if (event.type == sf::Event::Resized) {
             // update the view to the new size of the window
-            sf::FloatRect visibleArea(0, 0, event.size.width,
+            sf::Vector2f center =
+                m_camera.getCenter() - sf::Vector2f(m_camera.getSize().x / 2,
+                                                    m_camera.getSize().y / 2);
+            sf::FloatRect visibleArea(center.x, center.y, event.size.width,
                                       event.size.height);
-            m_window.setView(sf::View(visibleArea));
-        }
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            m_camera.reset(visibleArea);
+            m_hud_camera.reset(
+                sf::FloatRect(0, 0, event.size.width, event.size.height));
+        } else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             int x = sf::Mouse::getPosition(m_window).x;
             int y = m_window.getSize().y - sf::Mouse::getPosition(m_window).y;
             m_world.SpawnEntity(
@@ -82,10 +91,14 @@ void Game::Update(sf::Time &time) { m_world.Update(time); }
 
 void Game::Render() {
     m_window.clear();
+    m_fps.setString("FPS: " + std::to_string(GetFps()));
+
+    m_window.setView(m_hud_camera);
+    m_window.draw(m_fps);
+
+    m_window.setView(m_camera);
     m_world.RenderOn(m_window);
 
-    m_fps.setString("FPS: " + std::to_string(GetFps()));
-    m_window.draw(m_fps);
     m_window.display();
     m_fps_clock.restart();
 }
