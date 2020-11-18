@@ -15,4 +15,9 @@ Camera &Camera::operator=(sf::View view) {
     std::swap(*dynamic_cast<sf::View *>(this), view);
     return *this;
 }
+
+sf::Vector2f Camera::GetPosition() {
+    return getCenter() - sf::Vector2f(getSize().x / 2, getSize().y / 2);
+}
+
 }  // namespace foggy

@@ -59,27 +59,24 @@ void Game::ProcessEvent() {
             }
         } else if (event.type == sf::Event::Resized) {
             // update the view to the new size of the window
-            sf::Vector2f center =
-                m_camera.getCenter() - sf::Vector2f(m_camera.getSize().x / 2,
-                                                    m_camera.getSize().y / 2);
+            sf::Vector2f center = m_camera.GetPosition();
             sf::FloatRect visibleArea(center.x, center.y, event.size.width,
                                       event.size.height);
             m_camera.reset(visibleArea);
             m_hud_camera.reset(
                 sf::FloatRect(0, 0, event.size.width, event.size.height));
         } else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            int x = sf::Mouse::getPosition(m_window).x;
-            int y = m_window.getSize().y - sf::Mouse::getPosition(m_window).y;
+            sf::Vector2f pos =
+                m_camera.ViewToWorld(sf::Mouse::getPosition(m_window));
             m_world.SpawnCollidableEntity(
-                foggy::RectangleEntity::Create(
-                    sf::Vector2f(x, y), sf::Vector2f(30, 15), sf::seconds(3)),
+                foggy::RectangleEntity::Create(pos, sf::Vector2f(30, 15),
+                                               sf::seconds(3)),
                 b2_dynamicBody);
         } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-            int x = sf::Mouse::getPosition(m_window).x;
-            int y = m_window.getSize().y - sf::Mouse::getPosition(m_window).y;
+            sf::Vector2f pos =
+                m_camera.ViewToWorld(sf::Mouse::getPosition(m_window));
             m_world.SpawnCollidableEntity(
-                foggy::CircleEntity::Create(sf::Vector2f(x, y), 30,
-                                            sf::seconds(3)),
+                foggy::CircleEntity::Create(pos, 30, sf::seconds(3)),
                 b2_dynamicBody);
         } else {
             m_player->ProcessEvent(event);
