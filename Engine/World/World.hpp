@@ -19,13 +19,14 @@ namespace foggy {
  * and X+ is right. So everything inside GameWorld is in World Coordinate
  * System. The Render function will convert World coordinate to Screen
  * coordinate. */
-class World : public b2World {
+class World : public b2World, public sf::Drawable {
    public:
     World(const sf::Vector2f &gravity = sf::Vector2f(0.f, 9.8f));
 
     void Update(const sf::Time &delta_time);
 
-    void RenderOn(sf::RenderWindow &window);
+    void draw(sf::RenderTarget &target,
+              sf::RenderStates states = sf::RenderStates::Default) const;
 
     void SpawnEntity(Entity::Ptr entity, b2BodyType type);
 

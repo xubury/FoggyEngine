@@ -20,9 +20,8 @@ void World::Update(const sf::Time &delta_time) {
     Step(delta_time.asSeconds(), 8, 3);
 }
 
-void World::RenderOn(sf::RenderWindow &window) {
-    Camera camera;
-    for (b2Body *body = GetBodyList(); body != nullptr;
+void World::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+    for (const b2Body *body = GetBodyList(); body != nullptr;
          body = body->GetNext()) {
         Entity *entity = static_cast<Entity *>(body->GetUserData());
 
@@ -31,7 +30,7 @@ void World::RenderOn(sf::RenderWindow &window) {
          * and X+ is right.
          * Here, we convert World cooridate to Screen coordinate.*/
         sf::Vector2f position(converter::MetersToPixels(body->GetPosition().x),
-                              window.getSize().y - converter::MetersToPixels(
+                              target.getSize().y - converter::MetersToPixels(
                                                        body->GetPosition().y));
         float rotation = -converter::RadToDeg<float>(body->GetAngle());
         if (entity != nullptr) {
@@ -39,7 +38,7 @@ void World::RenderOn(sf::RenderWindow &window) {
             entity->GetShape()->setRotation(rotation);
 
             sf::Shape *shape = entity->GetShape();
-            window.draw(*shape);
+            target.draw(*shape, states);
         }
     }
 }

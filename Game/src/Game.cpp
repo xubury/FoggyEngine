@@ -97,7 +97,7 @@ void Game::Render() {
     m_window.draw(m_fps);
 
     m_window.setView(m_camera);
-    m_world.RenderOn(m_window);
+    m_window.draw(m_world);
 
     m_window.display();
     m_fps_clock.restart();
