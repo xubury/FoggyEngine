@@ -32,10 +32,14 @@ class World : public b2World, public sf::Drawable {
     /* Spawn a collidable entity with the one of the type in b2BodyType. */
     void SpawnCollidableEntity(Entity::Ptr entity, b2BodyType type);
 
+    Camera &GetCamera();
+
    private:
     std::priority_queue<Entity::Ptr, std::vector<Entity::Ptr>,
                         Entity::GreaterRemainingTime>
         m_entities;
+
+    Camera m_camera;
 };
 
 } /* namespace foggy */

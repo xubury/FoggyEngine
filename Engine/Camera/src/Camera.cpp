@@ -16,7 +16,7 @@ Camera &Camera::operator=(sf::View view) {
     return *this;
 }
 
-sf::Vector2f Camera::GetPosition() {
+sf::Vector2f Camera::GetPosition() const {
     return getCenter() - sf::Vector2f(getSize().x / 2, getSize().y / 2);
 }
 

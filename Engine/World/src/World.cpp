@@ -21,6 +21,7 @@ void World::Update(const sf::Time &delta_time) {
 }
 
 void World::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+    target.setView(m_camera);
     for (const b2Body *body = GetBodyList(); body != nullptr;
          body = body->GetNext()) {
         Entity *entity = static_cast<Entity *>(body->GetUserData());
@@ -30,8 +31,8 @@ void World::draw(sf::RenderTarget &target, sf::RenderStates states) const {
          * and X+ is right.
          * Here, we convert World cooridate to Screen coordinate.*/
         sf::Vector2f position(converter::MetersToPixels(body->GetPosition().x),
-                              target.getSize().y - converter::MetersToPixels(
-                                                       body->GetPosition().y));
+                              converter::MetersToPixels(body->GetPosition().y));
+        position = m_camera.WorldToView(position);
         float rotation = -converter::RadToDeg<float>(body->GetAngle());
         if (entity != nullptr) {
             entity->GetShape()->setPosition(position);
@@ -47,5 +48,7 @@ void World::SpawnCollidableEntity(Entity::Ptr entity, b2BodyType type) {
     m_entities.push(entity);
     entity->CreateB2Body(*this, type);
 }
+
+Camera &World::GetCamera() { return m_camera; }
 
 }  // namespace foggy
