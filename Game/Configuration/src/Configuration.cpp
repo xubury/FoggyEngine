@@ -1,7 +1,7 @@
 #include "Configuration/Configuration.hpp"
 
-foggy::ActionMap<int> Configuration::player_inputs;
-foggy::ResourceManager<sf::Font, int> Configuration::fonts;
+foggy::ActionMap<Configuration::PlayerInput> Configuration::player_inputs;
+foggy::ResourceManager<sf::Font, Configuration::FontType> Configuration::fonts;
 
 void Configuration::Initialize() {
     InitializePlayerInputs();
@@ -15,4 +15,6 @@ void Configuration::InitializePlayerInputs() {
     player_inputs.Map(PlayerInput::Left, foggy::Action(sf::Keyboard::A));
 }
 
-void Configuration::InitializeFonts() { fonts.Load(Font::GUI, "arial.ttf"); }
+void Configuration::InitializeFonts() {
+    fonts.Load(FontType::GUI, "arial.ttf");
+}

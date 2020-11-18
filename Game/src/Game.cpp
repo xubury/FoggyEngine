@@ -17,7 +17,7 @@ Game::Game(int width, int height, const std::string &title)
 void Game::Run(int min_fps) {
     Configuration::Initialize();
     m_fps = sf::Text("FPS: " + std::to_string(GetFps()),
-                     Configuration::fonts.Get(Configuration::Font::GUI));
+                     Configuration::fonts.Get(Configuration::FontType::GUI));
 
     sf::Clock clock;
     m_time_since_last_update = sf::Time::Zero;

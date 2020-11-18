@@ -4,7 +4,6 @@
 #include <SFML/Graphics/Font.hpp>
 
 #include "ActionSystem/ActionMap.hpp"
-#include "Player.hpp"
 #include "ResourceManager/ResourceManager.hpp"
 
 class Configuration {
@@ -15,12 +14,12 @@ class Configuration {
 
     static void Initialize();
 
-    enum PlayerInput : int { Up, Down, Left, Right };
+    enum class PlayerInput { Up, Down, Left, Right };
 
-    static foggy::ActionMap<int> player_inputs;
+    static foggy::ActionMap<PlayerInput> player_inputs;
 
-    enum Font : int { GUI };
-    static foggy::ResourceManager<sf::Font, int> fonts;
+    enum class FontType { GUI };
+    static foggy::ResourceManager<sf::Font, FontType> fonts;
 
    private:
     static void InitializePlayerInputs();

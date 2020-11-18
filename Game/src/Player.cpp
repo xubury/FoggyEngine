@@ -6,14 +6,15 @@
 
 Player::Player(const sf::Vector2f &pos)
     : foggy::CircleEntity(pos, 30, foggy::Entity::PERSISTANT),
-      foggy::ActionTarget<int>(Configuration::player_inputs) {
-    Bind(PlayerInput::Up,
+      foggy::ActionTarget<Configuration::PlayerInput>(
+          Configuration::player_inputs) {
+    Bind(Configuration::PlayerInput::Up,
          [this](const sf::Event &) { Move(sf::Vector2f(0, 1)); });
-    Bind(PlayerInput::Down,
+    Bind(Configuration::PlayerInput::Down,
          [this](const sf::Event &) { Move(sf::Vector2f(0, -1)); });
-    Bind(PlayerInput::Left,
+    Bind(Configuration::PlayerInput::Left,
          [this](const sf::Event &) { Move(sf::Vector2f(-1, 0)); });
-    Bind(PlayerInput::Right,
+    Bind(Configuration::PlayerInput::Right,
          [this](const sf::Event &) { Move(sf::Vector2f(1, 0)); });
 }
 
