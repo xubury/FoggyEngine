@@ -70,16 +70,14 @@ void Game::ProcessEvent() {
                 sf::FloatRect(0, 0, event.size.width, event.size.height));
         } else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             sf::Vector2f pos = m_world.GetCamera().ViewToWorld(
-                                   (sf::Mouse::getPosition(m_window))) +
-                               m_world.GetCamera().GetPosition();
+                m_window, sf::Mouse::getPosition(m_window));
             m_world.SpawnCollidableEntity(
                 foggy::RectangleEntity::Create(pos, sf::Vector2f(30, 15),
                                                sf::seconds(3)),
                 b2_dynamicBody);
         } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
             sf::Vector2f pos = m_world.GetCamera().ViewToWorld(
-                                   sf::Mouse::getPosition(m_window)) +
-                               m_world.GetCamera().GetPosition();
+                m_window, sf::Mouse::getPosition(m_window));
             m_world.SpawnCollidableEntity(
                 foggy::CircleEntity::Create(pos, 30, sf::seconds(3)),
                 b2_dynamicBody);

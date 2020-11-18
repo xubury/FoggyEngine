@@ -1,6 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
 namespace foggy {
 
@@ -16,27 +17,41 @@ class Camera : public sf::View {
     sf::Vector2f GetPosition() const;
 
     template <typename T>
-    sf::Vector2f ViewToWorld(const sf::Vector2<T> &pos) const;
+    sf::Vector2f ViewToWorld(const sf::RenderWindow &window,
+                             const sf::Vector2<T> &pos) const;
+
     template <typename T>
-    sf::Vector2f WorldToView(const sf::Vector2<T> &pos) const;
+    void TransformCoordinate(sf::Vector2<T> &pos) const;
+
+    template <typename T>
+    void TransformAngle(T &angle) const;
 
    private:
 };
 
 template <typename T>
-sf::Vector2f Camera::ViewToWorld(const sf::Vector2<T> &pos) const {
-    sf::Vector2f pos_world;
-    pos_world.x = pos.x;
-    pos_world.y = getSize().y - pos.y;
+sf::Vector2f Camera::ViewToWorld(const sf::RenderWindow &window,
+                                 const sf::Vector2<T> &pos) const {
+    sf::Vector2f pos_world(pos);
+    const sf::FloatRect &viewport = getViewport();
+    const sf::Vector2u window_size = window.getSize();
+    pos_world.x =
+        (pos_world.x - viewport.left * window_size.x) / viewport.width;
+    pos_world.y =
+        (pos_world.y - viewport.top * window_size.y) / viewport.height;
+    pos_world += GetPosition();
+    TransformCoordinate(pos_world);
     return pos_world;
 }
 
 template <typename T>
-sf::Vector2f Camera::WorldToView(const sf::Vector2<T> &pos) const {
-    sf::Vector2f pos_view;
-    pos_view.x = pos.x;
-    pos_view.y = getSize().y - pos.y;
-    return pos_view;
+void Camera::TransformCoordinate(sf::Vector2<T> &pos) const {
+    pos.y = getSize().y - pos.y;
+}
+
+template <typename T>
+void Camera::TransformAngle(T &angle) const {
+    angle = -angle;
 }
 
 }  // namespace foggy
