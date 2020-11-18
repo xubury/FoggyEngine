@@ -34,7 +34,6 @@ class World : public b2World, public sf::Drawable {
     std::priority_queue<Entity::Ptr, std::vector<Entity::Ptr>,
                         Entity::GreaterRemainingTime>
         m_entities;
-    std::vector<Entity::Ptr> m_persistant_entities;
 };
 
 } /* namespace foggy */

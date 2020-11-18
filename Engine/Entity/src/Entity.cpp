@@ -16,11 +16,27 @@ Entity::Entity(ShapePtr shape, const sf::Time &life_time)
 
 bool Entity::LessRemainingTime::operator()(const Entity::Ptr &lhs,
                                            const Entity::Ptr &rhs) const {
-    return lhs->GetRemainingTime() < rhs->GetRemainingTime();
+    if (!lhs->IsPersistent() && !rhs->IsPersistent()) {
+        return lhs->GetRemainingTime() < rhs->GetRemainingTime();
+    } else {
+        if (lhs->IsPersistent()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 bool Entity::GreaterRemainingTime::operator()(const Entity::Ptr &lhs,
                                               const Entity::Ptr &rhs) const {
-    return lhs->GetRemainingTime() > rhs->GetRemainingTime();
+    if (!lhs->IsPersistent() && !rhs->IsPersistent()) {
+        return lhs->GetRemainingTime() > rhs->GetRemainingTime();
+    } else {
+        if (lhs->IsPersistent()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 Entity::~Entity() = default;

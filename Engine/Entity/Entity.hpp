@@ -29,7 +29,7 @@ class Entity {
    public:
     friend class World;
 
-    Entity(ShapePtr shape, const sf::Time &life_time);
+    Entity(ShapePtr shape, const sf::Time &life_time = PERSISTANT);
 
     virtual ~Entity() = 0;
 

@@ -44,10 +44,10 @@ void World::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 }
 
 void World::SpawnEntity(Entity::Ptr entity, b2BodyType type) {
-    if (entity->IsPersistent())
-        m_persistant_entities.push_back(entity);
-    else
-        m_entities.push(entity);
+    // if (entity->IsPersistent())
+    //     m_persistant_entities.push_back(entity);
+    // else
+    m_entities.push(entity);
 
     b2BodyDef body_def;
     sf::Vector2f pos = entity->GetShape()->getPosition();
