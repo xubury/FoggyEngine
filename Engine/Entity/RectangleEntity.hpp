@@ -18,7 +18,7 @@ class RectangleEntity : public Entity {
     Type GetType() override;
 
    private:
-    std::unique_ptr<b2Shape> CreateB2Shape() override;
+    void CreateB2Body(b2World &world, b2BodyType type) override;
 };
 
 inline RectangleEntity::Ptr RectangleEntity::Create(const sf::Vector2f &pos,

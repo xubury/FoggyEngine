@@ -13,12 +13,26 @@ CircleEntity::CircleEntity(const sf::Vector2f &pos, float radius,
 
 Entity::Type CircleEntity::GetType() { return Entity::Type::Circle; }
 
-std::unique_ptr<b2Shape> CircleEntity::CreateB2Shape() {
-    auto b2_shape = std::make_unique<b2CircleShape>();
-    dynamic_cast<b2CircleShape *>(b2_shape.get())->m_radius =
-        converter::PixelsToMeters<float>(
-            dynamic_cast<sf::CircleShape *>(GetShape())->getRadius());
-    return b2_shape;
+void CircleEntity::CreateB2Body(b2World &world, b2BodyType type) {
+    b2BodyDef body_def;
+    sf::Vector2f pos = GetShape()->getPosition();
+    body_def.position.Set(converter::PixelsToMeters<float>(pos.x),
+                          converter::PixelsToMeters<float>(pos.y));
+    body_def.type = type;
+    b2CircleShape b2_shape;
+    b2_shape.m_radius = converter::PixelsToMeters(
+        dynamic_cast<sf::CircleShape *>(GetShape())->getRadius());
+
+    b2FixtureDef fixture_def;
+    fixture_def.density = 1.0;
+    fixture_def.friction = 0.4;
+    fixture_def.restitution = 0.5;
+    fixture_def.shape = &b2_shape;
+
+    b2Body *res = world.CreateBody(&body_def);
+    res->CreateFixture(&fixture_def);
+    res->SetUserData(this);
+    SetB2BodyRef(res);
 }
 
 }  // namespace foggy

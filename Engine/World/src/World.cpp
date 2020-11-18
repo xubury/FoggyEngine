@@ -45,24 +45,7 @@ void World::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 void World::SpawnCollidableEntity(Entity::Ptr entity, b2BodyType type) {
     m_entities.push(entity);
-
-    b2BodyDef body_def;
-    sf::Vector2f pos = entity->GetShape()->getPosition();
-    body_def.position.Set(converter::PixelsToMeters<float>(pos.x),
-                          converter::PixelsToMeters<float>(pos.y));
-    body_def.type = type;
-    std::unique_ptr<b2Shape> b2_shape = entity->CreateB2Shape();
-
-    b2FixtureDef fixture_def;
-    fixture_def.density = 1.0;
-    fixture_def.friction = 0.4;
-    fixture_def.restitution = 0.5;
-    fixture_def.shape = b2_shape.get();
-
-    b2Body *res = CreateBody(&body_def);
-    res->CreateFixture(&fixture_def);
-    res->SetUserData(entity.get());
-    entity->SetB2BodyRef(res);
+    entity->CreateB2Body(*this, type);
 }
 
 }  // namespace foggy

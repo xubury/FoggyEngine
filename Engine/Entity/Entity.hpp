@@ -52,7 +52,7 @@ class Entity {
     };
 
    protected:
-    virtual std::unique_ptr<b2Shape> CreateB2Shape() = 0;
+    virtual void CreateB2Body(b2World &world, b2BodyType type) = 0;
 
     void SetShape(std::unique_ptr<sf::Shape> shape);
 
