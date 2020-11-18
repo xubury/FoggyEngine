@@ -43,7 +43,7 @@ void World::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     }
 }
 
-void World::SpawnEntity(Entity::Ptr entity, b2BodyType type) {
+void World::SpawnCollidableEntity(Entity::Ptr entity, b2BodyType type) {
     m_entities.push(entity);
 
     b2BodyDef body_def;

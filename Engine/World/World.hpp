@@ -25,10 +25,12 @@ class World : public b2World, public sf::Drawable {
 
     void Update(const sf::Time &delta_time);
 
+    /* Draw all entities in this world */
     void draw(sf::RenderTarget &target,
               sf::RenderStates states = sf::RenderStates::Default) const;
 
-    void SpawnEntity(Entity::Ptr entity, b2BodyType type);
+    /* Spawn a collidable entity with the one of the type in b2BodyType. */
+    void SpawnCollidableEntity(Entity::Ptr entity, b2BodyType type);
 
    private:
     std::priority_queue<Entity::Ptr, std::vector<Entity::Ptr>,
