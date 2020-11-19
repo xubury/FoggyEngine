@@ -25,10 +25,10 @@ void Game::Run(int min_fps) {
     sf::Clock clock;
     m_time_since_last_update = sf::Time::Zero;
     sf::Time time_per_frame = sf::seconds(1.f / min_fps);
-    m_player = std::make_shared<Player>(sf::Vector2f(500, 40));
+    m_player = std::make_shared<Player>(sf::Vector2f(0, 0));
     m_world.SpawnCollidableEntity(m_player, b2_dynamicBody);
     m_world.SpawnCollidableEntity(
-        foggy::RectangleEntity::Create(sf::Vector2f(500, 20),
+        foggy::RectangleEntity::Create(sf::Vector2f(0, -20),
                                        sf::Vector2f(1000, 40),
                                        foggy::Entity::PERSISTANT),
         b2_staticBody);
@@ -56,7 +56,17 @@ void Game::ProcessEvent() {
         } else if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Escape) {
                 m_window.close();
+            } else if (event.key.code == sf::Keyboard::Left) {
+                m_world.GetCamera().Move(-1, 0);
+            } else if (event.key.code == sf::Keyboard::Right) {
+                m_world.GetCamera().Move(1, 0);
+            } else if (event.key.code == sf::Keyboard::Up) {
+                m_world.GetCamera().Move(0, 1);
+            } else if (event.key.code == sf::Keyboard::Down) {
+                m_world.GetCamera().Move(0, -1);
             }
+            std::cout << m_world.GetCamera().GetPosition().x << ", "
+                      << m_world.GetCamera().GetPosition().y << std::endl;
         } else if (event.type == sf::Event::Resized) {
             // update the view to the new size of the window
             m_world.GetCamera().Resize(event.size.width, event.size.height);

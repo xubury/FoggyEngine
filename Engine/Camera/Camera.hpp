@@ -60,7 +60,8 @@ sf::Vector2f Camera::ViewToWorld(const sf::RenderTarget &window,
 
 template <typename T>
 void Camera::TransformCoordinate(sf::Vector2<T> &pos) const {
-    pos.y = getSize().y - pos.y;
+    pos.x = pos.x + getSize().x / 2;
+    pos.y = getSize().y / 2 - pos.y;
 }
 
 template <typename T>
