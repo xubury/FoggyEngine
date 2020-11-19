@@ -8,7 +8,7 @@
 #include "util/converter.hpp"
 namespace foggy {
 
-class Camera : public sf::View {
+class Camera : sf::View {
    public:
     Camera();
     explicit Camera(const sf::FloatRect &rectangle);
@@ -17,11 +17,12 @@ class Camera : public sf::View {
     Camera(const sf::View &view);
     Camera &operator=(const sf::View view);
 
-    // Return Camera position in Left Hand Coordinate system
-    sf::Vector2f GetPosition() const;
+    void Resize(const int width, const int height);
 
-    // Return Camera position in Right Hand(World) Coordinate system
-    sf::Vector2f GetWorldPosition() const;
+    void Move(const int x, const int y);
+
+    // Return Camera position in Right Hand Coordinate system
+    sf::Vector2f GetPosition() const;
 
     template <typename T>
     sf::Vector2f ViewToWorld(const sf::RenderTarget &window,
@@ -32,6 +33,8 @@ class Camera : public sf::View {
 
     template <typename T>
     void TransformAngle(T &angle) const;
+
+    friend class World;
 
    private:
 };

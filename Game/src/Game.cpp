@@ -57,15 +57,9 @@ void Game::ProcessEvent() {
             if (event.key.code == sf::Keyboard::Escape) {
                 m_window.close();
             }
-            if (event.key.code == sf::Keyboard::Left) {
-                m_world.GetCamera().move(sf::Vector2f(-1, -1));
-            }
         } else if (event.type == sf::Event::Resized) {
             // update the view to the new size of the window
-            sf::Vector2f pos = m_world.GetCamera().GetPosition();
-            sf::FloatRect visibleArea(pos.x, pos.y, event.size.width,
-                                      event.size.height);
-            m_world.GetCamera().reset(visibleArea);
+            m_world.GetCamera().Resize(event.size.width, event.size.height);
             m_hud_camera.reset(
                 sf::FloatRect(0, 0, event.size.width, event.size.height));
         } else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
