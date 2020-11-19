@@ -3,6 +3,9 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
+#include <cmath>
+
+#include "util/converter.hpp"
 namespace foggy {
 
 class Camera : public sf::View {
@@ -14,10 +17,14 @@ class Camera : public sf::View {
     Camera(const sf::View &view);
     Camera &operator=(const sf::View view);
 
+    // Return Camera position in Left Hand Coordinate system
     sf::Vector2f GetPosition() const;
 
+    // Return Camera position in Right Hand(World) Coordinate system
+    sf::Vector2f GetWorldPosition() const;
+
     template <typename T>
-    sf::Vector2f ViewToWorld(const sf::RenderWindow &window,
+    sf::Vector2f ViewToWorld(const sf::RenderTarget &window,
                              const sf::Vector2<T> &pos) const;
 
     template <typename T>
@@ -30,18 +37,22 @@ class Camera : public sf::View {
 };
 
 template <typename T>
-sf::Vector2f Camera::ViewToWorld(const sf::RenderWindow &window,
+sf::Vector2f Camera::ViewToWorld(const sf::RenderTarget &window,
                                  const sf::Vector2<T> &pos) const {
-    sf::Vector2f pos_world(pos);
-    const sf::FloatRect &viewport = getViewport();
+    sf::Vector2f normalized;
+    sf::FloatRect viewport_normalized = getViewport();
     const sf::Vector2u window_size = window.getSize();
-    pos_world.x =
-        (pos_world.x - viewport.left * window_size.x) / viewport.width;
-    pos_world.y =
-        (pos_world.y - viewport.top * window_size.y) / viewport.height;
-    pos_world += GetPosition();
-    TransformCoordinate(pos_world);
-    return pos_world;
+    sf::IntRect viewport(
+        static_cast<int>(0.5f + window_size.x * viewport_normalized.left),
+        static_cast<int>(0.5f + window_size.y * viewport_normalized.top),
+        static_cast<int>(0.5f + window_size.x * viewport_normalized.width),
+        static_cast<int>(0.5f + window_size.y * viewport_normalized.height));
+    normalized.x = -1.f + 2.f * (pos.x - viewport.left) / viewport.width;
+    normalized.y = 1.f - 2.f * (pos.y - viewport.top) / viewport.height;
+    normalized = getInverseTransform().transformPoint(normalized);
+    // camera to world coordinate
+    TransformCoordinate(normalized);
+    return normalized;
 }
 
 template <typename T>

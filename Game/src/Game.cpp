@@ -58,7 +58,7 @@ void Game::ProcessEvent() {
                 m_window.close();
             }
             if (event.key.code == sf::Keyboard::Left) {
-                m_world.GetCamera().move(sf::Vector2f(-1, 0));
+                m_world.GetCamera().move(sf::Vector2f(-1, -1));
             }
         } else if (event.type == sf::Event::Resized) {
             // update the view to the new size of the window

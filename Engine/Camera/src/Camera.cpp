@@ -17,7 +17,15 @@ Camera &Camera::operator=(sf::View view) {
 }
 
 sf::Vector2f Camera::GetPosition() const {
-    return getCenter() - sf::Vector2f(getSize().x / 2, getSize().y / 2);
+    sf::Vector2f pos(getCenter().x - getSize().x / 2,
+                     getCenter().y - getSize().y / 2);
+    return pos;
+}
+
+sf::Vector2f Camera::GetWorldPosition() const {
+    sf::Vector2f pos(getCenter().x - getSize().x / 2,
+                     -getCenter().y + getSize().y / 2);
+    return pos;
 }
 
 }  // namespace foggy
