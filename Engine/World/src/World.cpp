@@ -26,14 +26,15 @@ void World::draw(sf::RenderTarget &target, sf::RenderStates states) const {
          body = body->GetNext()) {
         Entity *entity = static_cast<Entity *>(body->GetUserData());
 
-        sf::Vector2f position(converter::MetersToPixels(body->GetPosition().x),
-                              converter::MetersToPixels(body->GetPosition().y));
-        float rotation = -converter::RadToDeg<float>(body->GetAngle());
         /* The World cooridate system is right-handed, i.e. Y+ is up and X+ is
          * right. The Screen cooridate system is left-handede, i.e. Y+ is down
-         * and X+ is right.
-         * Here, we convert center right-hand to top-left left-hand
-         * coordinate.*/
+         * and X+ is right. */
+        sf::Vector2f position(converter::MetersToPixels(body->GetPosition().x),
+                              converter::MetersToPixels(body->GetPosition().y));
+        /* Rotation is negative self (Only Y axis is flipped).*/
+        float rotation = -converter::RadToDeg<float>(body->GetAngle());
+        /* Here, we convert center right-hand to top-left left-hand
+         * coordinate. */
         m_camera.CenterToTopLeft(position);
         if (entity != nullptr) {
             entity->GetShape()->setPosition(position);
