@@ -20,8 +20,8 @@ void Camera::Move(const int x, const int y) { move(x, -y); }
 
 void Camera::Resize(const int width, const int height) {
     sf::Vector2f pos = GetPosition();
-    sf::FloatRect visibleArea(pos.x, -pos.y, width, height);
-    reset(visibleArea);
+    setCenter(pos.x + width / 2.f, -pos.y + height / 2.f);
+    setSize(width, height);
 }
 
 sf::Vector2f Camera::GetPosition() const {

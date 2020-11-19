@@ -65,8 +65,6 @@ void Game::ProcessEvent() {
             } else if (event.key.code == sf::Keyboard::Down) {
                 m_world.GetCamera().Move(0, -1);
             }
-            std::cout << m_world.GetCamera().GetPosition().x << ", "
-                      << m_world.GetCamera().GetPosition().y << std::endl;
         } else if (event.type == sf::Event::Resized) {
             // update the view to the new size of the window
             m_world.GetCamera().Resize(event.size.width, event.size.height);

@@ -8,6 +8,8 @@
 #include "util/converter.hpp"
 namespace foggy {
 
+/* SFML use Left-handed cooridate system but we use right-handed coordinate
+ * system. Also, the camera center is at the center instead of top-left. */
 class Camera : sf::View {
    public:
     Camera();
@@ -28,15 +30,14 @@ class Camera : sf::View {
     sf::Vector2f ViewToWorld(const sf::RenderTarget &window,
                              const sf::Vector2<T> &pos) const;
 
-    template <typename T>
-    void TransformCoordinate(sf::Vector2<T> &pos) const;
-
-    template <typename T>
-    void TransformAngle(T &angle) const;
-
     friend class World;
 
    private:
+    template <typename T>
+    void CenterToTopLeft(sf::Vector2<T> &pos) const;
+
+    template <typename T>
+    void TopLeftToCenter(sf::Vector2<T> &pos) const;
 };
 
 template <typename T>
@@ -52,21 +53,24 @@ sf::Vector2f Camera::ViewToWorld(const sf::RenderTarget &window,
         static_cast<int>(0.5f + window_size.y * viewport_normalized.height));
     normalized.x = -1.f + 2.f * (pos.x - viewport.left) / viewport.width;
     normalized.y = 1.f - 2.f * (pos.y - viewport.top) / viewport.height;
+    /* Convert camera(normalized) to world coordinate, transformPoint accept
+     * right hand coordinate. But it return a left hand coordinate(SFML
+     * coordinate) */
     normalized = getInverseTransform().transformPoint(normalized);
-    // camera to world coordinate
-    TransformCoordinate(normalized);
+    TopLeftToCenter(normalized);
     return normalized;
 }
 
 template <typename T>
-void Camera::TransformCoordinate(sf::Vector2<T> &pos) const {
+void Camera::CenterToTopLeft(sf::Vector2<T> &pos) const {
     pos.x = pos.x + getSize().x / 2;
     pos.y = getSize().y / 2 - pos.y;
 }
 
 template <typename T>
-void Camera::TransformAngle(T &angle) const {
-    angle = -angle;
+void Camera::TopLeftToCenter(sf::Vector2<T> &pos) const {
+    pos.x = pos.x - getSize().x / 2;
+    pos.y = getSize().y / 2 - pos.y;
 }
 
 }  // namespace foggy
