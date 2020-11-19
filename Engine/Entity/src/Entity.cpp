@@ -61,6 +61,12 @@ sf::Time Entity::GetRemainingTime() const {
     return m_life_time - m_spawn_timer.getElapsedTime();
 }
 
+sf::Vector2f Entity::GetPosition() const {
+    sf::Vector2f pos = GetShape()->getPosition();
+    pos.y = -pos.y;
+    return pos;
+}
+
 void Entity::SetB2BodyRef(b2Body *ref) { m_b2_body_ref = ref; }
 
 b2Body *Entity::GetB2BodyRef() { return m_b2_body_ref; }

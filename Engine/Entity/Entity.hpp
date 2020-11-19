@@ -52,6 +52,8 @@ class Entity {
         bool operator()(const Entity::Ptr &lhs, const Entity::Ptr &rhs) const;
     };
 
+    sf::Vector2f GetPosition() const;
+
    protected:
     virtual void CreateB2Body(b2World &world, b2BodyType type) = 0;
 

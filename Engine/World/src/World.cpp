@@ -18,6 +18,7 @@ void World::Update(const sf::Time &delta_time) {
         m_entities.pop();
     }
     Step(delta_time.asSeconds(), 8, 3);
+    m_camera.Update();
 }
 
 void World::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -31,11 +32,9 @@ void World::draw(sf::RenderTarget &target, sf::RenderStates states) const {
          * and X+ is right. */
         sf::Vector2f position(converter::MetersToPixels(body->GetPosition().x),
                               converter::MetersToPixels(body->GetPosition().y));
-        /* Rotation is negative self (Only Y axis is flipped).*/
+        /* Only Y axis is flipped.*/
+        position.y = -position.y;
         float rotation = -converter::RadToDeg<float>(body->GetAngle());
-        /* Here, we convert center right-hand to top-left left-hand
-         * coordinate. */
-        m_camera.CenterToTopLeft(position);
         if (entity != nullptr) {
             entity->GetShape()->setPosition(position);
             entity->GetShape()->setRotation(rotation);

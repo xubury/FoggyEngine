@@ -5,12 +5,16 @@
 #include <SFML/Graphics/View.hpp>
 #include <cmath>
 
+#include "Entity/Entity.hpp"
 #include "util/converter.hpp"
 namespace foggy {
 
 /* SFML use Left-handed cooridate system but we use right-handed coordinate
  * system. Also, the camera center is at the center instead of top-left. */
 class Camera : sf::View {
+   public:
+    friend class World;
+
    public:
     Camera();
     explicit Camera(const sf::FloatRect &rectangle);
@@ -26,18 +30,24 @@ class Camera : sf::View {
     // Return Camera position in Right Hand Coordinate system
     sf::Vector2f GetPosition() const;
 
+    sf::Vector2f GetCenter() const;
+
     template <typename T>
     sf::Vector2f ViewToWorld(const sf::RenderTarget &window,
                              const sf::Vector2<T> &pos) const;
 
-    friend class World;
+    void TrackEntity(Entity::Ptr entity);
 
    private:
+    void Update();
+
     template <typename T>
     void CenterToTopLeft(sf::Vector2<T> &pos) const;
 
     template <typename T>
     void TopLeftToCenter(sf::Vector2<T> &pos) const;
+
+    Entity::Ptr m_track_entity;
 };
 
 template <typename T>
@@ -57,20 +67,8 @@ sf::Vector2f Camera::ViewToWorld(const sf::RenderTarget &window,
      * right hand coordinate. But it return a left hand coordinate(SFML
      * coordinate) */
     normalized = getInverseTransform().transformPoint(normalized);
-    TopLeftToCenter(normalized);
+    normalized.y = -normalized.y;
     return normalized;
-}
-
-template <typename T>
-void Camera::CenterToTopLeft(sf::Vector2<T> &pos) const {
-    pos.x = pos.x + getSize().x / 2;
-    pos.y = getSize().y / 2 - pos.y;
-}
-
-template <typename T>
-void Camera::TopLeftToCenter(sf::Vector2<T> &pos) const {
-    pos.x = pos.x - getSize().x / 2;
-    pos.y = getSize().y / 2 - pos.y;
 }
 
 }  // namespace foggy

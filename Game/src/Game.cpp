@@ -26,6 +26,7 @@ void Game::Run(int min_fps) {
     m_time_since_last_update = sf::Time::Zero;
     sf::Time time_per_frame = sf::seconds(1.f / min_fps);
     m_player = std::make_shared<Player>(sf::Vector2f(0, 0));
+    m_world.GetCamera().TrackEntity(m_player);
     m_world.SpawnCollidableEntity(m_player, b2_dynamicBody);
     m_world.SpawnCollidableEntity(
         foggy::RectangleEntity::Create(sf::Vector2f(0, -20),
