@@ -84,8 +84,11 @@ class EntityManager {
         ComponentHandle<COMPONENT, ENTITY> &...components);
 
    private:
+    // Stores every entity that have been allocated
     std::vector<ENTITY *> m_entites_allocated;
+    // Stores what components does a entity of index havs
     std::vector<std::bitset<MAX_COMPONENTS>> m_entites_component_masks;
+    // Stores entities that has component of index
     std::vector<utils::memory::VPool *> m_components_entites;
 
     Container m_entities_index;
@@ -197,7 +200,9 @@ inline void EntityManager<ENTITY>::Emplace(uint32_t index, ARGS &&...args) {
         std::size_t comp_size = m_components_entites.size();
         for (std::size_t i = 0; i < comp_size; ++i) {
             if (m_components_entites[i] != nullptr) {
-                m_components_entites.resize(index + 1);
+                /* resize the components pool in case the new entity needs to
+                 * add a certain kind of component */
+                m_components_entites[i]->Resize(index + 1);
             }
         }
     } else if (m_entites_allocated[index] !=
