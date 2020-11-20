@@ -1,6 +1,7 @@
 #ifndef RESOURCE_MANAGER
 #define RESOURCE_MANAGER
 
+#include <SFML/Audio.hpp>
 #include <memory>
 #include <stdexcept>
 #include <unordered_map>
@@ -29,6 +30,29 @@ class ResourceManager {
     std::unordered_map<IDENTIFIER, std::unique_ptr<RESOURCE>> m_map;
 };
 
+/* sf::Music use different load api, so make a special case here */
+template <typename IDENTIFIER>
+class ResourceManager<sf::Music, IDENTIFIER> {
+   public:
+    ResourceManager(const ResourceManager &) = delete;
+    ResourceManager &operator=(const ResourceManager &) = delete;
+
+    ResourceManager() = default;
+
+    template <typename... ARGS>
+    void Load(const IDENTIFIER &id, ARGS &&...args);
+
+    bool Count(const IDENTIFIER &id);
+
+    sf::Music &Get(const IDENTIFIER &id);
+
+    template <typename... ARGS>
+    sf::Music &GetOrLoad(const IDENTIFIER &id, ARGS &&...args);
+
+   private:
+    std::unordered_map<IDENTIFIER, std::unique_ptr<sf::Music>> m_map;
+};
+
 template <typename RESOURCE, typename IDENTIFIER>
 template <typename... ARGS>
 void ResourceManager<RESOURCE, IDENTIFIER>::Load(const IDENTIFIER &id,
@@ -45,6 +69,25 @@ void ResourceManager<RESOURCE, IDENTIFIER>::Load(const IDENTIFIER &id,
 
 template <typename RESOURCE, typename IDENTIFIER>
 RESOURCE &ResourceManager<RESOURCE, IDENTIFIER>::Get(const IDENTIFIER &id) {
+    return *m_map.at(id);
+}
+
+template <typename IDENTIFIER>
+template <typename... ARGS>
+void ResourceManager<sf::Music, IDENTIFIER>::Load(const IDENTIFIER &id,
+                                                  ARGS &&...args) {
+    std::unique_ptr<sf::Music> ptr(new sf::Music);
+    if (!ptr->openFromFile(std::forward<ARGS>(args)...)) {
+        throw std::runtime_error("Cannot load from file");
+    }
+    if (m_map.emplace(id, std::move(ptr)).second == false) {
+        throw std::runtime_error(
+            "Fail to implace in map, object already loaded.");
+    }
+}
+
+template <typename IDENTIFIER>
+sf::Music &ResourceManager<sf::Music, IDENTIFIER>::Get(const IDENTIFIER &id) {
     return *m_map.at(id);
 }
 
