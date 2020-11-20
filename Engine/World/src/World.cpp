@@ -45,9 +45,17 @@ void World::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     }
 }
 
-void World::SpawnCollidableEntity(Entity::Ptr entity, b2BodyType type) {
+void World::SpawnCollidableEntity(const Entity::Ptr &entity, b2BodyType type) {
     m_entities.push(entity);
     entity->CreateB2Body(*this, type);
+}
+
+void World::DestroyEntity(const Entity::Ptr &entity) {
+    if (m_entities.remove([&entity](const Entity::Ptr &ca) -> bool {
+            return ca.get() == entity.get();
+        })) {
+        DestroyBody(entity->GetB2BodyRef());
+    }
 }
 
 Camera &World::GetCamera() { return m_camera; }

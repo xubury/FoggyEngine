@@ -6,11 +6,10 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <algorithm>
-#include <queue>
 
 #include "Camera/Camera.hpp"
 #include "Entity/Entity.hpp"
+#include "util/PriorityQueue.hpp"
 
 namespace foggy {
 
@@ -30,13 +29,15 @@ class World : public b2World, public sf::Drawable {
               sf::RenderStates states = sf::RenderStates::Default) const;
 
     /* Spawn a collidable entity with the one of the type in b2BodyType. */
-    void SpawnCollidableEntity(Entity::Ptr entity, b2BodyType type);
+    void SpawnCollidableEntity(const Entity::Ptr &entity, b2BodyType type);
+
+    void DestroyEntity(const Entity::Ptr &entity);
 
     Camera &GetCamera();
 
    private:
-    std::priority_queue<Entity::Ptr, std::vector<Entity::Ptr>,
-                        Entity::GreaterRemainingTime>
+    PriorityQueue<Entity::Ptr, std::vector<Entity::Ptr>,
+                  Entity::GreaterRemainingTime>
         m_entities;
 
     Camera m_camera;

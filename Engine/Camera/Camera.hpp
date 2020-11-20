@@ -36,7 +36,7 @@ class Camera : sf::View {
     sf::Vector2f ViewToWorld(const sf::RenderTarget &window,
                              const sf::Vector2<T> &pos) const;
 
-    void TrackEntity(Entity::Ptr entity);
+    void TrackEntity(const Entity::Ptr &entity);
 
    private:
     void Update();

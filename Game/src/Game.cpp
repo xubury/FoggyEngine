@@ -57,14 +57,8 @@ void Game::ProcessEvent() {
         } else if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Escape) {
                 m_window.close();
-            } else if (event.key.code == sf::Keyboard::Left) {
-                m_world.GetCamera().Move(-1, 0);
-            } else if (event.key.code == sf::Keyboard::Right) {
-                m_world.GetCamera().Move(1, 0);
-            } else if (event.key.code == sf::Keyboard::Up) {
-                m_world.GetCamera().Move(0, 1);
-            } else if (event.key.code == sf::Keyboard::Down) {
-                m_world.GetCamera().Move(0, -1);
+            } else if (event.key.code == sf::Keyboard::G) {
+                m_world.DestroyEntity(m_player);
             }
         } else if (event.type == sf::Event::Resized) {
             // update the view to the new size of the window

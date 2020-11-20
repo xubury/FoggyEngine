@@ -48,6 +48,6 @@ void Camera::Update() {
     }
 }
 
-void Camera::TrackEntity(Entity::Ptr entity) { m_track_entity = entity; }
+void Camera::TrackEntity(const Entity::Ptr &entity) { m_track_entity = entity; }
 
 }  // namespace foggy
