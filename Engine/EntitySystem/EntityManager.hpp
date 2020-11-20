@@ -190,7 +190,7 @@ inline void EntityManager<ENTITY>::Emplace(uint32_t index, ARGS &&...args) {
         m_entites_component_masks.resize(index + 1, 0);
         m_entities_index.emplace_back(index);
 
-        for (std::size_t i = 0; i < index; ++i) {
+        for (std::size_t i = size; i < index; ++i) {
             m_entities_index_free.emplace_back(i);
         }
 
