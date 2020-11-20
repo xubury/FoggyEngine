@@ -5,12 +5,16 @@ project(FoggyEngine VERSION 0.1.0)
 find_package(SFML 2 COMPONENTS audio graphics window system network)
 find_package(box2d REQUIRED)
 
-set(Engine_Src 
+set(Utils_Src
+    Engine/util/src/Memory.cpp)
+
+set(Engine_Src ${Utils_Src}
     Engine/World/src/World.cpp
     Engine/Entity/src/Entity.cpp
     Engine/Entity/src/RectangleEntity.cpp Engine/Entity/src/CircleEntity.cpp
     Engine/ActionSystem/src/Action.cpp
-    Engine/Camera/src/Camera.cpp)
+    Engine/Camera/src/Camera.cpp
+    Engine/EntitySystem/src/Entity.cpp)
 
 add_executable(foggy 
     ${Engine_Src} Game/src/main.cpp Game/src/Game.cpp 
