@@ -5,11 +5,10 @@
 #include "EntitySystem/Entities/Entity.hpp"
 
 namespace foggy {
-namespace system {
+namespace es {
 
-class CollisionSystem
-    : public es::System<component::Collision, es::DefaultEntity>,
-      public b2World {
+class CollisionSystem : public System<component::Collision, es::DefaultEntity>,
+                        public b2World {
    public:
     CollisionSystem(float x, float y);
     virtual void Update(es::EntityManager<es::DefaultEntity> &manager,
@@ -19,7 +18,7 @@ class CollisionSystem
                       b2BodyType type);
 };
 
-}  // namespace system
+}  // namespace es
 }  // namespace foggy
 
 #endif /* COLLISIONSYSTEM_H */

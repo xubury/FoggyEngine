@@ -5,7 +5,7 @@
 #include "EntitySystem/Entities/Entity.hpp"
 
 namespace foggy {
-namespace system {
+namespace es {
 
 class SkinSystem : public es::System<component::Skin, es::DefaultEntity> {
    public:
@@ -14,7 +14,7 @@ class SkinSystem : public es::System<component::Skin, es::DefaultEntity> {
                         const sf::Time &) override {}
 };
 
-}  // namespace system
+}  // namespace es
 }  // namespace foggy
 
 #endif /* SKINSYSTEM_H */

@@ -3,7 +3,7 @@
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 
 namespace foggy {
-namespace system {
+namespace es {
 CollisionSystem::CollisionSystem(float x, float y) : b2World(b2Vec2(x, y)) {}
 
 void CollisionSystem::Update(es::EntityManager<es::DefaultEntity> &,
@@ -44,5 +44,5 @@ void CollisionSystem::AddRigidBody(
     entity->Component<component::Collision>()->b2body_ref = res;
 }
 
-}  // namespace system
+}  // namespace es
 }  // namespace foggy

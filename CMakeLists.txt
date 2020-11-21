@@ -12,7 +12,8 @@ set(Engine_Src ${Utils_Src}
     Engine/ActionSystem/src/Action.cpp
     Engine/Camera/src/Camera.cpp
     Engine/EntitySystem/Entities/src/Entity.cpp
-    Engine/EntitySystem/Systems/src/CollisionSystem.cpp)
+    Engine/EntitySystem/Systems/src/CollisionSystem.cpp
+    Engine/TimerSystem/src/TimerSystem.cpp)
 
 add_executable(foggy 
     ${Engine_Src} Game/src/main.cpp Game/src/Game.cpp 

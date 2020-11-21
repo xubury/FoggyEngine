@@ -9,9 +9,8 @@
 
 #include "Camera/Camera.hpp"
 #include "EntitySystem/Application.hpp"
+#include "Engine/TimerSystem/TimerSystem.hpp"
 #include "HealthSystem.hpp"
-// #include "Player.hpp"
-// #include "World/World.hpp"
 
 class Game {
    public:
@@ -46,9 +45,9 @@ class Game {
 
     foggy::Camera m_cam;
 
-    // std::shared_ptr<Player> m_player;
-
     foggy::es::Application<foggy::es::DefaultEntity> m_app;
+
+    foggy::ts::TimerSystem m_timer;
 };
 
 inline float Game::GetFps() {

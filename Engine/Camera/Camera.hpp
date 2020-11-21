@@ -8,8 +8,8 @@
 #include "util/converter.hpp"
 namespace foggy {
 
-/* SFML use Left-handed cooridate system but we use right-handed coordinate
- * system. Also, the camera center is at the center instead of top-left. */
+/* SFML use Left-handed cooridate es but we use right-handed coordinate
+ * es. Also, the camera center is at the center instead of top-left. */
 class Camera : public sf::View {
    public:
     friend class World;
@@ -26,7 +26,7 @@ class Camera : public sf::View {
 
     void Move(const int x, const int y);
 
-    // Return Camera position in Right Hand Coordinate system
+    // Return Camera position in Right Hand Coordinate es
     sf::Vector2f GetPosition() const;
 
     sf::Vector2f GetCenter() const;

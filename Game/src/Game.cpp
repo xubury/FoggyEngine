@@ -8,6 +8,7 @@
 #include "EntitySystem/Components/Skin.hpp"
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 #include "EntitySystem/Systems/SkinSystem.hpp"
+#include "TimerSystem/TimerSystem.hpp"
 #include "Game.hpp"
 #include "Player.hpp"
 
@@ -17,8 +18,8 @@ Game::Game(int width, int height, const std::string &title)
       m_hud_camera(m_window.getDefaultView()) {
     m_cam = m_window.getDefaultView();
 
-    m_app.systems.Add<foggy::system::CollisionSystem>(0, -9.8);
-    m_app.systems.Add<foggy::system::SkinSystem>();
+    m_app.systems.Add<foggy::es::CollisionSystem>(0, -9.8);
+    m_app.systems.Add<foggy::es::SkinSystem>();
 }
 
 void Game::Run(int min_fps) {
@@ -38,7 +39,7 @@ void Game::Run(int min_fps) {
     b2shape.m_radius = foggy::converter::PixelsToMeters(30.f);
 
     m_app.entities.AddComponent<foggy::component::Collision>(id);
-    m_app.systems.System<foggy::system::CollisionSystem>()->AddRigidBody(
+    m_app.systems.System<foggy::es::CollisionSystem>()->AddRigidBody(
         m_app.entities, id, sf::Vector2f(0, 0), &b2shape, b2_dynamicBody);
 
     m_app.entities.AddComponent<foggy::component::Controller>(
@@ -112,9 +113,10 @@ void Game::ProcessEvent() {
             b2CircleShape b2shape;
             b2shape.m_radius = foggy::converter::PixelsToMeters(30.f);
 
-            m_app.systems.System<foggy::system::CollisionSystem>()
-                ->AddRigidBody(m_app.entities, id, pos, &b2shape,
-                               b2_dynamicBody);
+            m_app.systems.System<foggy::es::CollisionSystem>()->AddRigidBody(
+                m_app.entities, id, pos, &b2shape, b2_dynamicBody);
+            m_timer.AddTimer(sf::seconds(1),
+                             [id, this]() { m_app.entities.Remove(id); });
         } else {
             foggy::component::Controller::Handle c_handle;
             auto view = m_app.entities.GetByComponents(c_handle);
@@ -133,7 +135,10 @@ void Game::ProcessEvent() {
     }
 }
 
-void Game::Update(sf::Time &delta_time) { m_app.Update(delta_time); }
+void Game::Update(sf::Time &delta_time) {
+    m_timer.Update();
+    m_app.Update(delta_time);
+}
 
 void Game::Render() {
     m_window.clear();
