@@ -6,7 +6,7 @@
 #include <tuple>
 #include <vector>
 
-#include "EntitySystem/Component.hpp"
+#include "EntitySystem/Components/Component.hpp"
 #include "EntitySystem/Defines.hpp"
 #include "util/Memory.hpp"
 
@@ -368,12 +368,12 @@ inline COMPONENT *EntityManager<ENTITY>::GetComponentPtr(uint32_t id) const {
     Family family = COMPONENT::Family();
     return &static_cast<utils::memory::Pool<COMPONENT> *>(
                 m_components_entites[family])
-                ->at(id);
+                ->At(id);
 }
 
 template <typename COMPONENT>
 inline void GetMask(std::bitset<MAX_COMPONENTS> &mask) {
-    mask.set(COMPONENT::family());
+    mask.set(COMPONENT::Family());
 }
 
 template <typename C1, typename C2, typename... COMPONENT>
@@ -427,8 +427,8 @@ template <typename... COMPONENT>
 EntityManager<ENTITY>::View<COMPONENT...>::View(
     EntityManager<ENTITY> &manager, const std::bitset<MAX_COMPONENTS> &mask,
     ComponentHandle<COMPONENT, ENTITY> &...components)
-    : m_mask(mask),
-      m_manager(manager),
+    : m_manager(manager),
+      m_mask(mask),
       m_handles(
           std::tuple<ComponentHandle<COMPONENT, ENTITY> &...>(components...)) {
     UnpackManager<0, COMPONENT...>();

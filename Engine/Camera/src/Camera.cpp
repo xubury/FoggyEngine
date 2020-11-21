@@ -36,18 +36,6 @@ sf::Vector2f Camera::GetCenter() const {
     return center;
 }
 
-void Camera::Update() {
-    if (m_track_entity != nullptr) {
-        // TODO: Not to track it if no one else owns it?
-        // if (m_track_entity.use_count() == 1) {
-        // m_track_entity.reset();
-        // }
-        sf::Vector2f target = m_track_entity->GetPosition();
-        sf::Vector2f dir = target - GetCenter();
-        Move(dir.x, dir.y);
-    }
-}
-
-void Camera::TrackEntity(const Entity::Ptr &entity) { m_track_entity = entity; }
+void Camera::Update() {}
 
 }  // namespace foggy

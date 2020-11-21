@@ -1,10 +1,14 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <tuple>
 
-#include "EntitySystem/Component.hpp"
-#include "EntitySystem/System.hpp"
+#include "EntitySystem/Components/Component.hpp"
+#include "EntitySystem/Entities/EntityManager.hpp"
+#include "EntitySystem/Systems/System.hpp"
+
 namespace foggy {
 namespace es {
 
@@ -51,13 +55,27 @@ class Entity {
     uint32_t m_id;
     EntityManager<ENTITY> *m_manager;
 };
+
 #define ES_INIT_ENTITY(ENTITY) \
     ES_INIT_VCOMPONENT(ENTITY) \
     ES_INIT_VSYSTEM(ENTITY)
 
-class DefaultEntity : public Entity<DefaultEntity> {
+class DefaultEntity : public Entity<DefaultEntity>, public sf::Drawable {
    public:
-    using Entity<DefaultEntity>::Entity;
+    DefaultEntity(const DefaultEntity &) = delete;
+    DefaultEntity &operator=(const DefaultEntity &) = delete;
+
+    DefaultEntity(EntityManager<DefaultEntity> *manager, uint32_t id);
+
+    virtual void draw(
+        sf::RenderTarget &target,
+        sf::RenderStates states = sf::RenderStates::Default) const override;
+
+    void SetPosition(const sf::Vector2f &pos) const;
+
+    void SetRotation(float angle) const;
+
+    std::string m_name;
 };
 
 template <typename ENTITY>

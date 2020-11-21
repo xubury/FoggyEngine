@@ -5,13 +5,12 @@
 #include <SFML/Graphics/View.hpp>
 #include <cmath>
 
-#include "Entity/Entity.hpp"
 #include "util/converter.hpp"
 namespace foggy {
 
 /* SFML use Left-handed cooridate system but we use right-handed coordinate
  * system. Also, the camera center is at the center instead of top-left. */
-class Camera : sf::View {
+class Camera : public sf::View {
    public:
     friend class World;
 
@@ -36,8 +35,6 @@ class Camera : sf::View {
     sf::Vector2f ViewToWorld(const sf::RenderTarget &window,
                              const sf::Vector2<T> &pos) const;
 
-    void TrackEntity(const Entity::Ptr &entity);
-
    private:
     void Update();
 
@@ -46,8 +43,6 @@ class Camera : sf::View {
 
     template <typename T>
     void TopLeftToCenter(sf::Vector2<T> &pos) const;
-
-    Entity::Ptr m_track_entity;
 };
 
 template <typename T>

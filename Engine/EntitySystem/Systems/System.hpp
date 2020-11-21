@@ -38,8 +38,8 @@ class System : public VSystem<ENTITY> {
     System(const System&) = delete;
     System& operator=(const System&) = delete;
 
-    System();
-    virtual ~System();
+    System() = default;
+    virtual ~System() = default;
 
     static Family Family();
 };
@@ -55,7 +55,7 @@ class SystemManager {
     SystemManager& operator=(const SystemManager&) = delete;
 
     SystemManager(EntityManager<ENTITY>& manager);
-    ~SystemManager();
+    ~SystemManager() = default;
 
     template <typename SYSTEM>
     bool Add(std::shared_ptr<SYSTEM> ptr);
@@ -92,7 +92,7 @@ SystemManager<ENTITY>::SystemManager(EntityManager<ENTITY>& manager)
 
 template <typename ENTITY>
 void SystemManager<ENTITY>::UpdateAll(const sf::Time& deltaTime) {
-    for (auto& pair : m_systems) pair.second->update(m_manager, deltaTime);
+    for (auto& pair : m_systems) pair.second->Update(m_manager, deltaTime);
 }
 
 template <typename ENTITY>

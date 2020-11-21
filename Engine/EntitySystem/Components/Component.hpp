@@ -16,8 +16,8 @@ class EntityManager;
 template <typename COMPONENT, typename ENTITY>
 class ComponentHandle {
    public:
-    ComponentHandle(const ComponentHandle &) = delete;
-    ComponentHandle &operator=(const ComponentHandle &) = delete;
+    ComponentHandle(const ComponentHandle &) = default;
+    ComponentHandle &operator=(const ComponentHandle &) = default;
 
     ComponentHandle();
 
@@ -127,7 +127,7 @@ inline void Component<COMPONENT, ENTITY>::Remove() {
 
 template <typename COMPONENT, typename ENTITY>
 inline Family Component<COMPONENT, ENTITY>::Family() {
-    static ::foggy::es::Family family = VComponent<ENTITY>::s_family_conter++;
+    static ::foggy::es::Family family = VComponent<ENTITY>::s_family_counter++;
     assert(family < MAX_COMPONENTS);
     return family;
 }

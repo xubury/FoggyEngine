@@ -7,8 +7,11 @@
 #include <SFML/Graphics/Text.hpp>
 #include <list>
 
-#include "Player.hpp"
-#include "World/World.hpp"
+#include "Camera/Camera.hpp"
+#include "EntitySystem/Application.hpp"
+#include "HealthSystem.hpp"
+// #include "Player.hpp"
+// #include "World/World.hpp"
 
 class Game {
    public:
@@ -38,11 +41,14 @@ class Game {
 
     sf::Text m_fps;
 
-    foggy::World m_world;
-
+    // foggy::World m_world;
     sf::View m_hud_camera;
 
-    std::shared_ptr<Player> m_player;
+    foggy::Camera m_cam;
+
+    // std::shared_ptr<Player> m_player;
+
+    foggy::es::Application<foggy::es::DefaultEntity> m_app;
 };
 
 inline float Game::GetFps() {

@@ -9,16 +9,15 @@ set(Utils_Src
     Engine/util/src/Memory.cpp)
 
 set(Engine_Src ${Utils_Src}
-    Engine/World/src/World.cpp
-    Engine/Entity/src/Entity.cpp
-    Engine/Entity/src/RectangleEntity.cpp Engine/Entity/src/CircleEntity.cpp
     Engine/ActionSystem/src/Action.cpp
     Engine/Camera/src/Camera.cpp
-    Engine/EntitySystem/src/Entity.cpp)
+    Engine/EntitySystem/Entities/src/Entity.cpp
+    Engine/EntitySystem/Systems/src/CollisionSystem.cpp)
 
 add_executable(foggy 
     ${Engine_Src} Game/src/main.cpp Game/src/Game.cpp 
-    Game/src/Player.cpp Game/Configuration/src/Configuration.cpp)
+     Game/Configuration/src/Configuration.cpp
+    Game/src/HealthSystem.cpp)
 
 target_link_libraries(foggy PUBLIC sfml-audio sfml-graphics sfml-window sfml-system sfml-network box2d)
 target_compile_options(foggy PUBLIC -Wall -Wextra -Wundef -pedantic)
