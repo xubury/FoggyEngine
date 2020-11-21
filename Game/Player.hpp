@@ -1,15 +1,12 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "ActionSystem/ActionTarget.hpp"
-#include "Configuration/Configuration.hpp"
-#include "Entity/CircleEntity.hpp"
+#include "EntitySystem/Entities/Entity.hpp"
 
-class Player : public foggy::CircleEntity,
-               public foggy::ActionTarget<Configuration::PlayerInput> {
+class Player : public foggy::es::DefaultEntity {
    public:
     static const sf::Time MIN_TIME_BETWEEN_MOVEMENT;
-    Player(const sf::Vector2f &pos);
+    Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id);
 
     void Move(const sf::Vector2f &impulse);
 

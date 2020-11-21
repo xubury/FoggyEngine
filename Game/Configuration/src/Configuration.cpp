@@ -1,6 +1,6 @@
 #include "Configuration/Configuration.hpp"
 
-foggy::ActionMap<Configuration::PlayerInput> Configuration::player_inputs;
+foggy::ActionMap<int> Configuration::player_inputs;
 foggy::ResourceManager<sf::Font, Configuration::FontType> Configuration::fonts;
 
 void Configuration::Initialize() {

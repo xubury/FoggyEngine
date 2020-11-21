@@ -17,6 +17,7 @@ set(Engine_Src ${Utils_Src}
 add_executable(foggy 
     ${Engine_Src} Game/src/main.cpp Game/src/Game.cpp 
      Game/Configuration/src/Configuration.cpp
+     Game/src/Player.cpp
     Game/src/HealthSystem.cpp)
 
 target_link_libraries(foggy PUBLIC sfml-audio sfml-graphics sfml-window sfml-system sfml-network box2d)

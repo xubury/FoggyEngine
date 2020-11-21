@@ -14,11 +14,11 @@ class Configuration {
 
     static void Initialize();
 
-    enum class PlayerInput { Up, Down, Left, Right };
+    enum PlayerInput : int { Up, Down, Left, Right };
 
-    static foggy::ActionMap<PlayerInput> player_inputs;
+    static foggy::ActionMap<int> player_inputs;
 
-    enum class FontType { GUI };
+    enum FontType : int { GUI };
     static foggy::ResourceManager<sf::Font, FontType> fonts;
 
    private:

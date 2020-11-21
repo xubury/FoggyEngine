@@ -17,22 +17,14 @@ DefaultEntity::DefaultEntity(foggy::es::EntityManager<DefaultEntity> *manager,
 
 void DefaultEntity::draw(sf::RenderTarget &target,
                          sf::RenderStates states) const {
-    b2Body *body = Component<component::Collision>()->b2body_ref;
-    sf::Vector2f position(converter::MetersToPixels(body->GetPosition().x),
-                          converter::MetersToPixels(body->GetPosition().y));
-    /* Only Y axis is flipped.*/
-    position.y = -position.y;
-    float rotation = -converter::RadToDeg<float>(body->GetAngle());
-    SetPosition(position);
-    SetRotation(rotation);
     target.draw(*Component<component::Skin>()->shape, states);
 }
 
-void DefaultEntity::SetPosition(const sf::Vector2f &pos) const {
+void DefaultEntity::SetPosition(const sf::Vector2f &pos) {
     Component<component::Skin>()->shape->setPosition(pos);
 }
 
-void DefaultEntity::SetRotation(float angle) const {
+void DefaultEntity::SetRotation(float angle) {
     Component<component::Skin>()->shape->setRotation(angle);
 }
 

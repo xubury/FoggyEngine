@@ -38,7 +38,7 @@ class EntityManager {
     EntityManager() = default;
     ~EntityManager();
 
-    template <typename... ARGS>
+    template <typename T = ENTITY, typename... ARGS>
     uint32_t Create(ARGS &&...args);
 
     template <typename... ARGS>
@@ -157,14 +157,14 @@ EntityManager<ENTITY>::~EntityManager() {
 }
 
 template <class ENTITY>
-template <typename... ARGS>
+template <typename T, typename... ARGS>
 inline uint32_t EntityManager<ENTITY>::Create(ARGS &&...args) {
     uint32_t index = 0;
     if (!m_entities_index_free.empty()) {
         index = m_entities_index_free.front();
         m_entities_index_free.pop_front();
         m_entites_allocated[index] =
-            new ENTITY(this, index, std::forward<ARGS>(args)...);
+            new T(this, index, std::forward<ARGS>(args)...);
     } else {
         m_entites_component_masks.emplace_back();
 
@@ -178,7 +178,7 @@ inline uint32_t EntityManager<ENTITY>::Create(ARGS &&...args) {
             }
         }
         m_entites_allocated[index] =
-            new ENTITY(this, index, std::forward<ARGS>(args)...);
+            new T(this, index, std::forward<ARGS>(args)...);
     }
     m_entities_index.emplace_back(index);
     return index;

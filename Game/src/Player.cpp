@@ -1,24 +1,13 @@
 #include <iostream>
 
 #include "Configuration/Configuration.hpp"
+#include "Engine/EntitySystem/Components/Collision.hpp"
 #include "Player.hpp"
 #include "util/converter.hpp"
-
 const sf::Time Player::MIN_TIME_BETWEEN_MOVEMENT = sf::milliseconds(10);
 
-Player::Player(const sf::Vector2f &pos)
-    : foggy::CircleEntity(pos, 15, foggy::Entity::PERSISTANT),
-      foggy::ActionTarget<Configuration::PlayerInput>(
-          Configuration::player_inputs) {
-    Bind(Configuration::PlayerInput::Up,
-         [this](const sf::Event &) { Move(sf::Vector2f(0, 10)); });
-    Bind(Configuration::PlayerInput::Down,
-         [this](const sf::Event &) { Move(sf::Vector2f(0, -10)); });
-    Bind(Configuration::PlayerInput::Left,
-         [this](const sf::Event &) { Move(sf::Vector2f(-10, 0)); });
-    Bind(Configuration::PlayerInput::Right,
-         [this](const sf::Event &) { Move(sf::Vector2f(10, 0)); });
-}
+Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
+    : foggy::es::DefaultEntity(manager, id) {}
 
 void Player::Move(const sf::Vector2f &impulse) {
     /* Limit the movement frequncy. Otherwise, the FPS will have huge effect on
@@ -26,9 +15,10 @@ void Player::Move(const sf::Vector2f &impulse) {
     if (m_movement_timer.getElapsedTime() < MIN_TIME_BETWEEN_MOVEMENT) {
         return;
     }
-    GetB2BodyRef()->ApplyLinearImpulse(
+    b2Body *b2body_ref = Component<foggy::component::Collision>()->b2body_ref;
+    b2body_ref->ApplyLinearImpulse(
         b2Vec2(foggy::converter::PixelsToMeters<float>(impulse.x),
                foggy::converter::PixelsToMeters<float>(impulse.y)),
-        GetB2BodyRef()->GetWorldCenter(), true);
+        b2body_ref->GetWorldCenter(), true);
     m_movement_timer.restart();
 }
