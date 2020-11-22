@@ -1,7 +1,9 @@
 #ifndef COLLISIONSYSTEM_H
 #define COLLISIONSYSTEM_H
 
-#include "EntitySystem/Components/Collision.hpp"
+#include <Box2D/Box2D.h>
+
+#include "EntitySystem/ES.hpp"
 #include "EntitySystem/Entities/Entity.hpp"
 
 namespace foggy {

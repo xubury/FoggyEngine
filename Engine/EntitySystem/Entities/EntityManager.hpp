@@ -159,6 +159,8 @@ EntityManager<ENTITY>::~EntityManager() {
 template <class ENTITY>
 template <typename T, typename... ARGS>
 inline uint32_t EntityManager<ENTITY>::Create(ARGS &&...args) {
+    static_assert(std::is_base_of<ENTITY, T>::value,
+                  "T must be derived from ENTITY");
     uint32_t index = 0;
     if (!m_entities_index_free.empty()) {
         index = m_entities_index_free.front();

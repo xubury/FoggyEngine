@@ -4,6 +4,7 @@
 
 #include "Configuration/Configuration.hpp"
 #include "Engine/util/converter.hpp"
+#include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/Controller.hpp"
 #include "EntitySystem/Components/Skin.hpp"
 #include "EntitySystem/Systems/CollisionSystem.hpp"
@@ -32,7 +33,7 @@ void Game::Run(int min_fps) {
     b2BodyDef body_def;
     body_def.type = b2_dynamicBody;
     m_app.entities.AddComponent<foggy::component::Collision>(
-        id, *m_app.systems.System<foggy::es::CollisionSystem>(), body_def);
+        id, m_app.systems.System<foggy::es::CollisionSystem>(), body_def);
 
     b2CircleShape b2shape;
     b2shape.m_radius = foggy::converter::PixelsToMeters(30.f);
@@ -115,7 +116,7 @@ void Game::ProcessEvent() {
                 foggy::converter::PixelsToMeters<float>(pos.y));
             body_def.type = b2_dynamicBody;
             m_app.entities.AddComponent<foggy::component::Collision>(
-                id, *m_app.systems.System<foggy::es::CollisionSystem>(),
+                id, m_app.systems.System<foggy::es::CollisionSystem>(),
                 body_def);
 
             b2CircleShape b2shape;

@@ -1,5 +1,4 @@
-#include "EntitySystem/Components/Skin.hpp"
-#include "EntitySystem/Entities/EntityManager.hpp"
+#include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 
 namespace foggy {

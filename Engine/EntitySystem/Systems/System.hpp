@@ -67,7 +67,7 @@ class SystemManager {
     bool Remove();
 
     template <typename SYSTEM>
-    std::shared_ptr<SYSTEM> System();
+    SYSTEM* System();
 
     template <typename SYSTEM>
     void Update(const sf::Time& deltaTime);
@@ -127,8 +127,9 @@ bool SystemManager<ENTITY>::Remove() {
 
 template <typename ENTITY>
 template <typename SYSTEM>
-inline std::shared_ptr<SYSTEM> SystemManager<ENTITY>::System() {
-    return std::static_pointer_cast<SYSTEM>(m_systems.at(SYSTEM::Family()));
+inline SYSTEM* SystemManager<ENTITY>::System() {
+    return std::static_pointer_cast<SYSTEM>(m_systems.at(SYSTEM::Family()))
+        .get();
 }
 
 template <typename ENTITY>

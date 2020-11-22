@@ -1,7 +1,7 @@
 #ifndef SKINSYSTEM_H
 #define SKINSYSTEM_H
 
-#include "EntitySystem/Components/Skin.hpp"
+#include "EntitySystem/ES.hpp"
 #include "EntitySystem/Entities/Entity.hpp"
 
 namespace foggy {

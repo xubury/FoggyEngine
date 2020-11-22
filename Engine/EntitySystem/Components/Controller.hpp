@@ -3,8 +3,7 @@
 
 #include "ActionSystem/ActionTarget.hpp"
 #include "Configuration/Configuration.hpp"
-#include "EntitySystem/Components/Component.hpp"
-#include "EntitySystem/Entities/Entity.hpp"
+#include "EntitySystem/ES.hpp"
 
 namespace foggy {
 namespace component {

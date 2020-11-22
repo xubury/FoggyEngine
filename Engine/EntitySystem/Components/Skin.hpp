@@ -5,8 +5,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Shape.hpp>
 
-#include "EntitySystem/Components/Component.hpp"
-#include "EntitySystem/Entities/Entity.hpp"
+#include "EntitySystem/ES.hpp"
 
 namespace foggy {
 namespace component {

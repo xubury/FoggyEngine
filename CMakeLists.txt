@@ -12,6 +12,7 @@ set(Engine_Src ${Utils_Src}
     Engine/ActionSystem/src/Action.cpp
     Engine/Camera/src/Camera.cpp
     Engine/EntitySystem/Entities/src/Entity.cpp
+    Engine/EntitySystem/Components/src/Collision.cpp
     Engine/EntitySystem/Systems/src/CollisionSystem.cpp
     Engine/TimerSystem/src/TimerSystem.cpp)
 
