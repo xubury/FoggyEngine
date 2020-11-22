@@ -20,8 +20,12 @@ void DefaultEntity::draw(sf::RenderTarget &target,
     target.draw(*Component<component::Skin>()->shape, states);
 }
 
+void DefaultEntity::SetPosition(float x, float y) {
+    Component<component::Skin>()->shape->setPosition(x, y);
+}
+
 void DefaultEntity::SetPosition(const sf::Vector2f &pos) {
-    Component<component::Skin>()->shape->setPosition(pos);
+    SetPosition(pos.x, pos.y);
 }
 
 void DefaultEntity::SetRotation(float angle) {

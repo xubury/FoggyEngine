@@ -71,6 +71,7 @@ class DefaultEntity : public Entity<DefaultEntity>, public sf::Drawable {
         sf::RenderTarget &target,
         sf::RenderStates states = sf::RenderStates::Default) const override;
 
+    void SetPosition(float x, float y);
     void SetPosition(const sf::Vector2f &pos);
 
     void SetRotation(float angle);

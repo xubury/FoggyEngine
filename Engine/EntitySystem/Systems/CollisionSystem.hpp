@@ -13,9 +13,6 @@ class CollisionSystem : public System<component::Collision, es::DefaultEntity>,
     CollisionSystem(float x, float y);
     virtual void Update(es::EntityManager<es::DefaultEntity> &manager,
                         const sf::Time &delta_time) override;
-    void AddRigidBody(es::EntityManager<es::DefaultEntity> &manager,
-                      uint32_t id, const sf::Vector2f &pos, b2Shape *shape,
-                      b2BodyType type);
 };
 
 }  // namespace es

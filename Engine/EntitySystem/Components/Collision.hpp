@@ -12,7 +12,14 @@ namespace component {
 
 struct Collision : es::Component<Collision, es::DefaultEntity> {
    public:
-    Collision() {}
+    Collision(b2World &world, b2BodyDef &def) {
+        b2body_ref = world.CreateBody(&def);
+    }
+
+    void AddFixture(const b2FixtureDef &fixture) {
+        b2body_ref->CreateFixture(&fixture);
+    }
+
     ~Collision() { b2body_ref->GetWorld()->DestroyBody(b2body_ref); }
     b2Body *b2body_ref;
 };
