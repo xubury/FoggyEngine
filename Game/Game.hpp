@@ -47,6 +47,8 @@ class Game {
 
     foggy::es::Application<foggy::es::DefaultEntity> m_app;
 
+    uint32_t m_player_id;
+
     foggy::ts::TimerSystem m_timer;
 };
 

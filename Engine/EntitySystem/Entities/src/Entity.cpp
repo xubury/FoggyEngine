@@ -2,6 +2,7 @@
 
 #include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/Skin.hpp"
+#include "EntitySystem/Components/Transform.hpp"
 #include "EntitySystem/Entities/Entity.hpp"
 
 namespace foggy {
@@ -12,6 +13,7 @@ ES_INIT_ENTITY(DefaultEntity)
 DefaultEntity::DefaultEntity(foggy::es::EntityManager<DefaultEntity> *manager,
                              uint32_t id)
     : Entity<DefaultEntity>(manager, id) {
+    manager->AddComponent<component::Transform>(id);
     m_name = "???";
 }
 
@@ -26,12 +28,13 @@ void DefaultEntity::draw(sf::RenderTarget &target,
         }
     }
     if (Has<component::Skin>()) {
-        target.draw(*Component<component::Skin>()->shape, states);
+        component::Skin::Handle skin = Component<component::Skin>();
+        target.draw(*skin->shape, states);
     }
 }
 
 void DefaultEntity::SetPosition(float x, float y) {
-    Component<component::Skin>()->shape->setPosition(x, -y);
+    Component<component::Transform>()->SetPosition(x, y);
 }
 
 void DefaultEntity::SetPosition(const sf::Vector2f &pos) {
@@ -39,17 +42,15 @@ void DefaultEntity::SetPosition(const sf::Vector2f &pos) {
 }
 
 sf::Vector2f DefaultEntity::GetPosition() const {
-    sf::Vector2f pos(Component<component::Skin>()->shape->getPosition());
-    pos.y = -pos.y;
-    return pos;
+    return Component<component::Transform>()->GetPosition();
 }
 
 void DefaultEntity::SetRotation(float angle) {
-    Component<component::Skin>()->shape->setRotation(-angle);
+    Component<component::Transform>()->SetRotation(angle);
 }
 
 float DefaultEntity::GetRotation() const {
-    return -Component<component::Skin>()->shape->getRotation();
+    return Component<component::Transform>()->GetRotation();
 }
 
 }  // namespace es

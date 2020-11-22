@@ -16,6 +16,7 @@ namespace component {
 struct Skin;
 struct Collision;
 struct Controller;
+struct Transform;
 }  // namespace component
 }  // namespace foggy
 
