@@ -27,10 +27,6 @@ void DefaultEntity::draw(sf::RenderTarget &target,
                 target.draw(*shape, states);
         }
     }
-    if (Has<component::Skin>()) {
-        component::Skin::Handle skin = Component<component::Skin>();
-        target.draw(*skin->shape, states);
-    }
 }
 
 void DefaultEntity::SetPosition(float x, float y) {

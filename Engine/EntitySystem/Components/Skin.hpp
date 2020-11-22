@@ -12,25 +12,8 @@ namespace component {
 
 struct Skin : es::Component<Skin, es::DefaultEntity> {
    public:
-    enum Type { Rectangle, Circle };
-    Skin(Type type) {
-        switch (type) {
-            case Rectangle: {
-                shape = std::make_unique<sf::RectangleShape>();
-
-                break;
-            }
-            case Circle: {
-                shape = std::make_unique<sf::CircleShape>();
-                break;
-            }
-        }
-        shape->setFillColor(sf::Color::Transparent);
-        shape->setOutlineColor(sf::Color::Green);
-        shape->setOutlineThickness(1.f);
-    }
+    Skin() {}
     // TODO: using animation here
-    std::unique_ptr<sf::Shape> shape;
 };
 
 }  // namespace component
