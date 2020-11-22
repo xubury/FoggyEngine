@@ -21,15 +21,25 @@ void DefaultEntity::draw(sf::RenderTarget &target,
 }
 
 void DefaultEntity::SetPosition(float x, float y) {
-    Component<component::Skin>()->shape->setPosition(x, y);
+    Component<component::Skin>()->shape->setPosition(x, -y);
 }
 
 void DefaultEntity::SetPosition(const sf::Vector2f &pos) {
     SetPosition(pos.x, pos.y);
 }
 
+sf::Vector2f DefaultEntity::GetPosition() const {
+    sf::Vector2f pos(Component<component::Skin>()->shape->getPosition());
+    pos.y = -pos.y;
+    return pos;
+}
+
 void DefaultEntity::SetRotation(float angle) {
-    Component<component::Skin>()->shape->setRotation(angle);
+    Component<component::Skin>()->shape->setRotation(-angle);
+}
+
+float DefaultEntity::GetRotation() const {
+    return -Component<component::Skin>()->shape->getRotation();
 }
 
 }  // namespace es

@@ -8,8 +8,8 @@
 #include <list>
 
 #include "Camera/Camera.hpp"
-#include "EntitySystem/Application.hpp"
 #include "Engine/TimerSystem/TimerSystem.hpp"
+#include "EntitySystem/Application.hpp"
 #include "HealthSystem.hpp"
 
 class Game {

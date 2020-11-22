@@ -64,7 +64,8 @@ class EntityManager {
     Container::const_iterator End() const;
 
     template <typename COMPONENT, typename... ARGS>
-    void AddComponent(uint32_t id, ARGS &&...args);
+    ComponentHandle<COMPONENT, ENTITY> AddComponent(uint32_t id,
+                                                    ARGS &&...args);
 
     template <typename COMPONENT>
     void RemoveComponent(uint32_t id);
@@ -309,7 +310,8 @@ EntityManager<ENTITY>::End() const {
 
 template <class ENTITY>
 template <typename COMPONENT, typename... ARGS>
-inline void EntityManager<ENTITY>::AddComponent(uint32_t id, ARGS &&...args) {
+inline ComponentHandle<COMPONENT, ENTITY> EntityManager<ENTITY>::AddComponent(
+    uint32_t id, ARGS &&...args) {
     CheckComponent<COMPONENT>();
     Family family = COMPONENT::Family();
 
@@ -323,6 +325,7 @@ inline void EntityManager<ENTITY>::AddComponent(uint32_t id, ARGS &&...args) {
     pool->At(id).m_manager = this;
 
     m_entites_component_masks.at(id).set(family);
+    return ComponentHandle<COMPONENT, ENTITY>(this, id);
 }
 
 template <class ENTITY>

@@ -29,11 +29,14 @@ void Game::Run(int min_fps) {
 
     uint32_t id = m_app.entities.Create<Player>();
     Player *player = dynamic_cast<Player *>(m_app.entities.GetPtr(id));
+    sf::Vector2f pos = player->GetPosition() - m_cam.GetCenter();
+    m_cam.Move(pos.x, pos.y);
 
     b2BodyDef body_def;
     body_def.type = b2_dynamicBody;
-    m_app.entities.AddComponent<foggy::component::Collision>(
-        id, m_app.systems.System<foggy::es::CollisionSystem>(), body_def);
+    foggy::component::Collision::Handle collsion =
+        m_app.entities.AddComponent<foggy::component::Collision>(
+            id, m_app.systems.System<foggy::es::CollisionSystem>(), body_def);
 
     b2CircleShape b2shape;
     b2shape.m_radius = foggy::converter::PixelsToMeters(30.f);
@@ -42,12 +45,11 @@ void Game::Run(int min_fps) {
     fixture_def.friction = 0.4;
     fixture_def.restitution = 0.5;
     fixture_def.shape = &b2shape;
-    player->Component<foggy::component::Collision>()->AddFixture(fixture_def);
+    collsion->AddFixture(fixture_def);
 
-    m_app.entities.AddComponent<foggy::component::Controller>(
-        id, Configuration::player_inputs);
     foggy::component::Controller::Handle handle =
-        m_app.entities.GetComponent<foggy::component::Controller>(id);
+        m_app.entities.AddComponent<foggy::component::Controller>(
+            id, Configuration::player_inputs);
     handle->Bind(Configuration::PlayerInput::Up, [player](const sf::Event &) {
         player->Move(sf::Vector2f(0, 10));
     });
@@ -101,12 +103,11 @@ void Game::ProcessEvent() {
             sf::Vector2f pos =
                 m_cam.ViewToWorld(m_window, sf::Mouse::getPosition(m_window));
             int id = m_app.entities.Create();
-            foggy::es::DefaultEntity &entity = m_app.entities.Get(id);
-
-            m_app.entities.AddComponent<foggy::component::Skin>(
-                id, foggy::component::Skin::Circle);
-            sf::CircleShape *shape = dynamic_cast<sf::CircleShape *>(
-                entity.Component<foggy::component::Skin>()->shape.get());
+            foggy::component::Skin::Handle skin =
+                m_app.entities.AddComponent<foggy::component::Skin>(
+                    id, foggy::component::Skin::Circle);
+            sf::CircleShape *shape =
+                dynamic_cast<sf::CircleShape *>(skin->shape.get());
             shape->setOrigin(30, 30);
             shape->setRadius(30);
 
@@ -115,9 +116,10 @@ void Game::ProcessEvent() {
                 foggy::converter::PixelsToMeters<float>(pos.x),
                 foggy::converter::PixelsToMeters<float>(pos.y));
             body_def.type = b2_dynamicBody;
-            m_app.entities.AddComponent<foggy::component::Collision>(
-                id, m_app.systems.System<foggy::es::CollisionSystem>(),
-                body_def);
+            foggy::component::Collision::Handle collsion =
+                m_app.entities.AddComponent<foggy::component::Collision>(
+                    id, m_app.systems.System<foggy::es::CollisionSystem>(),
+                    body_def);
 
             b2CircleShape b2shape;
             b2shape.m_radius = foggy::converter::PixelsToMeters(30.f);
@@ -126,8 +128,7 @@ void Game::ProcessEvent() {
             fixture_def.friction = 0.4;
             fixture_def.restitution = 0.5;
             fixture_def.shape = &b2shape;
-            entity.Component<foggy::component::Collision>()->AddFixture(
-                fixture_def);
+            collsion->AddFixture(fixture_def);
             m_timer.AddTimer(sf::seconds(1),
                              [id, this]() { m_app.entities.Remove(id); });
         } else {

@@ -10,10 +10,10 @@ const sf::Time Player::MIN_TIME_BETWEEN_MOVEMENT = sf::milliseconds(10);
 
 Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     : foggy::es::DefaultEntity(manager, id) {
-    manager->AddComponent<foggy::component::Skin>(
-        id, foggy::component::Skin::Circle);
-    sf::CircleShape *shape = dynamic_cast<sf::CircleShape *>(
-        Component<foggy::component::Skin>()->shape.get());
+    foggy::component::Skin::Handle skin =
+        manager->AddComponent<foggy::component::Skin>(
+            id, foggy::component::Skin::Circle);
+    sf::CircleShape *shape = dynamic_cast<sf::CircleShape *>(skin->shape.get());
     shape->setOrigin(30, 30);
     shape->setRadius(30);
 }
