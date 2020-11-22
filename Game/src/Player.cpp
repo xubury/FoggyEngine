@@ -9,14 +9,7 @@
 const sf::Time Player::MIN_TIME_BETWEEN_MOVEMENT = sf::milliseconds(10);
 
 Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
-    : foggy::es::DefaultEntity(manager, id) {
-    foggy::component::Skin::Handle skin =
-        manager->AddComponent<foggy::component::Skin>(
-            id, foggy::component::Skin::Circle);
-    sf::CircleShape *shape = dynamic_cast<sf::CircleShape *>(skin->shape.get());
-    shape->setOrigin(30, 30);
-    shape->setRadius(30);
-}
+    : foggy::es::DefaultEntity(manager, id) {}
 
 void Player::Move(const sf::Vector2f &impulse) {
     /* Limit the movement frequncy. Otherwise, the FPS will have huge effect on

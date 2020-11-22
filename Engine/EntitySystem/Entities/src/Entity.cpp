@@ -17,7 +17,17 @@ DefaultEntity::DefaultEntity(foggy::es::EntityManager<DefaultEntity> *manager,
 
 void DefaultEntity::draw(sf::RenderTarget &target,
                          sf::RenderStates states) const {
-    target.draw(*Component<component::Skin>()->shape, states);
+    if (Has<component::Collision>()) {
+        component::Collision::Handle collision =
+            Component<component::Collision>();
+        if (collision->debug) {
+            for (const auto &shape : collision->debug_shape)
+                target.draw(*shape, states);
+        }
+    }
+    if (Has<component::Skin>()) {
+        target.draw(*Component<component::Skin>()->shape, states);
+    }
 }
 
 void DefaultEntity::SetPosition(float x, float y) {

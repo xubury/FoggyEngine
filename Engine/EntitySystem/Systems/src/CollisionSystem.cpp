@@ -13,12 +13,17 @@ void CollisionSystem::Update(es::EntityManager<es::DefaultEntity> &manager,
     auto cur = view.Begin();
     auto end = view.End();
     for (; cur != end; ++cur) {
-        b2Body *body = cur->Component<component::Collision>()->b2body_ref;
+        component::Collision::Handle collision =
+            cur->Component<component::Collision>();
+        b2Body *body = collision->b2body_ref;
         b2Vec2 pos(body->GetPosition());
-        float angle = body->GetAngle();
-        cur->SetPosition(converter::MetersToPixels(pos.x),
-                         converter::MetersToPixels(pos.y));
-        cur->SetRotation(converter::RadToDeg(angle));
+        pos.x = converter::MetersToPixels(pos.x);
+        pos.y = -converter::MetersToPixels(pos.y);
+        float angle = -converter::DegToRad(body->GetAngle());
+        for (const auto &shape : collision->debug_shape) {
+            shape->setPosition(pos.x, pos.y);
+            shape->setRotation(angle);
+        }
     }
 }
 

@@ -27,7 +27,7 @@ struct Skin : es::Component<Skin, es::DefaultEntity> {
         }
         shape->setFillColor(sf::Color::Transparent);
         shape->setOutlineColor(sf::Color::Green);
-        shape->setOutlineThickness(1);
+        shape->setOutlineThickness(1.f);
     }
     // TODO: using animation here
     std::unique_ptr<sf::Shape> shape;
