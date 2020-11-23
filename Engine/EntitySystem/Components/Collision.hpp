@@ -13,7 +13,7 @@ namespace component {
 
 struct Collision : es::Component<Collision, es::DefaultEntity> {
    public:
-    Collision(es::CollisionSystem *world, b2BodyDef &def, bool debug = true);
+    Collision(es::CollisionSystem &world, b2BodyDef &def, bool debug = true);
     void AddFixture(const b2FixtureDef &fixture);
     ~Collision();
     b2Body *b2body_ref;

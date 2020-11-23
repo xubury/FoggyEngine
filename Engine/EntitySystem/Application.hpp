@@ -4,7 +4,7 @@
 #include <SFML/System/Time.hpp>
 
 #include "EntitySystem/Entities/EntityManager.hpp"
-#include "Systems/System.hpp"
+#include "EntitySystem/Systems/System.hpp"
 
 namespace foggy {
 namespace es {

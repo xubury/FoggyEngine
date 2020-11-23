@@ -8,13 +8,15 @@ find_package(box2d REQUIRED)
 set(Utils_Src
     Engine/util/src/Memory.cpp)
 
-set(Engine_Src ${Utils_Src}
-    Engine/ActionSystem/src/Action.cpp
-    Engine/Camera/src/Camera.cpp
+set(ES_Src
     Engine/EntitySystem/Entities/src/Entity.cpp
     Engine/EntitySystem/Components/src/Collision.cpp
     Engine/EntitySystem/Components/src/Transform.cpp
-    Engine/EntitySystem/Systems/src/CollisionSystem.cpp
+    Engine/EntitySystem/Systems/src/CollisionSystem.cpp)
+
+set(Engine_Src ${Utils_Src} ${ES_Src}
+    Engine/ActionSystem/src/Action.cpp
+    Engine/Camera/src/Camera.cpp
     Engine/TimerSystem/src/TimerSystem.cpp)
 
 add_executable(foggy 

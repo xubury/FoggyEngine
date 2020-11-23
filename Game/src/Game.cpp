@@ -32,7 +32,7 @@ void Game::Run(int min_fps) {
     uint32_t id = m_app.entities.Create();
     foggy::component::Collision::Handle collsion =
         m_app.entities.AddComponent<foggy::component::Collision>(
-            id, m_app.systems.System<foggy::es::CollisionSystem>(), body_def);
+            id, *m_app.systems.System<foggy::es::CollisionSystem>(), body_def);
 
     float width = 800;
     float height = 20;
@@ -48,13 +48,11 @@ void Game::Run(int min_fps) {
 
     m_player_id = m_app.entities.Create<Player>();
     Player *player = dynamic_cast<Player *>(m_app.entities.GetPtr(m_player_id));
-    sf::Vector2f pos = player->GetPosition() - m_cam.GetCenter();
-    m_cam.Move(pos.x, pos.y);
 
     body_def.position.Set(0, 0);
     body_def.type = b2_dynamicBody;
     collsion = m_app.entities.AddComponent<foggy::component::Collision>(
-        m_player_id, m_app.systems.System<foggy::es::CollisionSystem>(),
+        m_player_id, *m_app.systems.System<foggy::es::CollisionSystem>(),
         body_def);
 
     b2CircleShape b2shape;
@@ -129,7 +127,7 @@ void Game::ProcessEvent() {
             body_def.type = b2_dynamicBody;
             foggy::component::Collision::Handle collsion =
                 m_app.entities.AddComponent<foggy::component::Collision>(
-                    id, m_app.systems.System<foggy::es::CollisionSystem>(),
+                    id, *m_app.systems.System<foggy::es::CollisionSystem>(),
                     body_def);
 
             b2CircleShape b2shape;

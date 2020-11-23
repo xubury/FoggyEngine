@@ -7,9 +7,9 @@
 namespace foggy {
 namespace component {
 
-Collision::Collision(es::CollisionSystem *world, b2BodyDef &def, bool debug)
+Collision::Collision(es::CollisionSystem &world, b2BodyDef &def, bool debug)
     : debug(debug) {
-    b2body_ref = world->CreateBody(&def);
+    b2body_ref = world.CreateBody(&def);
 }
 
 void Collision::AddFixture(const b2FixtureDef &fixture) {
