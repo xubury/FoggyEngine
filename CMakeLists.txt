@@ -8,13 +8,17 @@ find_package(box2d REQUIRED)
 set(Utils_Src
     Engine/util/src/Memory.cpp)
 
+set(Animation_Src 
+    Engine/AnimationSystem/src/Animation.cpp
+    Engine/AnimationSystem/src/AnimatedSprite.cpp)
+
 set(ES_Src
     Engine/EntitySystem/Entities/src/Entity.cpp
     Engine/EntitySystem/Components/src/Collision.cpp
     Engine/EntitySystem/Components/src/Transform.cpp
     Engine/EntitySystem/Systems/src/CollisionSystem.cpp)
 
-set(Engine_Src ${Utils_Src} ${ES_Src}
+set(Engine_Src ${Utils_Src} ${ES_Src} ${Animation_Src}
     Engine/ActionSystem/src/Action.cpp
     Engine/Camera/src/Camera.cpp
     Engine/TimerSystem/src/TimerSystem.cpp)
