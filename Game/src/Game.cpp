@@ -55,14 +55,15 @@ void Game::Run(int min_fps) {
         m_player_id, *m_app.systems.System<foggy::es::CollisionSystem>(),
         body_def);
 
-    b2CircleShape b2shape;
-    b2shape.m_radius = foggy::converter::PixelsToMeters(30.f);
+    b2polygon_shape.SetAsBox(foggy::converter::PixelsToMeters(30.f / 2),
+                             foggy::converter::PixelsToMeters(45.f / 2));
     b2FixtureDef fixture_def;
     fixture_def.density = 1.0;
     fixture_def.friction = 0.4;
     fixture_def.restitution = 0.5;
-    fixture_def.shape = &b2shape;
+    fixture_def.shape = &b2polygon_shape;
     collsion->AddFixture(fixture_def);
+    collsion->b2body_ref->SetFixedRotation(true);
 
     foggy::component::Controller::Handle handle =
         m_app.entities.AddComponent<foggy::component::Controller>(
@@ -131,14 +132,39 @@ void Game::ProcessEvent() {
                     body_def);
 
             b2CircleShape b2shape;
-            b2shape.m_radius = foggy::converter::PixelsToMeters(30.f);
+            b2shape.m_radius = foggy::converter::PixelsToMeters(15.f);
             b2FixtureDef fixture_def;
             fixture_def.density = 1.0;
             fixture_def.friction = 0.4;
             fixture_def.restitution = 0.5;
             fixture_def.shape = &b2shape;
             collsion->AddFixture(fixture_def);
-            m_timer.AddTimer(sf::seconds(1),
+            m_timer.AddTimer(sf::seconds(3),
+                             [id, this]() { m_app.entities.Remove(id); });
+        } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+            sf::Vector2f pos =
+                m_cam.ViewToWorld(m_window, sf::Mouse::getPosition(m_window));
+            int id = m_app.entities.Create();
+            b2BodyDef body_def;
+            body_def.position.Set(
+                foggy::converter::PixelsToMeters<float>(pos.x),
+                foggy::converter::PixelsToMeters<float>(pos.y));
+            body_def.type = b2_dynamicBody;
+            foggy::component::Collision::Handle collsion =
+                m_app.entities.AddComponent<foggy::component::Collision>(
+                    id, *m_app.systems.System<foggy::es::CollisionSystem>(),
+                    body_def);
+
+            b2PolygonShape b2shape;
+            b2shape.SetAsBox(foggy::converter::PixelsToMeters(15.f),
+                             foggy::converter::PixelsToMeters(10.f));
+            b2FixtureDef fixture_def;
+            fixture_def.density = 1.0;
+            fixture_def.friction = 0.4;
+            fixture_def.restitution = 0.5;
+            fixture_def.shape = &b2shape;
+            collsion->AddFixture(fixture_def);
+            m_timer.AddTimer(sf::seconds(3),
                              [id, this]() { m_app.entities.Remove(id); });
         } else {
             foggy::component::Controller::Handle controller;
