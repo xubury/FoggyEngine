@@ -9,13 +9,11 @@ CollisionSystem::CollisionSystem(float x, float y) : b2World(b2Vec2(x, y)) {}
 void CollisionSystem::Update(es::EntityManager<es::DefaultEntity> &manager,
                              const sf::Time &delta_time) {
     Step(delta_time.asSeconds(), 8, 3);
-    component::Collision::Handle handle;
-    auto view = manager.GetByComponents(handle);
+    component::Collision::Handle collision;
+    auto view = manager.GetByComponents(collision);
     auto cur = view.Begin();
     auto end = view.End();
     for (; cur != end; ++cur) {
-        component::Collision::Handle collision =
-            cur->Component<component::Collision>();
         b2Body *body = collision->b2body_ref;
         b2Vec2 pos(body->GetPosition());
         pos.x = converter::MetersToPixels(pos.x);

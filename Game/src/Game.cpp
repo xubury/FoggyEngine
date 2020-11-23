@@ -143,20 +143,19 @@ void Game::ProcessEvent() {
             m_timer.AddTimer(sf::seconds(1),
                              [id, this]() { m_app.entities.Remove(id); });
         } else {
-            foggy::component::Controller::Handle c_handle;
-            auto view = m_app.entities.GetByComponents(c_handle);
+            foggy::component::Controller::Handle controller;
+            auto view = m_app.entities.GetByComponents(controller);
             auto end = view.End();
             for (auto cur = view.Begin(); cur != end; ++cur) {
-                cur->Component<foggy::component::Controller>()->ProcessEvent(
-                    event);
+                controller->ProcessEvent(event);
             }
         }
     }
-    foggy::component::Controller::Handle c_handle;
-    auto view = m_app.entities.GetByComponents(c_handle);
+    foggy::component::Controller::Handle controller;
+    auto view = m_app.entities.GetByComponents(controller);
     auto end = view.End();
     for (auto cur = view.Begin(); cur != end; ++cur) {
-        cur->Component<foggy::component::Controller>()->ProcessEvents();
+        controller->ProcessEvents();
     }
 }
 
@@ -173,13 +172,11 @@ void Game::Render() {
 
     m_window.setView(m_cam);
 
-    foggy::component::Collision::Handle collision_handle;
-    auto view = m_app.entities.GetByComponents(collision_handle);
-    auto end = view.End();
-    for (auto cur = view.Begin(); cur != end; ++cur) {
-        cur->draw(m_window);
+    auto iter = m_app.entities.Begin();
+    auto end = m_app.entities.End();
+    for (; iter != end; ++iter) {
+        m_window.draw(m_app.entities.Get(*iter));
     }
-
     m_fps.setString("FPS: " + std::to_string(GetFps()));
     m_window.setView(m_hud_camera);
     m_window.draw(m_fps);
