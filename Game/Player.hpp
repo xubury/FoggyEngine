@@ -2,12 +2,15 @@
 #define PLAYER_H
 
 #include "EntitySystem/Entities/Entity.hpp"
+#include "EntitySystem/Systems/CollisionSystem.hpp"
 
 class Player : public foggy::es::DefaultEntity {
    public:
     enum Anim { Stand, Run };
     static const sf::Time MIN_TIME_BETWEEN_MOVEMENT;
-    Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id);
+
+    Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
+           foggy::es::CollisionSystem *world);
 
     void Move(const sf::Vector2f &impulse);
 

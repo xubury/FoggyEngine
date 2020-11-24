@@ -2,6 +2,7 @@
 
 #include "Configuration/Configuration.hpp"
 #include "EntitySystem/Components/Collision.hpp"
+#include "EntitySystem/Components/Controller.hpp"
 #include "EntitySystem/Components/Skin.hpp"
 #include "EntitySystem/Components/Transform.hpp"
 #include "Player.hpp"
@@ -9,7 +10,8 @@
 
 const sf::Time Player::MIN_TIME_BETWEEN_MOVEMENT = sf::milliseconds(10);
 
-Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
+Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
+               foggy::es::CollisionSystem *world)
     : foggy::es::DefaultEntity(manager, id) {
     foggy::component::Skin::Handle skin =
         manager->AddComponent<foggy::component::Skin>(id);
@@ -18,6 +20,33 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
         &Configuration::player_anims.Get(Configuration::PlayerAnim::Stand));
     skin->m_animations.emplace(Anim::Run, &Configuration::player_anims.Get(
                                               Configuration::PlayerAnim::Run));
+    b2BodyDef body_def;
+    body_def.type = b2_dynamicBody;
+    foggy::component::Collision::Handle collsion =
+        manager->AddComponent<foggy::component::Collision>(id, world, body_def);
+
+    b2PolygonShape b2polygon_shape;
+    b2polygon_shape.SetAsBox(foggy::converter::PixelsToMeters(25.f / 2),
+                             foggy::converter::PixelsToMeters(37.f / 2));
+    b2FixtureDef fixture_def;
+    fixture_def.density = 1.0;
+    fixture_def.friction = 1;
+    fixture_def.restitution = 0.5;
+    fixture_def.shape = &b2polygon_shape;
+    collsion->AddFixture(fixture_def);
+    collsion->b2body_ref->SetFixedRotation(true);
+
+    foggy::component::Controller::Handle handle =
+        manager->AddComponent<foggy::component::Controller>(
+            id, Configuration::player_inputs);
+    handle->Bind(Configuration::PlayerInput::Up,
+                 [this](const sf::Event &) { Move(sf::Vector2f(0, 10)); });
+    handle->Bind(Configuration::PlayerInput::Down,
+                 [this](const sf::Event &) { Move(sf::Vector2f(0, -10)); });
+    handle->Bind(Configuration::PlayerInput::Left,
+                 [this](const sf::Event &) { Move(sf::Vector2f(-10, 0)); });
+    handle->Bind(Configuration::PlayerInput::Right,
+                 [this](const sf::Event &) { Move(sf::Vector2f(10, 0)); });
 }
 
 void Player::Move(const sf::Vector2f &impulse) {

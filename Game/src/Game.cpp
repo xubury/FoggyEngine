@@ -32,7 +32,7 @@ void Game::Run(int min_fps) {
     uint32_t id = m_app.entities.Create();
     foggy::component::Collision::Handle collsion =
         m_app.entities.AddComponent<foggy::component::Collision>(
-            id, *m_app.systems.System<foggy::es::CollisionSystem>(), body_def);
+            id, m_app.systems.System<foggy::es::CollisionSystem>(), body_def);
 
     float width = 800;
     float height = 20;
@@ -46,40 +46,8 @@ void Game::Run(int min_fps) {
     fixture.shape = &b2polygon_shape;
     collsion->AddFixture(fixture);
 
-    m_player_id = m_app.entities.Create<Player>();
-    Player *player = dynamic_cast<Player *>(m_app.entities.GetPtr(m_player_id));
-
-    body_def.position.Set(0, 0);
-    body_def.type = b2_dynamicBody;
-    collsion = m_app.entities.AddComponent<foggy::component::Collision>(
-        m_player_id, *m_app.systems.System<foggy::es::CollisionSystem>(),
-        body_def);
-
-    b2polygon_shape.SetAsBox(foggy::converter::PixelsToMeters(25.f / 2),
-                             foggy::converter::PixelsToMeters(37.f / 2));
-    b2FixtureDef fixture_def;
-    fixture_def.density = 1.0;
-    fixture_def.friction = 1;
-    fixture_def.restitution = 0.5;
-    fixture_def.shape = &b2polygon_shape;
-    collsion->AddFixture(fixture_def);
-    collsion->b2body_ref->SetFixedRotation(true);
-
-    foggy::component::Controller::Handle handle =
-        m_app.entities.AddComponent<foggy::component::Controller>(
-            m_player_id, Configuration::player_inputs);
-    handle->Bind(Configuration::PlayerInput::Up, [player](const sf::Event &) {
-        player->Move(sf::Vector2f(0, 10));
-    });
-    handle->Bind(Configuration::PlayerInput::Down, [player](const sf::Event &) {
-        player->Move(sf::Vector2f(0, -10));
-    });
-    handle->Bind(Configuration::PlayerInput::Left, [player](const sf::Event &) {
-        player->Move(sf::Vector2f(-10, 0));
-    });
-    handle->Bind(
-        Configuration::PlayerInput::Right,
-        [player](const sf::Event &) { player->Move(sf::Vector2f(10, 0)); });
+    m_player_id = m_app.entities.Create<Player>(
+        m_app.systems.System<foggy::es::CollisionSystem>());
 
     m_fps = sf::Text("FPS: " + std::to_string(GetFps()),
                      Configuration::fonts.Get(Configuration::FontType::GUI));
@@ -128,7 +96,7 @@ void Game::ProcessEvent() {
             body_def.type = b2_dynamicBody;
             foggy::component::Collision::Handle collsion =
                 m_app.entities.AddComponent<foggy::component::Collision>(
-                    id, *m_app.systems.System<foggy::es::CollisionSystem>(),
+                    id, m_app.systems.System<foggy::es::CollisionSystem>(),
                     body_def);
 
             b2CircleShape b2shape;
@@ -152,7 +120,7 @@ void Game::ProcessEvent() {
             body_def.type = b2_dynamicBody;
             foggy::component::Collision::Handle collsion =
                 m_app.entities.AddComponent<foggy::component::Collision>(
-                    id, *m_app.systems.System<foggy::es::CollisionSystem>(),
+                    id, m_app.systems.System<foggy::es::CollisionSystem>(),
                     body_def);
 
             b2PolygonShape b2shape;
