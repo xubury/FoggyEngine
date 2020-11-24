@@ -21,9 +21,24 @@ class Configuration {
     enum FontType : int { GUI };
     static foggy::ResourceManager<sf::Font, FontType> fonts;
 
+    enum PlayerAnim : int { Stand, Run };
+    static foggy::ResourceManager<foggy::as::Animation, PlayerAnim>
+        player_anims;
+
+    enum Textures : int {
+        PlayerAnim_Sheet,
+        PlayerAnim_Idle0,
+        PlayerAnim_Idle1,
+        PlayerAnim_Idle2,
+        PlayerAnim_Idle3,
+    };
+    static foggy::ResourceManager<sf::Texture, Textures> textures;
+
    private:
-    static void InitializePlayerInputs();
     static void InitializeFonts();
+    static void InitializeTextures();
+    static void InitializePlayerInputs();
+    static void InitializePlayerAnims();
 };
 
 #endif /* CONFIGURATION_H */

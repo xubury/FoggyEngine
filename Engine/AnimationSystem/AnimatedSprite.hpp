@@ -24,7 +24,7 @@ class AnimatedSprite : public sf::Drawable, public sf::Transformable {
     enum Status { Stopped, Pasued, Playing };
 
     AnimatedSprite(Animation *animation = nullptr, Status status = Playing,
-                   const sf::Time &delta_time = sf::seconds(0.15),
+                   const sf::Time &delta_time = sf::milliseconds(100),
                    bool loop = true, int repeat = 0);
 
     void SetAnimation(Animation *animation);

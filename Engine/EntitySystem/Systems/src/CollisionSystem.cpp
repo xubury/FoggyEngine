@@ -21,12 +21,6 @@ void CollisionSystem::Update(es::EntityManager<es::DefaultEntity> &manager,
         float angle = converter::RadToDeg(body->GetAngle());
         cur->Component<component::Transform>()->SetPosition(pos.x, pos.y);
         cur->Component<component::Transform>()->SetRotation(angle);
-        if (collision->debug) {
-            for (const auto &shape : collision->debug_shape) {
-                shape->setPosition(pos.x, -pos.y);
-                shape->setRotation(-angle);
-            }
-        }
     }
 }
 

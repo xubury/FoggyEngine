@@ -9,7 +9,7 @@ namespace foggy {
 namespace component {
 
 struct Transform : es::Component<Transform, es::DefaultEntity>,
-                   private sf::Transformable {
+                   sf::Transformable {
    public:
     Transform();
     void SetPosition(float x, float y);

@@ -16,6 +16,8 @@ class Animation {
     Animation &AddFrame(const sf::IntRect &rect);
     Animation &AddFrameRow(int number_x, int number_y, int row);
     Animation &AddFrameColoumn(int number_x, int number_y, int col);
+    Animation &AddFrameSheet(int start, int end, int number_x, int number_y,
+                             int x_offset, int y_offset);
 
     std::size_t Size() const;
     const sf::IntRect &GetRect(std::size_t index) const;

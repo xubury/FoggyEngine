@@ -1,5 +1,6 @@
 #include <AnimationSystem/AnimatedSprite.hpp>
 #include <cassert>
+#include <iostream>
 
 namespace foggy {
 namespace as {
@@ -80,7 +81,7 @@ void AnimatedSprite::Update(const sf::Time &delta_time) {
                 }
             }
         }
-        SetFrame(m_current_frame, true);
+        SetFrame(m_current_frame, false);
     }
 }
 
@@ -88,11 +89,14 @@ void AnimatedSprite::SetFrame(std::size_t index, bool reset_time) {
     if (m_animation != nullptr) {
         sf::IntRect rect = m_animation->GetRect(index);
 
-        m_vertices[0].position = sf::Vector2f(0.f, 0.f);
-        m_vertices[1].position = sf::Vector2f(0, (float)rect.height);
+        m_vertices[0].position =
+            sf::Vector2f(-(float)rect.width / 2, -(float)rect.height / 2);
+        m_vertices[1].position =
+            sf::Vector2f(-(float)rect.width / 2, (float)rect.height / 2);
         m_vertices[2].position =
-            sf::Vector2f((float)rect.width, (float)rect.height);
-        m_vertices[3].position = sf::Vector2f((float)rect.width, 0);
+            sf::Vector2f((float)rect.width / 2, (float)rect.height / 2);
+        m_vertices[3].position =
+            sf::Vector2f((float)rect.width / 2, -(float)rect.height / 2);
 
         float left = (float)rect.left;
         float right = left + (float)rect.width;

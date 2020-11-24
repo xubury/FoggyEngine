@@ -41,7 +41,7 @@ void Game::Run(int min_fps) {
                              foggy::converter::PixelsToMeters(height / 2));
     b2FixtureDef fixture;
     fixture.density = 1.0;
-    fixture.friction = 0.4;
+    fixture.friction = 1.0;
     fixture.restitution = 0.5;
     fixture.shape = &b2polygon_shape;
     collsion->AddFixture(fixture);
@@ -55,11 +55,11 @@ void Game::Run(int min_fps) {
         m_player_id, *m_app.systems.System<foggy::es::CollisionSystem>(),
         body_def);
 
-    b2polygon_shape.SetAsBox(foggy::converter::PixelsToMeters(30.f / 2),
-                             foggy::converter::PixelsToMeters(45.f / 2));
+    b2polygon_shape.SetAsBox(foggy::converter::PixelsToMeters(25.f / 2),
+                             foggy::converter::PixelsToMeters(37.f / 2));
     b2FixtureDef fixture_def;
     fixture_def.density = 1.0;
-    fixture_def.friction = 0.4;
+    fixture_def.friction = 1;
     fixture_def.restitution = 0.5;
     fixture_def.shape = &b2polygon_shape;
     collsion->AddFixture(fixture_def);
