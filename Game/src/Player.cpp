@@ -13,6 +13,8 @@ const sf::Time Player::MIN_TIME_BETWEEN_MOVEMENT = sf::milliseconds(10);
 Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
                foggy::es::CollisionSystem *world)
     : foggy::es::DefaultEntity(manager, id) {
+    float scale = 2;
+    Component<foggy::component::Transform>()->setScale(scale, scale);
     foggy::component::Skin::Handle skin =
         manager->AddComponent<foggy::component::Skin>(id);
     skin->m_animations.emplace(
@@ -27,16 +29,20 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
 
     sf::IntRect sprite_size = skin->m_animations.at(Anim::Stand)->GetRect(0);
     b2PolygonShape b2polygon_shape;
-    b2polygon_shape.SetAsBox(
-        foggy::converter::PixelsToMeters<float>((float)sprite_size.width / 4),
-        foggy::converter::PixelsToMeters<float>((float)sprite_size.height / 2));
+    b2polygon_shape.SetAsBox(foggy::converter::PixelsToMeters<float>(
+                                 (float)sprite_size.width * scale / 4),
+                             foggy::converter::PixelsToMeters<float>(
+                                 (float)sprite_size.height * scale / 2));
     b2FixtureDef fixture_def;
-    fixture_def.density = 1.0;
+    fixture_def.density =
+        40.f / foggy::converter::PixelsToMeters(
+                   sprite_size.width * sprite_size.height * scale * scale);
     fixture_def.friction = 1;
     fixture_def.restitution = 0.5;
     fixture_def.shape = &b2polygon_shape;
     collsion->AddFixture(fixture_def);
     collsion->b2body_ref->SetFixedRotation(true);
+    collsion->b2body_ref->SetLinearDamping(2.f);
 
     foggy::component::Controller::Handle handle =
         manager->AddComponent<foggy::component::Controller>(
