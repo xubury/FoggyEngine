@@ -80,10 +80,6 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         foggy::component::Collision::Handle collision =
             Component<foggy::component::Collision>();
         speed = collision->b2body_ref->GetLinearVelocity();
-        if (collision->debug) {
-            for (const auto &shape : collision->debug_shape)
-                target.draw(*shape, states);
-        }
     }
     if (Has<foggy::component::Skin>()) {
         foggy::component::Skin::Handle skin =
@@ -99,4 +95,5 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
         }
         target.draw(skin->m_sprite, states);
     }
+    DefaultEntity::draw(target, states);
 }
