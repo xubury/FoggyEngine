@@ -6,7 +6,7 @@
 
 class Player : public foggy::es::DefaultEntity {
    public:
-    enum Anim { Stand, Run };
+    enum Anim { Idle, Run, Stand, Squat, Attack_Swoard };
     static const sf::Time MIN_TIME_BETWEEN_MOVEMENT;
 
     Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
@@ -14,9 +14,19 @@ class Player : public foggy::es::DefaultEntity {
 
     void Move(const sf::Vector2f &impulse);
 
+    void OnSuqat();
+
+    void OnStandup();
+
+    void OnAttack();
+
+    void OnAttackFinished();
+
     virtual void draw(
         sf::RenderTarget &target,
         sf::RenderStates states = sf::RenderStates::Default) const override;
+
+    bool m_freeze;
 
    private:
     sf::Clock m_movement_timer;

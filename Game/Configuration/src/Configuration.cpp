@@ -26,15 +26,28 @@ void Configuration::InitializeFonts() {
 void Configuration::InitializePlayerInputs() {
     player_inputs.Map(PlayerInput::Up, foggy::Action(sf::Keyboard::W));
     player_inputs.Map(PlayerInput::Down, foggy::Action(sf::Keyboard::S));
+    player_inputs.Map(PlayerInput::Down_Realeased,
+                      foggy::Action(sf::Keyboard::S, foggy::Action::Released));
     player_inputs.Map(PlayerInput::Right, foggy::Action(sf::Keyboard::D));
     player_inputs.Map(PlayerInput::Left, foggy::Action(sf::Keyboard::A));
+    player_inputs.Map(PlayerInput::Attack, foggy::Action(sf::Keyboard::J));
 }
 
 void Configuration::InitializePlayerAnims() {
     player_anims
+        .Load(PlayerAnim::Idle, &textures.Get(Textures::PlayerAnim_Sheet))
+        .AddFrameSheet(38, 41, 7, 16, 35, 0);
+    player_anims
         .Load(PlayerAnim::Stand, &textures.Get(Textures::PlayerAnim_Sheet))
-        .AddFrameSheet(0, 4, 7, 16, 35, 0);
+        .AddFrameSheet(4, 5, 7, 16, 35, 0);
+    player_anims
+        .Load(PlayerAnim::Suqat, &textures.Get(Textures::PlayerAnim_Sheet))
+        .AddFrameSheet(6, 7, 7, 16, 35, 0);
     player_anims
         .Load(PlayerAnim::Run, &textures.Get(Textures::PlayerAnim_Sheet))
         .AddFrameSheet(8, 13, 7, 16, 35, 0);
+    player_anims
+        .Load(PlayerAnim::Swoard_Attack,
+              &textures.Get(Textures::PlayerAnim_Sheet))
+        .AddFrameSheet(42, 58, 7, 16, 35, 0);
 }

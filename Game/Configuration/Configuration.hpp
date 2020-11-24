@@ -14,14 +14,14 @@ class Configuration {
 
     static void Initialize();
 
-    enum PlayerInput : int { Up, Down, Left, Right };
+    enum PlayerInput : int { Up, Down, Down_Realeased, Left, Right, Attack };
 
     static foggy::ActionMap<int> player_inputs;
 
     enum FontType : int { GUI };
     static foggy::ResourceManager<sf::Font, FontType> fonts;
 
-    enum PlayerAnim : int { Stand, Run };
+    enum PlayerAnim : int { Idle, Run, Stand, Suqat, Swoard_Attack };
     static foggy::ResourceManager<foggy::as::Animation, PlayerAnim>
         player_anims;
 

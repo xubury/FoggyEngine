@@ -42,7 +42,7 @@ Animation &Animation::AddFrameSheet(int start, int end, int number_x,
     const sf::Vector2u size = m_texture->getSize();
     const float delta_x = (size.x - x_offset) / float(number_x);
     const float delta_y = (size.y - y_offset) / float(number_y);
-    for (int i = start; i < end; ++i) {
+    for (int i = start; i <= end; ++i) {
         const int row = i / number_x;
         const int col = i % number_x;
         AddFrame(sf::IntRect(col * delta_x, row * delta_y, delta_x, delta_y));
