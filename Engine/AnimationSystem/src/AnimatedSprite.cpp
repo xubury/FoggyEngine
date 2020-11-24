@@ -77,7 +77,8 @@ void AnimatedSprite::Update(const sf::Time &delta_time) {
                     --m_repeat;
                     if (m_repeat <= 0) {
                         m_status = Stopped;
-                        if (OnFinishd.front() != nullptr) {
+                        if (!OnFinishd.empty() &&
+                            OnFinishd.front() != nullptr) {
                             auto &func = OnFinishd.front();
                             func();
                             OnFinishd.pop_front();

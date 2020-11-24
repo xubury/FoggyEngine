@@ -53,7 +53,7 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
     handle->Bind(Configuration::PlayerInput::Down,
                  [this](const sf::Event &) { Squat(); });
     handle->Bind(Configuration::PlayerInput::Down_Realeased,
-                 [this](const sf::Event &) { Squat(); });
+                 [this](const sf::Event &) { Standup(); });
     handle->Bind(Configuration::PlayerInput::Left,
                  [this](const sf::Event &) { Move(sf::Vector2f(-10, 0)); });
     handle->Bind(Configuration::PlayerInput::Right,
@@ -120,8 +120,9 @@ void Player::Attack() {
 }
 
 void Player::Squat() {
-    if (m_movement_timer.getElapsedTime() < MIN_TIME_BETWEEN_MOVEMENT) {
-        return;
-    }
     Component<PlayerAnimator>()->process_event(PlayerAnimator::SitEvent());
+}
+
+void Player::Standup() {
+    Component<PlayerAnimator>()->process_event(PlayerAnimator::StandEvent());
 }

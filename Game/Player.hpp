@@ -19,6 +19,7 @@ class Player : public foggy::es::DefaultEntity {
         sf::RenderStates states = sf::RenderStates::Default) const override;
 
     void Squat();
+    void Standup();
     void Attack();
 
    private:

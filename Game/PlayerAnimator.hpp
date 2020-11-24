@@ -17,6 +17,7 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
         bool facing_right;
     };
     struct SitEvent {};
+    struct StandEvent {};
     struct RunEvent {
         RunEvent(bool facing = true) : facing_right(facing) {}
         bool facing_right;
@@ -65,12 +66,15 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
 
         m_anim->m_sprite.Play();
     }
+
     void OnSquat(const SitEvent &) {
         m_anim->m_sprite.SetAnimation(m_anim->m_animations.at(Squat));
-        m_anim->m_sprite.SetLoop(true);
+        m_anim->m_sprite.SetLoop(false);
+        m_anim->m_sprite.SetRepeat(1);
         m_anim->m_sprite.Play();
     }
-    void OnStand(const SitEvent &) {
+
+    void OnStand(const StandEvent &) {
         m_anim->m_sprite.SetAnimation(m_anim->m_animations.at(Stand));
         m_anim->m_sprite.SetLoop(false);
         m_anim->m_sprite.SetRepeat(1);
@@ -78,6 +82,7 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
             [this]() { process_event(IdleEvent{}); });
         m_anim->m_sprite.Play();
     }
+
     void OnFirstAttack(const AttackEvent &event) {
         m_anim->m_sprite.SetAnimation(m_anim->m_animations.at(Attack_0));
         m_anim->m_sprite.SetLoop(false);
@@ -147,7 +152,7 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
         mem_fn_row<Stand, RunEvent, Run, &PlayerAnimator::OnRun>,
         mem_fn_row<Stand, IdleEvent, Idle, &PlayerAnimator::OnIdle>,
 
-        mem_fn_row<Squat, SitEvent, Stand, &PlayerAnimator::OnStand>,
+        mem_fn_row<Squat, StandEvent, Stand, &PlayerAnimator::OnStand>,
         mem_fn_row<Squat, AttackEvent, Attack_0,
                    &PlayerAnimator::OnFirstAttack>,
 
