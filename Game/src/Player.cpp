@@ -9,10 +9,11 @@
 #include "util/converter.hpp"
 
 const sf::Time Player::MIN_TIME_BETWEEN_MOVEMENT = sf::milliseconds(10);
+const sf::Time Player::MIN_TIME_BETWEEN_ATTACK = sf::seconds(0.5);
 
 Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
                foggy::es::CollisionSystem *world)
-    : foggy::es::DefaultEntity(manager, id), m_freeze(false) {
+    : foggy::es::DefaultEntity(manager, id), m_freeze(false), m_attack_step(0) {
     float scale = 2;
     Component<foggy::component::Transform>()->setScale(scale, scale);
     foggy::component::Skin::Handle skin =
@@ -28,9 +29,15 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
     skin->m_animations.emplace(
         Anim::Squat,
         &Configuration::player_anims.Get(Configuration::PlayerAnim::Suqat));
-    skin->m_animations.emplace(Anim::Attack_Swoard,
+    skin->m_animations.emplace(Anim::Attack_Swoard_0,
                                &Configuration::player_anims.Get(
-                                   Configuration::PlayerAnim::Swoard_Attack));
+                                   Configuration::PlayerAnim::Swoard_Attack_0));
+    skin->m_animations.emplace(Anim::Attack_Swoard_1,
+                               &Configuration::player_anims.Get(
+                                   Configuration::PlayerAnim::Swoard_Attack_1));
+    skin->m_animations.emplace(Anim::Attack_Swoard_2,
+                               &Configuration::player_anims.Get(
+                                   Configuration::PlayerAnim::Swoard_Attack_2));
     skin->m_sprite.SetAnimation(skin->m_animations.at(Anim::Idle));
     skin->m_sprite.Play();
 
@@ -142,13 +149,25 @@ void Player::OnStandup() {
 }
 
 void Player::OnAttack() {
+    if (m_attack_timer.getElapsedTime() < MIN_TIME_BETWEEN_ATTACK) {
+        return;
+    }
     auto skin = Component<foggy::component::Skin>();
-    skin->m_sprite.SetAnimation(skin->m_animations.at(Anim::Attack_Swoard));
-    skin->m_sprite.SetRepeat(1);
-    skin->m_sprite.SetLoop(false);
-    skin->m_sprite.Play();
-    skin->m_sprite.OnFinishd = [this]() { OnAttackFinished(); };
+    if (m_attack_step == 0) {
+        skin->m_sprite.SetAnimation(
+            skin->m_animations.at(Anim::Attack_Swoard_0));
+        skin->m_sprite.SetRepeat(1);
+        skin->m_sprite.SetLoop(false);
+        skin->m_sprite.Play();
+        skin->m_sprite.OnFinishd = [this]() { OnAttackFinished(); };
+    } else if (m_attack_step == 1) {
+        skin->m_sprite.OnFinishd = [this]() { OnAttackTwo(); };
+    } else if (m_attack_step == 2) {
+        skin->m_sprite.OnFinishd = [this]() { OnAttackThree(); };
+    }
+    ++m_attack_step;
     m_freeze = true;
+    m_attack_timer.restart();
 }
 
 void Player::OnAttackFinished() {
@@ -156,5 +175,24 @@ void Player::OnAttackFinished() {
     auto skin = Component<foggy::component::Skin>();
     skin->m_sprite.SetAnimation(skin->m_animations.at(Anim::Idle));
     skin->m_sprite.SetLoop(true);
+    skin->m_sprite.Play();
+    m_attack_step = 0;
+}
+
+void Player::OnAttackTwo() {
+    auto skin = Component<foggy::component::Skin>();
+    skin->m_sprite.SetAnimation(skin->m_animations.at(Anim::Attack_Swoard_1));
+    skin->m_sprite.SetRepeat(1);
+    skin->m_sprite.SetLoop(false);
+    skin->m_sprite.OnFinishd = [this]() { OnAttackFinished(); };
+    skin->m_sprite.Play();
+}
+
+void Player::OnAttackThree() {
+    auto skin = Component<foggy::component::Skin>();
+    skin->m_sprite.SetAnimation(skin->m_animations.at(Anim::Attack_Swoard_2));
+    skin->m_sprite.SetRepeat(1);
+    skin->m_sprite.SetLoop(false);
+    skin->m_sprite.OnFinishd = [this]() { OnAttackFinished(); };
     skin->m_sprite.Play();
 }

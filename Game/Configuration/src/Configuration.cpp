@@ -36,7 +36,7 @@ void Configuration::InitializePlayerInputs() {
 void Configuration::InitializePlayerAnims() {
     player_anims
         .Load(PlayerAnim::Idle, &textures.Get(Textures::PlayerAnim_Sheet))
-        .AddFrameSheet(38, 41, 7, 16, 35, 0);
+        .AddFrameSheet(0, 3, 7, 16, 35, 0);
     player_anims
         .Load(PlayerAnim::Stand, &textures.Get(Textures::PlayerAnim_Sheet))
         .AddFrameSheet(4, 5, 7, 16, 35, 0);
@@ -47,7 +47,15 @@ void Configuration::InitializePlayerAnims() {
         .Load(PlayerAnim::Run, &textures.Get(Textures::PlayerAnim_Sheet))
         .AddFrameSheet(8, 13, 7, 16, 35, 0);
     player_anims
-        .Load(PlayerAnim::Swoard_Attack,
+        .Load(PlayerAnim::Swoard_Attack_0,
               &textures.Get(Textures::PlayerAnim_Sheet))
-        .AddFrameSheet(42, 58, 7, 16, 35, 0);
+        .AddFrameSheet(42, 48, 7, 16, 35, 0);
+    player_anims
+        .Load(PlayerAnim::Swoard_Attack_1,
+              &textures.Get(Textures::PlayerAnim_Sheet))
+        .AddFrameSheet(49, 52, 7, 16, 35, 0);
+    player_anims
+        .Load(PlayerAnim::Swoard_Attack_2,
+              &textures.Get(Textures::PlayerAnim_Sheet))
+        .AddFrameSheet(53, 58, 7, 16, 35, 0);
 }

@@ -21,7 +21,15 @@ class Configuration {
     enum FontType : int { GUI };
     static foggy::ResourceManager<sf::Font, FontType> fonts;
 
-    enum PlayerAnim : int { Idle, Run, Stand, Suqat, Swoard_Attack };
+    enum PlayerAnim : int {
+        Idle,
+        Run,
+        Stand,
+        Suqat,
+        Swoard_Attack_0,
+        Swoard_Attack_1,
+        Swoard_Attack_2
+    };
     static foggy::ResourceManager<foggy::as::Animation, PlayerAnim>
         player_anims;
 

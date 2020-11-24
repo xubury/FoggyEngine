@@ -6,8 +6,17 @@
 
 class Player : public foggy::es::DefaultEntity {
    public:
-    enum Anim { Idle, Run, Stand, Squat, Attack_Swoard };
+    enum Anim {
+        Idle,
+        Run,
+        Stand,
+        Squat,
+        Attack_Swoard_0,
+        Attack_Swoard_1,
+        Attack_Swoard_2
+    };
     static const sf::Time MIN_TIME_BETWEEN_MOVEMENT;
+    static const sf::Time MIN_TIME_BETWEEN_ATTACK;
 
     Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
            foggy::es::CollisionSystem *world);
@@ -22,6 +31,9 @@ class Player : public foggy::es::DefaultEntity {
 
     void OnAttackFinished();
 
+    void OnAttackTwo();
+
+    void OnAttackThree();
     virtual void draw(
         sf::RenderTarget &target,
         sf::RenderStates states = sf::RenderStates::Default) const override;
@@ -30,6 +42,8 @@ class Player : public foggy::es::DefaultEntity {
 
    private:
     sf::Clock m_movement_timer;
+    sf::Clock m_attack_timer;
+    int m_attack_step;
 };
 
 #endif /* PLAYER_H */
