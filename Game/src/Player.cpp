@@ -25,9 +25,11 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
     foggy::component::Collision::Handle collsion =
         manager->AddComponent<foggy::component::Collision>(id, world, body_def);
 
+    sf::IntRect sprite_size = skin->m_animations.at(Anim::Stand)->GetRect(0);
     b2PolygonShape b2polygon_shape;
-    b2polygon_shape.SetAsBox(foggy::converter::PixelsToMeters(25.f / 2),
-                             foggy::converter::PixelsToMeters(37.f / 2));
+    b2polygon_shape.SetAsBox(
+        foggy::converter::PixelsToMeters<float>((float)sprite_size.width / 4),
+        foggy::converter::PixelsToMeters<float>((float)sprite_size.height / 2));
     b2FixtureDef fixture_def;
     fixture_def.density = 1.0;
     fixture_def.friction = 1;
