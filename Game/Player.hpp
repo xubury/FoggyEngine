@@ -44,6 +44,7 @@ class Player : public foggy::es::DefaultEntity {
     sf::Clock m_movement_timer;
     sf::Clock m_attack_timer;
     int m_attack_step;
+    bool m_facing_right;
 };
 
 #endif /* PLAYER_H */

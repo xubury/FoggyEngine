@@ -13,7 +13,10 @@ const sf::Time Player::MIN_TIME_BETWEEN_ATTACK = sf::seconds(0.5);
 
 Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
                foggy::es::CollisionSystem *world)
-    : foggy::es::DefaultEntity(manager, id), m_freeze(false), m_attack_step(0) {
+    : foggy::es::DefaultEntity(manager, id),
+      m_freeze(false),
+      m_attack_step(0),
+      m_facing_right(true) {
     float scale = 2;
     Component<foggy::component::Transform>()->setScale(scale, scale);
     foggy::component::Skin::Handle skin =
@@ -96,9 +99,11 @@ void Player::Move(const sf::Vector2f &impulse) {
     if (impulse.x > foggy::converter::PixelsToMeters(80.0f)) {
         skin->m_sprite.SetAnimation(skin->m_animations.at(Anim::Run));
         skin->m_sprite.setScale(sf::Vector2f(1, 1));
+        m_facing_right = true;
     } else if (impulse.x < foggy::converter::PixelsToMeters(-80.0f)) {
         skin->m_sprite.SetAnimation(skin->m_animations.at(Anim::Run));
         skin->m_sprite.setScale(sf::Vector2f(-1, 1));
+        m_facing_right = false;
     }
     m_movement_timer.restart();
 }
@@ -189,6 +194,13 @@ void Player::OnAttackTwo() {
 }
 
 void Player::OnAttackThree() {
+    b2Body *b2body_ref = Component<foggy::component::Collision>()->b2body_ref;
+    float impulse_x = 10.f;
+    if (!m_facing_right) {
+        impulse_x = -impulse_x;
+    }
+    b2body_ref->ApplyLinearImpulse(b2Vec2(impulse_x, 0),
+                                   b2body_ref->GetWorldCenter(), true);
     auto skin = Component<foggy::component::Skin>();
     skin->m_sprite.SetAnimation(skin->m_animations.at(Anim::Attack_Swoard_2));
     skin->m_sprite.SetRepeat(1);
