@@ -83,31 +83,20 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
         m_anim->m_sprite.Play();
     }
 
-    void OnFirstAttack(const AttackEvent &event) {
+    void OnFirstAttack(const AttackEvent &) {
         m_anim->m_sprite.SetAnimation(m_anim->m_animations.at(Attack_0));
         m_anim->m_sprite.SetLoop(false);
         m_anim->m_sprite.SetRepeat(1);
-        if (event.facing_right) {
-            m_anim->m_sprite.setScale(1, 1);
-        } else {
-            m_anim->m_sprite.setScale(-1, 1);
-        }
-
         m_anim->m_sprite.OnFinishd.emplace(
             [this]() { process_event(IdleEvent{}); });
         m_anim->m_sprite.Play();
     }
 
-    void OnSecondAttack(const AttackEvent &event) {
+    void OnSecondAttack(const AttackEvent &) {
         m_anim->m_sprite.OnFinishd.emplace([this]() {
             m_anim->m_sprite.SetAnimation(m_anim->m_animations.at(Attack_1));
             m_anim->m_sprite.Play();
         });
-        if (event.facing_right) {
-            m_anim->m_sprite.setScale(1, 1);
-        } else {
-            m_anim->m_sprite.setScale(-1, 1);
-        }
     }
 
     void OnThirdAttack(const AttackEvent &event) {
