@@ -4,7 +4,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <functional>
-#include <queue>
+#include <stack>
 
 #include "AnimationSystem/Animation.hpp"
 namespace foggy {
@@ -20,7 +20,7 @@ class AnimatedSprite : public sf::Drawable, public sf::Transformable {
 
     using FuncType = std::function<void()>;
     static FuncType default_func;
-    std::deque<FuncType> OnFinishd;
+    std::stack<FuncType> OnFinishd;
     enum Status { Stopped, Pasued, Playing };
 
     AnimatedSprite(Animation *animation = nullptr, Status status = Playing,

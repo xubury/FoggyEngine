@@ -78,7 +78,7 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
         m_anim->m_sprite.SetAnimation(m_anim->m_animations.at(Stand));
         m_anim->m_sprite.SetLoop(false);
         m_anim->m_sprite.SetRepeat(1);
-        m_anim->m_sprite.OnFinishd.push_back(
+        m_anim->m_sprite.OnFinishd.emplace(
             [this]() { process_event(IdleEvent{}); });
         m_anim->m_sprite.Play();
     }
@@ -93,17 +93,14 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
             m_anim->m_sprite.setScale(-1, 1);
         }
 
-        m_anim->m_sprite.OnFinishd.push_back(
+        m_anim->m_sprite.OnFinishd.emplace(
             [this]() { process_event(IdleEvent{}); });
         m_anim->m_sprite.Play();
     }
 
     void OnSecondAttack(const AttackEvent &event) {
-        m_anim->m_sprite.OnFinishd.pop_back();
-        m_anim->m_sprite.OnFinishd.push_back([this]() {
+        m_anim->m_sprite.OnFinishd.emplace([this]() {
             m_anim->m_sprite.SetAnimation(m_anim->m_animations.at(Attack_1));
-            m_anim->m_sprite.SetLoop(false);
-            m_anim->m_sprite.SetRepeat(1);
             m_anim->m_sprite.Play();
         });
         if (event.facing_right) {
@@ -111,12 +108,9 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
         } else {
             m_anim->m_sprite.setScale(-1, 1);
         }
-        m_anim->m_sprite.OnFinishd.push_back(
-            [this]() { process_event(IdleEvent{}); });
     }
 
     void OnThirdAttack(const AttackEvent &event) {
-        m_anim->m_sprite.OnFinishd.pop_back();
         float impulse_x = foggy::converter::PixelsToMeters(120.f);
         if (event.facing_right) {
             m_anim->m_sprite.setScale(1, 1);
@@ -124,10 +118,8 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
             m_anim->m_sprite.setScale(-1, 1);
             impulse_x = -impulse_x;
         }
-        m_anim->m_sprite.OnFinishd.push_back([this, impulse_x]() {
+        m_anim->m_sprite.OnFinishd.emplace([this, impulse_x]() {
             m_anim->m_sprite.SetAnimation(m_anim->m_animations.at(Attack_2));
-            m_anim->m_sprite.SetLoop(false);
-            m_anim->m_sprite.SetRepeat(1);
             m_anim->m_sprite.Play();
             b2Body *b2body_ref =
                 m_manager->GetComponent<foggy::component::Collision>(m_owner_id)
@@ -135,8 +127,6 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
             b2body_ref->ApplyLinearImpulse(b2Vec2(impulse_x, 0),
                                            b2body_ref->GetWorldCenter(), true);
         });
-        m_anim->m_sprite.OnFinishd.push_back(
-            [this]() { process_event(IdleEvent{}); });
     }
 
    private:
