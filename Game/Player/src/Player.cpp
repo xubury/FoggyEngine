@@ -5,8 +5,8 @@
 #include "EntitySystem/Components/Controller.hpp"
 #include "EntitySystem/Components/Skin.hpp"
 #include "EntitySystem/Components/Transform.hpp"
-#include "Player.hpp"
-#include "PlayerAnimator.hpp"
+#include "Player/Animator/PlayerAnimator.hpp"
+#include "Player/Player.hpp"
 #include "util/converter.hpp"
 
 const sf::Time Player::MIN_TIME_BETWEEN_MOVEMENT = sf::milliseconds(10);
@@ -38,8 +38,8 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
     fixture_def.density =
         40.f / foggy::converter::PixelsToMeters(
                    sprite_size.width * sprite_size.height * scale * scale);
-    fixture_def.friction = 1;
-    fixture_def.restitution = 0.5;
+    fixture_def.friction = 1.f;
+    fixture_def.restitution = 0.f;
     fixture_def.shape = &b2polygon_shape;
     collsion->AddFixture(fixture_def);
     collsion->b2body_ref->SetFixedRotation(true);
@@ -49,7 +49,7 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
         manager->AddComponent<foggy::component::Controller>(
             id, Configuration::player_inputs);
     handle->Bind(Configuration::PlayerInput::Up,
-                 [this](const sf::Event &) { Move(sf::Vector2f(0, 10)); });
+                 [this](const sf::Event &) { Move(sf::Vector2f(0, 20)); });
     handle->Bind(Configuration::PlayerInput::Down,
                  [this](const sf::Event &) { Squat(); });
     handle->Bind(Configuration::PlayerInput::Down_Realeased,

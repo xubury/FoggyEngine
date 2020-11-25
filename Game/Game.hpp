@@ -10,7 +10,7 @@
 #include "Camera/Camera.hpp"
 #include "Engine/TimerSystem/TimerSystem.hpp"
 #include "EntitySystem/Application.hpp"
-#include "HealthSystem.hpp"
+#include "Game/Systems/HealthSystem.hpp"
 
 class Game {
    public:

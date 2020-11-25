@@ -1,4 +1,4 @@
-#include "HealthSystem.hpp"
+#include "Game/Systems/HealthSystem.hpp"
 
 void HealthSystem::Update(
     foggy::es::EntityManager<foggy::es::DefaultEntity> &manager,

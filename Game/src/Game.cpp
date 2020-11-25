@@ -10,7 +10,7 @@
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 #include "EntitySystem/Systems/SkinSystem.hpp"
 #include "Game.hpp"
-#include "Player.hpp"
+#include "Game/Player/Player.hpp"
 #include "TimerSystem/TimerSystem.hpp"
 
 Game::Game(int width, int height, const std::string &title)
@@ -19,7 +19,7 @@ Game::Game(int width, int height, const std::string &title)
       m_hud_camera(m_window.getDefaultView()) {
     m_cam = m_window.getDefaultView();
 
-    m_app.systems.Add<foggy::es::CollisionSystem>(0, -9.8);
+    m_app.systems.Add<foggy::es::CollisionSystem>(0, -30);
     m_app.systems.Add<foggy::es::SkinSystem>();
 }
 
@@ -42,7 +42,7 @@ void Game::Run(int min_fps) {
     b2FixtureDef fixture;
     fixture.density = 1.0;
     fixture.friction = 1.0;
-    fixture.restitution = 0.5;
+    fixture.restitution = 0;
     fixture.shape = &b2polygon_shape;
     collsion->AddFixture(fixture);
 
