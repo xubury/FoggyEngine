@@ -69,8 +69,7 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
 
     void OnSquat(const SitEvent &) {
         m_anim->m_sprite.SetAnimation(m_anim->m_animations.at(Squat));
-        m_anim->m_sprite.SetLoop(false);
-        m_anim->m_sprite.SetRepeat(1);
+        m_anim->m_sprite.SetLoop(true);
         m_anim->m_sprite.Play();
     }
 
