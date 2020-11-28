@@ -26,12 +26,12 @@ struct PlayerAnimator : foggy::component::Animator<PlayerAnimator> {
 
    private:
     void OnIdle(const IdleEvent &);
-    void OnRun(const RunEvent &event);
+    void OnRun(const RunEvent &);
     void OnSquat(const SitEvent &);
     void OnStand(const StandEvent &);
     void OnFirstAttack(const AttackEvent &);
     void OnSecondAttack(const AttackEvent &);
-    void OnThirdAttack(const AttackEvent &event);
+    void OnThirdAttack(const AttackEvent &);
 
    private:
     using transition_table = table<
