@@ -18,7 +18,11 @@ set(ES_Src
     Engine/EntitySystem/Components/src/Transform.cpp
     Engine/EntitySystem/Systems/src/CollisionSystem.cpp)
 
-set(Engine_Src ${Utils_Src} ${ES_Src} ${Animation_Src}
+set(GUI_Src
+    Engine/GUI/src/Widget.cpp Engine/GUI/src/Label.cpp
+    Engine/GUI/src/Button.cpp)
+
+set(Engine_Src ${Utils_Src} ${ES_Src} ${Animation_Src} ${GUI_Src}
     Engine/ActionSystem/src/Action.cpp
     Engine/Camera/src/Camera.cpp
     Engine/TimerSystem/src/TimerSystem.cpp)
