@@ -17,6 +17,8 @@ class Widget : public sf::Drawable {
     virtual sf::Vector2f GetSize() const = 0;
 
    protected:
+    friend class Container;
+    friend class VLayout;
     virtual bool ProcessEvent(const sf::Event &event,
                               const sf::Vector2f &parent_pos);
     virtual void ProcessEvents(const sf::Vector2f &parent_pos);
