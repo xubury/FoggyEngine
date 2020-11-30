@@ -1,4 +1,4 @@
-#include "Game/Player/Animator/PlayerAnimator.hpp"
+#include "Player/Animator/PlayerAnimator.hpp"
 
 PlayerAnimator::PlayerAnimator(const foggy::component::Skin::Handle &handle)
     : Animator(Idle) {

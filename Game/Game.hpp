@@ -8,9 +8,9 @@
 #include <list>
 
 #include "Camera/Camera.hpp"
-#include "Engine/TimerSystem/TimerSystem.hpp"
 #include "EntitySystem/Application.hpp"
-#include "Game/Systems/HealthSystem.hpp"
+#include "Systems/HealthSystem.hpp"
+#include "TimerSystem/TimerSystem.hpp"
 
 class Game {
    public:

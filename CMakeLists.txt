@@ -4,6 +4,7 @@ project(FoggyEngine VERSION 0.1.0)
 
 find_package(SFML 2 COMPONENTS audio graphics window system network)
 find_package(box2d REQUIRED)
+find_package(Lua REQUIRED)
 
 set(Utils_Src
     Engine/util/src/Memory.cpp)
@@ -35,7 +36,12 @@ add_executable(foggy
     Game/Player/src/Player.cpp
     Game/Systems/src/HealthSystem.cpp)
 
-target_link_libraries(foggy PUBLIC sfml-audio sfml-graphics sfml-window sfml-system sfml-network box2d)
+target_link_libraries(foggy PUBLIC 
+    sfml-audio sfml-graphics sfml-window sfml-system sfml-network 
+    box2d 
+    ${LUA_LIBRARIES})
+
+target_include_directories(foggy PUBLIC Game Engine ${LUA_INCLUDE_DIR})
+
 target_compile_options(foggy PUBLIC -Wall -Wextra -Wundef -pedantic)
-target_include_directories(foggy PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} Game Engine)
 

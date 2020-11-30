@@ -1,4 +1,4 @@
-#include "Engine/TimerSystem/TimerSystem.hpp"
+#include "TimerSystem/TimerSystem.hpp"
 
 namespace foggy {
 namespace ts {
@@ -12,11 +12,13 @@ sf::Time Timer::GetRemainingTime() const {
     return m_life_time - m_spawn_timer.getElapsedTime();
 }
 
-bool  Timer::LessRemainingTime::operator()(const Timer &lhs, const Timer &rhs) const {
+bool Timer::LessRemainingTime::operator()(const Timer &lhs,
+                                          const Timer &rhs) const {
     return lhs.GetRemainingTime() > rhs.GetRemainingTime();
 }
 
-bool Timer::GreaterRemainingTime::operator()(const Timer &lhs, const Timer &rhs) const {
+bool Timer::GreaterRemainingTime::operator()(const Timer &lhs,
+                                             const Timer &rhs) const {
     return lhs.GetRemainingTime() > rhs.GetRemainingTime();
 }
 
@@ -36,5 +38,5 @@ void TimerSystem::AddTimer(const sf::Time &time,
     m_queue.emplace(time, callback);
 }
 
-}  // namespace es
+}  // namespace ts
 }  // namespace foggy

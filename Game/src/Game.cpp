@@ -3,15 +3,15 @@
 #include <iostream>
 
 #include "Configuration/Configuration.hpp"
-#include "Engine/util/converter.hpp"
 #include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/Controller.hpp"
 #include "EntitySystem/Components/Skin.hpp"
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 #include "EntitySystem/Systems/SkinSystem.hpp"
 #include "Game.hpp"
-#include "Game/Player/Player.hpp"
+#include "Player/Player.hpp"
 #include "TimerSystem/TimerSystem.hpp"
+#include "util/converter.hpp"
 
 Game::Game(int width, int height, const std::string &title)
     : m_window(sf::VideoMode(width, height), title),
