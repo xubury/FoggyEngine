@@ -132,7 +132,7 @@ class LuaHandler {
                 b2shape.SetAsBox(converter::PixelsToMeters(width / 2),
                                  converter::PixelsToMeters(height / 2));
                 b2FixtureDef fixture_def;
-                fixture_def.density = density;
+                fixture_def.density = density * (32 * 32);
                 fixture_def.friction = friction;
                 fixture_def.restitution = restitution;
                 fixture_def.shape = &b2shape;
