@@ -9,7 +9,6 @@
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 #include "EntitySystem/Systems/SkinSystem.hpp"
 #include "Game.hpp"
-#include "Lua/Handler.hpp"
 #include "Player/Player.hpp"
 #include "TimerSystem/TimerSystem.hpp"
 #include "util/converter.hpp"
@@ -20,10 +19,10 @@ Game::Game(int width, int height, const std::string &title)
       m_hud_camera(m_window.getDefaultView()) {
     m_cam = m_window.getDefaultView();
 
-    foggy::LuaHandler &handler = foggy::LuaHandler::Instance();
-    handler.InitSystem(&m_app.systems);
-    // m_app.systems.Add<foggy::es::CollisionSystem>(0, -30);
-    // m_app.systems.Add<foggy::es::SkinSystem>();
+    foggy::LuaManager &lua_manager = foggy::LuaManager::Instance();
+    lua_manager.Add<foggy::es::LuaCollision>();
+    lua_manager.Lua<foggy::es::LuaCollision>()->InitSystem(&m_app.systems);
+    m_app.systems.Add<foggy::es::SkinSystem>();
 }
 
 void Game::Run(int min_fps) {

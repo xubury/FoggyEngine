@@ -2,10 +2,10 @@
 #define HANDLER_H
 
 #include <iostream>
+#include <memory>
+#include <unordered_map>
 
-#include "EntitySystem/Components/Collision.hpp"
-#include "EntitySystem/ES.hpp"
-#include "EntitySystem/Systems/System.hpp"
+#include "EntitySystem/Defines.hpp"
 #include "Lua/lunar.hpp"
 
 /* Code Snippet(How to iterate over table):
@@ -16,145 +16,94 @@
  * } */
 namespace foggy {
 
-class LuaHandler {
+class VLuaHandler {
    public:
-    LuaHandler(const LuaHandler &) = delete;
-    LuaHandler &operator=(const LuaHandler &) = delete;
-    static LuaHandler &Instance() {
-        static LuaHandler h;
-        return h;
-    }
+    VLuaHandler(const VLuaHandler &) = delete;
+    VLuaHandler &operator=(const VLuaHandler &) = delete;
     void CheckLua(int r) {
         if (r != LUA_OK) {
             std::string errormsg = lua_tostring(L, -1);
             throw std::runtime_error(errormsg);
         }
     }
+
+    virtual ~VLuaHandler() { lua_close(L); }
+
+   protected:
+    VLuaHandler() { L = luaL_newstate(); }
     lua_State *L;
+    static uint32_t s_id_counter;
+};
 
-    template <typename ENTITY>
-    void InitSystem(es::SystemManager<ENTITY> *system) {
-        CheckLua(luaL_dofile(L, "../Systems.lua"));
-        lua_getglobal(L, "SkinSystem");
-        if (lua_istable(L, -1)) {
-            std::cout << "adding skin system" << std::endl;
-            system->template Add<foggy::es::SkinSystem>();
-        }
-        lua_pop(L, 1);
+template <typename T>
+class LuaHandler : public VLuaHandler {
+   public:
+    LuaHandler(const LuaHandler &) = delete;
+    LuaHandler &operator=(const LuaHandler &) = delete;
 
-        lua_getglobal(L, "CollisionSystem");
-        if (lua_istable(L, -1)) {
-            std::cout << "adding collision system" << std::endl;
-            lua_pushstring(L, "y");
-            lua_gettable(L, -2);
-            float y = lua_tonumber(L, -1);
-            lua_pop(L, 1);
+    static uint32_t ID();
 
-            lua_pushstring(L, "x");
-            lua_gettable(L, -2);
-            float x = lua_tonumber(L, -1);
-            lua_pop(L, 1);
+   protected:
+    LuaHandler() = default;
+};
 
-            system->template Add<foggy::es::CollisionSystem>(x, y);
-            m_world = system->template System<es::CollisionSystem>();
-        }
-        lua_pop(L, 1);
+class LuaManager {
+   public:
+    LuaManager(const LuaManager &) = delete;
+    LuaManager &operator=(const LuaManager &) = delete;
+
+    ~LuaManager() = default;
+
+    static LuaManager &Instance() {
+        static LuaManager s_instance;
+        return s_instance;
     }
 
-    template <typename ENTITY>
-    void InitComponent(es::EntityManager<ENTITY> *manager, int id,
-                       const std::string &filename) {
-        CheckLua(luaL_dofile(L, filename.c_str()));
-        ProcessCompCollision(manager, id);
-    }
+    template <typename T>
+    bool Add(std::shared_ptr<T> ptr);
+
+    template <typename T, typename... Args>
+    bool Add(Args &&...args);
+
+    template <typename T>
+    T *Lua();
 
    private:
-    LuaHandler() {
-        L = luaL_newstate();
-        luaL_openlibs(L);
-    }
-    ~LuaHandler() { lua_close(L); }
-    template <typename ENTITY>
-    void ProcessCompCollision(es::EntityManager<ENTITY> *manager, int id) {
-        lua_getglobal(L, "CompCollision");
-        if (lua_istable(L, -1)) {
-            lua_pushstring(L, "body_type");
-            lua_gettable(L, -2);
-            b2BodyType type = (b2BodyType)lua_tointeger(L, -1);
-            lua_pop(L, 1);
+    LuaManager() = default;
 
-            lua_pushstring(L, "fix_angle");
-            lua_gettable(L, -2);
-            bool fix_angle = lua_toboolean(L, -1);
-            lua_pop(L, 1);
-
-            b2BodyDef body_def;
-            body_def.type = type;
-            body_def.fixedRotation = fix_angle;
-
-            auto collision =
-                manager->template AddComponent<component::Collision>(
-                    id, m_world, body_def);
-            std::cout << "Comp Collision Added" << std::endl;
-
-            // Adding Fixture
-            lua_pushnil(L);
-            for (; lua_next(L, -2) != 0; lua_pop(L, 1)) {
-                if (!lua_istable(L, -1)) continue;
-                lua_pushstring(L, "shape");
-                lua_gettable(L, -2);
-                std::string shape = lua_tostring(L, -1);
-                lua_pop(L, 1);
-                if (shape == "Polygon") {
-                    std::cout << "Adding " << shape << " fixture"
-                              << "\n";
-                    PopulatePolygonFixture(collision);
-                }
-            }
-            std::flush(std::cout);
-        }
-        lua_pop(L, 1);
-    }
-
-    void PopulatePolygonFixture(component::Collision::Handle &handle) {
-        lua_pushstring(L, "width");
-        lua_gettable(L, -2);
-        float width = lua_tonumber(L, -1);
-        lua_pop(L, 1);
-
-        lua_pushstring(L, "height");
-        lua_gettable(L, -2);
-        float height = lua_tonumber(L, -1);
-        lua_pop(L, 1);
-
-        lua_pushstring(L, "density");
-        lua_gettable(L, -2);
-        float density = lua_tonumber(L, -1);
-        lua_pop(L, 1);
-
-        lua_pushstring(L, "friction");
-        lua_gettable(L, -2);
-        float friction = lua_tonumber(L, -1);
-        lua_pop(L, 1);
-
-        lua_pushstring(L, "restitution");
-        lua_gettable(L, -2);
-        float restitution = lua_tonumber(L, -1);
-        lua_pop(L, 1);
-
-        b2PolygonShape b2shape;
-        b2shape.SetAsBox(converter::PixelsToMeters(width / 2),
-                         converter::PixelsToMeters(height / 2));
-        b2FixtureDef fixture_def;
-        fixture_def.density = density * (32 * 32);
-        fixture_def.friction = friction;
-        fixture_def.restitution = restitution;
-        fixture_def.shape = &b2shape;
-        handle->AddFixture(fixture_def);
-    }
-
-    es::CollisionSystem *m_world;
+   private:
+    std::unordered_map<uint32_t, std::shared_ptr<VLuaHandler>> m_lua_tables;
 };
+
+template <typename T>
+uint32_t LuaHandler<T>::ID() {
+    static uint32_t id = VLuaHandler::s_id_counter++;
+    return id;
+}
+
+template <typename T>
+T *LuaManager::Lua() {
+    return std::static_pointer_cast<T>(m_lua_tables.at(T::ID())).get();
+}
+template <typename T>
+bool LuaManager::Add(std::shared_ptr<T> ptr) {
+    if (m_lua_tables.count(T::ID()) == 0) {
+        m_lua_tables.insert(std::make_pair(T::ID(), ptr));
+        return true;
+    }
+    return false;
+}
+
+template <typename T, typename... Args>
+bool LuaManager::Add(Args &&...args) {
+    if (m_lua_tables.count(T::ID()) == 0) {
+        m_lua_tables.emplace(
+            T::ID(), std::shared_ptr<T>(new T(std::forward<Args>(args)...)));
+        return true;
+    }
+    return false;
+}
+
 }  // namespace foggy
 
 #endif /* HANDLER_H */

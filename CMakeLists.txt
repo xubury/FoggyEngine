@@ -6,6 +6,9 @@ find_package(SFML 2 COMPONENTS audio graphics window system network)
 find_package(box2d REQUIRED)
 find_package(Lua REQUIRED)
 
+set(Lua_Src
+    Engine/Lua/src/Handler.cpp)
+
 set(Utils_Src
     Engine/util/src/Memory.cpp)
 
@@ -25,6 +28,7 @@ set(GUI_Src
     Engine/GUI/src/Container.cpp Engine/GUI/src/Label.cpp)
 
 set(Engine_Src ${Utils_Src} ${ES_Src} ${Animation_Src} ${GUI_Src}
+    ${Lua_Src}
     Engine/ActionSystem/src/Action.cpp
     Engine/Camera/src/Camera.cpp
     Engine/TimerSystem/src/TimerSystem.cpp)

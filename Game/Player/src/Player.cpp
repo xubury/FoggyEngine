@@ -9,6 +9,7 @@
 #include "Player/Animator/PlayerAnimator.hpp"
 #include "Player/Player.hpp"
 #include "util/converter.hpp"
+
 const sf::Time Player::MIN_TIME_BETWEEN_MOVEMENT = sf::milliseconds(10);
 const sf::Time Player::MIN_TIME_BETWEEN_ATTACK = sf::seconds(0.5);
 
@@ -21,8 +22,9 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
 
     manager->AddComponent<PlayerAnimator>(id, skin);
 
-    foggy::LuaHandler &handler = foggy::LuaHandler::Instance();
-    handler.InitComponent(manager, id, "../Player.lua");
+    foggy::LuaManager &lua_manager = foggy::LuaManager::Instance();
+    lua_manager.Lua<foggy::es::LuaCollision>()->InitComponent(manager, id,
+                                                              "../Player.lua");
 
     foggy::component::Controller::Handle handle =
         manager->AddComponent<foggy::component::Controller>(
