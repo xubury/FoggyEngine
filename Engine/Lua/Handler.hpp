@@ -8,7 +8,7 @@
 #include "EntitySystem/Systems/System.hpp"
 #include "Lua/lunar.hpp"
 
-/* Code Snippet(How to iterate over tabel):
+/* Code Snippet(How to iterate over table):
  * lua_pushnil(L);
  * for (; lua_next(L, -2) != 0; lua_pop(L, 1)) {
  * if (!lua_istable(L, -1)) continue;
@@ -101,46 +101,56 @@ class LuaHandler {
             lua_pushnil(L);
             for (; lua_next(L, -2) != 0; lua_pop(L, 1)) {
                 if (!lua_istable(L, -1)) continue;
-                std::cout << "Adding fixture"
-                          << "\n";
-                lua_pushstring(L, "width");
+                lua_pushstring(L, "shape");
                 lua_gettable(L, -2);
-                float width = lua_tonumber(L, -1);
+                std::string shape = lua_tostring(L, -1);
                 lua_pop(L, 1);
-
-                lua_pushstring(L, "height");
-                lua_gettable(L, -2);
-                float height = lua_tonumber(L, -1);
-                lua_pop(L, 1);
-
-                lua_pushstring(L, "density");
-                lua_gettable(L, -2);
-                float density = lua_tonumber(L, -1);
-                lua_pop(L, 1);
-
-                lua_pushstring(L, "friction");
-                lua_gettable(L, -2);
-                float friction = lua_tonumber(L, -1);
-                lua_pop(L, 1);
-
-                lua_pushstring(L, "restitution");
-                lua_gettable(L, -2);
-                float restitution = lua_tonumber(L, -1);
-                lua_pop(L, 1);
-
-                b2PolygonShape b2shape;
-                b2shape.SetAsBox(converter::PixelsToMeters(width / 2),
-                                 converter::PixelsToMeters(height / 2));
-                b2FixtureDef fixture_def;
-                fixture_def.density = density * (32 * 32);
-                fixture_def.friction = friction;
-                fixture_def.restitution = restitution;
-                fixture_def.shape = &b2shape;
-                collision->AddFixture(fixture_def);
+                if (shape == "Polygon") {
+                    std::cout << "Adding " << shape << " fixture"
+                              << "\n";
+                    PopulatePolygonFixture(collision);
+                }
             }
             std::flush(std::cout);
         }
         lua_pop(L, 1);
+    }
+
+    void PopulatePolygonFixture(component::Collision::Handle &handle) {
+        lua_pushstring(L, "width");
+        lua_gettable(L, -2);
+        float width = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        lua_pushstring(L, "height");
+        lua_gettable(L, -2);
+        float height = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        lua_pushstring(L, "density");
+        lua_gettable(L, -2);
+        float density = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        lua_pushstring(L, "friction");
+        lua_gettable(L, -2);
+        float friction = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        lua_pushstring(L, "restitution");
+        lua_gettable(L, -2);
+        float restitution = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        b2PolygonShape b2shape;
+        b2shape.SetAsBox(converter::PixelsToMeters(width / 2),
+                         converter::PixelsToMeters(height / 2));
+        b2FixtureDef fixture_def;
+        fixture_def.density = density * (32 * 32);
+        fixture_def.friction = friction;
+        fixture_def.restitution = restitution;
+        fixture_def.shape = &b2shape;
+        handle->AddFixture(fixture_def);
     }
 
     es::CollisionSystem *m_world;
