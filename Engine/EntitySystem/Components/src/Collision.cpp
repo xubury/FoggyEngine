@@ -5,6 +5,8 @@
 #include "EntitySystem/Components/Transform.hpp"
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 
+#define SOL_NO_COMPAT 1
+#include <sol/compatibility.hpp>
 namespace foggy {
 namespace component {
 
@@ -12,6 +14,8 @@ Collision::Collision(es::CollisionSystem *world, b2BodyDef &def, bool debug)
     : debug(debug) {
     b2body_ref = world->CreateBody(&def);
 }
+
+Collision::~Collision() { b2body_ref->GetWorld()->DestroyBody(b2body_ref); }
 
 void Collision::AddFixture(const b2FixtureDef &fixture) {
     /* To stay consistance with the transform, we have to remove the
@@ -53,6 +57,5 @@ void Collision::AddFixture(const b2FixtureDef &fixture) {
     b2body_ref->CreateFixture(&fixture);
 }
 
-Collision::~Collision() { b2body_ref->GetWorld()->DestroyBody(b2body_ref); }
 }  // namespace component
 }  // namespace foggy

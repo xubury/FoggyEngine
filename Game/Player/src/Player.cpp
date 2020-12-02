@@ -5,15 +5,14 @@
 #include "EntitySystem/Components/Controller.hpp"
 #include "EntitySystem/Components/Skin.hpp"
 #include "EntitySystem/Components/Transform.hpp"
+#include "Lua/Handler.hpp"
 #include "Player/Animator/PlayerAnimator.hpp"
 #include "Player/Player.hpp"
 #include "util/converter.hpp"
-
 const sf::Time Player::MIN_TIME_BETWEEN_MOVEMENT = sf::milliseconds(10);
 const sf::Time Player::MIN_TIME_BETWEEN_ATTACK = sf::seconds(0.5);
 
-Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
-               foggy::es::CollisionSystem *world)
+Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     : foggy::es::DefaultEntity(manager, id), m_facing_right(true) {
     float scale = 2;
     Component<foggy::component::Transform>()->setScale(scale, scale);
@@ -22,28 +21,8 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
 
     manager->AddComponent<PlayerAnimator>(id, skin);
 
-    b2BodyDef body_def;
-    body_def.type = b2_dynamicBody;
-    foggy::component::Collision::Handle collsion =
-        manager->AddComponent<foggy::component::Collision>(id, world, body_def);
-
-    sf::IntRect sprite_size =
-        skin->m_animations.at(PlayerAnimator::Idle)->GetRect(0);
-    b2PolygonShape b2polygon_shape;
-    b2polygon_shape.SetAsBox(foggy::converter::PixelsToMeters<float>(
-                                 (float)sprite_size.width * scale / 4),
-                             foggy::converter::PixelsToMeters<float>(
-                                 (float)sprite_size.height * scale / 2));
-    b2FixtureDef fixture_def;
-    fixture_def.density =
-        40.f / foggy::converter::PixelsToMeters(
-                   sprite_size.width * sprite_size.height * scale * scale);
-    fixture_def.friction = 1.f;
-    fixture_def.restitution = 0.f;
-    fixture_def.shape = &b2polygon_shape;
-    collsion->AddFixture(fixture_def);
-    collsion->b2body_ref->SetFixedRotation(true);
-    collsion->b2body_ref->SetLinearDamping(2.f);
+    foggy::LuaHandler &handler = foggy::LuaHandler::Instance();
+    handler.InitComponent(manager, id, "../Player.lua");
 
     foggy::component::Controller::Handle handle =
         manager->AddComponent<foggy::component::Controller>(

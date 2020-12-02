@@ -9,8 +9,7 @@ class Player : public foggy::es::DefaultEntity {
     static const sf::Time MIN_TIME_BETWEEN_MOVEMENT;
     static const sf::Time MIN_TIME_BETWEEN_ATTACK;
 
-    Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id,
-           foggy::es::CollisionSystem *world);
+    Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id);
 
     void Move(const sf::Vector2f &impulse);
 
