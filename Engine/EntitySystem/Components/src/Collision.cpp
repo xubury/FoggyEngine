@@ -5,8 +5,6 @@
 #include "EntitySystem/Components/Transform.hpp"
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 
-#define SOL_NO_COMPAT 1
-#include <sol/compatibility.hpp>
 namespace foggy {
 namespace component {
 
