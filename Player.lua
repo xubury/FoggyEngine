@@ -5,7 +5,7 @@ Transform = {
 
 CompCollision = {
     body_type = 2,
-    fix_angle = true;
+    fix_angle = true,
     fixture_1 = {
         shape = "Polygon",
         width = 30,

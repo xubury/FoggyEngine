@@ -49,11 +49,6 @@ void LuaCollision::InitComponent(es::EntityManager<es::DefaultEntity> *manager,
                                  int id, const std::string &filename) {
     assert(m_world != nullptr);
     CheckLua(luaL_dofile(L, filename.c_str()));
-    ProcessCompCollision(manager, id);
-}
-
-void LuaCollision::ProcessCompCollision(
-    es::EntityManager<es::DefaultEntity> *manager, int id) {
     lua_getglobal(L, "CompCollision");
     if (lua_istable(L, -1)) {
         lua_pushstring(L, "body_type");

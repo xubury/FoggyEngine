@@ -30,8 +30,6 @@ class LuaCollision : public LuaHandler<LuaCollision> {
     friend class foggy::LuaManager;
 
     LuaCollision() : m_world(nullptr){};
-    void ProcessCompCollision(es::EntityManager<es::DefaultEntity> *manager,
-                              int id);
 
     void PopulatePolygonFixture(component::Collision::Handle &handle);
 
