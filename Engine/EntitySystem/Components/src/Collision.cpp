@@ -45,11 +45,8 @@ void Collision::AddFixture(const b2FixtureDef &fixture) {
             b2Vec2 pt = rect->GetVertex(i);
             convex->setPoint(
                 i, sf::Vector2f(converter::MetersToPixels(pt.x / scale.x),
-                                converter::MetersToPixels(pt.y / scale.y)));
+                                converter::MetersToPixels(-pt.y / scale.y)));
         }
-        convex->setOrigin(
-            converter::MetersToPixels(rect->m_centroid.x / scale.x),
-            converter::MetersToPixels(rect->m_centroid.y / scale.y));
     }
     debug_shape.back()->setFillColor(sf::Color::Transparent);
     debug_shape.back()->setOutlineColor(sf::Color::Green);

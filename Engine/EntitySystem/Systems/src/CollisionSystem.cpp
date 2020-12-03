@@ -92,15 +92,34 @@ void LuaCollision::InitComponent(es::EntityManager<es::DefaultEntity> *manager,
 }
 
 void LuaCollision::PopulatePolygonFixture(component::Collision *collision) {
-    lua_pushstring(L, "width");
+    lua_pushstring(L, "vertices");
     lua_gettable(L, -2);
-    float width = lua_tonumber(L, -1);
+    lua_pushnil(L);
+    std::vector<b2Vec2> vertices;
+    for (; lua_next(L, -2) != 0; lua_pop(L, 1)) {
+        if (!lua_istable(L, -1)) continue;
+        lua_rawgeti(L, -1, 1);
+        float x = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        lua_rawgeti(L, -1, 2);
+        float y = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        vertices.emplace_back(converter::PixelsToMeters(x),
+                              converter::PixelsToMeters(y));
+    }
     lua_pop(L, 1);
 
-    lua_pushstring(L, "height");
+    lua_pushstring(L, "center");
     lua_gettable(L, -2);
-    float height = lua_tonumber(L, -1);
+    lua_rawgeti(L, -1, 1);
+    float center_x = lua_tonumber(L, -1);
     lua_pop(L, 1);
+    lua_rawgeti(L, -1, 2);
+    float center_y = lua_tonumber(L, -1);
+    b2Vec2 center(center_x, center_y);
+    lua_pop(L, 2);
 
     lua_pushstring(L, "density");
     lua_gettable(L, -2);
@@ -118,8 +137,7 @@ void LuaCollision::PopulatePolygonFixture(component::Collision *collision) {
     lua_pop(L, 1);
 
     b2PolygonShape b2shape;
-    b2shape.SetAsBox(converter::PixelsToMeters(width / 2),
-                     converter::PixelsToMeters(height / 2));
+    b2shape.Set(vertices.data(), vertices.size());
     b2FixtureDef fixture_def;
     fixture_def.density = density * (32 * 32);
     fixture_def.friction = friction;

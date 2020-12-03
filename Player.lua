@@ -8,16 +8,9 @@ CompCollision = {
     fix_angle = true,
     fixture_1 = {
         shape = "Polygon",
-        width = 30,
-        height = 65,
+        center = {0.5, 0.5},
+        vertices = {{-15, 35}, {-15, -35}, {15, -35}, {15, 35}},
         density = 0.5 / (30 * 65),
-        friction = 1,
-        restitution = 0
-    },
-    fixture_2 = {
-        shape = "Circle",
-        radius = 30,
-        density = 0.5 / (30 * 30),
         friction = 1,
         restitution = 0
     }
