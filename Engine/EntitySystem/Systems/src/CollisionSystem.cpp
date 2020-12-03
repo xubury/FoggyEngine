@@ -1,3 +1,4 @@
+#include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/Transform.hpp"
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 
@@ -77,10 +78,12 @@ void LuaCollision::InitComponent(es::EntityManager<es::DefaultEntity> *manager,
             lua_gettable(L, -2);
             std::string shape = lua_tostring(L, -1);
             lua_pop(L, 1);
+            std::cout << "Adding " << shape << " fixture"
+                      << "\n";
             if (shape == "Polygon") {
-                std::cout << "Adding " << shape << " fixture"
-                          << "\n";
-                PopulatePolygonFixture(collision);
+                PopulatePolygonFixture(collision.Get());
+            } else if (shape == "Circle") {
+                PopulateCircleFixture(collision.Get());
             }
         }
         std::flush(std::cout);
@@ -88,8 +91,7 @@ void LuaCollision::InitComponent(es::EntityManager<es::DefaultEntity> *manager,
     lua_pop(L, 1);
 }
 
-void LuaCollision::PopulatePolygonFixture(
-    component::Collision::Handle &handle) {
+void LuaCollision::PopulatePolygonFixture(component::Collision *collision) {
     lua_pushstring(L, "width");
     lua_gettable(L, -2);
     float width = lua_tonumber(L, -1);
@@ -123,7 +125,38 @@ void LuaCollision::PopulatePolygonFixture(
     fixture_def.friction = friction;
     fixture_def.restitution = restitution;
     fixture_def.shape = &b2shape;
-    handle->AddFixture(fixture_def);
+    collision->AddFixture(fixture_def);
+}
+
+void LuaCollision::PopulateCircleFixture(component::Collision *collision) {
+    lua_pushstring(L, "radius");
+    lua_gettable(L, -2);
+    float raidus = lua_tonumber(L, -1);
+    lua_pop(L, 1);
+
+    lua_pushstring(L, "density");
+    lua_gettable(L, -2);
+    float density = lua_tonumber(L, -1);
+    lua_pop(L, 1);
+
+    lua_pushstring(L, "friction");
+    lua_gettable(L, -2);
+    float friction = lua_tonumber(L, -1);
+    lua_pop(L, 1);
+
+    lua_pushstring(L, "restitution");
+    lua_gettable(L, -2);
+    float restitution = lua_tonumber(L, -1);
+    lua_pop(L, 1);
+
+    b2CircleShape b2shape;
+    b2shape.m_radius = converter::PixelsToMeters(raidus);
+    b2FixtureDef fixture_def;
+    fixture_def.density = density * (32 * 32);
+    fixture_def.friction = friction;
+    fixture_def.restitution = restitution;
+    fixture_def.shape = &b2shape;
+    collision->AddFixture(fixture_def);
 }
 
 }  // namespace es
