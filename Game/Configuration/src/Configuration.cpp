@@ -9,20 +9,32 @@ foggy::ResourceManager<foggy::as::Animation, Configuration::PlayerAnim>
     Configuration::player_anims;
 
 void Configuration::Initialize() {
-    InitializeFonts();
-    InitializeTextures();
+    lua_State *L = luaL_newstate();
+    luaL_openlibs(L);
+    lua_register(L, "_LoadTexture", lua_LoadTexture);
+    lua_register(L, "_LoadFont", lua_LoadFont);
+
+    LUA_BEGIN_ENUM_TABLE(L)
+    LUA_ENUM_REGISTER(L, Fira)
+    LUA_ENUM_REGISTER(L, GUI)
+    LUA_END_ENUM_TABLE(L, FontType)
+
+    LUA_BEGIN_ENUM_TABLE(L)
+    LUA_ENUM_REGISTER(L, PlayerAnim_Sheet)
+    LUA_END_ENUM_TABLE(L, Textures)
+
+    foggy::CheckLua(L, luaL_dofile(L, "../Resources.lua"));
+    lua_getglobal(L, "LoadResources");
+
+    if (lua_isfunction(L, -1)) {
+        foggy::CheckLua(L, lua_pcall(L, 0, 0, 0));
+    }
+    lua_pop(L, 1);
 
     InitializePlayerInputs();
     InitializePlayerAnims();
 }
 
-void Configuration::InitializeTextures() {
-    textures.Load(Textures::PlayerAnim_Sheet, "adventurer-v1.5-Sheet.png");
-}
-
-void Configuration::InitializeFonts() {
-    fonts.Load(FontType::GUI, "arial.ttf");
-}
 void Configuration::InitializePlayerInputs() {
     player_inputs.Map(PlayerInput::Up, foggy::Action(sf::Keyboard::W));
     player_inputs.Map(PlayerInput::Down, foggy::Action(sf::Keyboard::S));
@@ -58,4 +70,20 @@ void Configuration::InitializePlayerAnims() {
         .Load(PlayerAnim::Swoard_Attack_2,
               &textures.Get(Textures::PlayerAnim_Sheet))
         .AddFrameSheet(53, 58, 7, 16, 35, 0);
+}
+
+int Configuration::lua_LoadTexture(lua_State *L) {
+    if (lua_gettop(L) != 2) return -1;
+    int id = lua_tointeger(L, 1);
+    std::string filename = lua_tostring(L, 2);
+    textures.Load((Textures)id, filename);
+    return 0;
+}
+
+int Configuration::lua_LoadFont(lua_State *L) {
+    if (lua_gettop(L) != 2) return -1;
+    int id = lua_tointeger(L, 1);
+    std::string filename = lua_tostring(L, 2);
+    fonts.Load((FontType)id, filename);
+    return 0;
 }

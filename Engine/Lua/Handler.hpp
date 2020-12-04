@@ -7,8 +7,7 @@
 
 #include "EntitySystem/Defines.hpp"
 #include "EntitySystem/ES.hpp"
-#include "Lua/lunar.hpp"
-
+#include "Lua/utils.hpp"
 /* Code Snippet(How to iterate over table):
  * lua_pushnil(L);
  * for (; lua_next(L, -2) != 0; lua_pop(L, 1)) {
@@ -21,12 +20,7 @@ class VLuaHandler {
    public:
     VLuaHandler(const VLuaHandler &) = delete;
     VLuaHandler &operator=(const VLuaHandler &) = delete;
-    void CheckLua(int r) {
-        if (r != LUA_OK) {
-            std::string errormsg = lua_tostring(L, -1);
-            throw std::runtime_error(errormsg);
-        }
-    }
+    void CheckLua(int r) { ::foggy::CheckLua(L, r); }
     virtual void InitComponent(es::EntityManager<es::DefaultEntity> *manager,
                                int id, const std::string &filename) = 0;
 

@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Font.hpp>
 
 #include "ActionSystem/ActionMap.hpp"
+#include "Lua/utils.hpp"
 #include "ResourceManager/ResourceManager.hpp"
 
 class Configuration {
@@ -18,7 +19,7 @@ class Configuration {
 
     static foggy::ActionMap<int> player_inputs;
 
-    enum FontType : int { GUI };
+    enum FontType : int { GUI, Fira };
     static foggy::ResourceManager<sf::Font, FontType> fonts;
 
     enum PlayerAnim : int {
@@ -30,23 +31,22 @@ class Configuration {
         Swoard_Attack_1,
         Swoard_Attack_2
     };
+
     static foggy::ResourceManager<foggy::as::Animation, PlayerAnim>
         player_anims;
 
     enum Textures : int {
         PlayerAnim_Sheet,
-        PlayerAnim_Idle0,
-        PlayerAnim_Idle1,
-        PlayerAnim_Idle2,
-        PlayerAnim_Idle3,
     };
+
     static foggy::ResourceManager<sf::Texture, Textures> textures;
 
    private:
-    static void InitializeFonts();
-    static void InitializeTextures();
     static void InitializePlayerInputs();
     static void InitializePlayerAnims();
+
+    static int lua_LoadTexture(lua_State *L);
+    static int lua_LoadFont(lua_State *L);
 };
 
 #endif /* CONFIGURATION_H */
