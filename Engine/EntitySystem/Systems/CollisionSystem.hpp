@@ -20,15 +20,14 @@ class CollisionSystem : public System<component::Collision, es::DefaultEntity>,
 
 class LuaCollision : public LuaHandler<LuaCollision> {
    public:
-    void InitSystem(es::SystemManager<es::DefaultEntity> *manager);
-
     void InitComponent(es::EntityManager<es::DefaultEntity> *manager, int id,
-                       const std::string &filename);
+                       const std::string &filename) override;
 
    private:
     friend class foggy::LuaManager;
 
-    LuaCollision() : m_world(nullptr){};
+    LuaCollision(es::SystemManager<es::DefaultEntity> *manager,
+                 const std::string &filename);
 
     void PopulatePolygonFixture(component::Collision *handle);
 

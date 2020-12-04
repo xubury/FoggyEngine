@@ -24,8 +24,10 @@ void CollisionSystem::Update(es::EntityManager<es::DefaultEntity> &manager,
     }
 }
 
-void LuaCollision::InitSystem(es::SystemManager<es::DefaultEntity> *manager) {
-    CheckLua(luaL_dofile(L, "../Systems.lua"));
+LuaCollision::LuaCollision(SystemManager<es::DefaultEntity> *manager,
+                           const std::string &filename)
+    : m_world(nullptr) {
+    CheckLua(luaL_dofile(L, filename.c_str()));
 
     lua_getglobal(L, "CollisionSystem");
     if (lua_istable(L, -1)) {

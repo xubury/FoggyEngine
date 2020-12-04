@@ -6,6 +6,7 @@
 #include <unordered_map>
 
 #include "EntitySystem/Defines.hpp"
+#include "EntitySystem/ES.hpp"
 #include "Lua/lunar.hpp"
 
 /* Code Snippet(How to iterate over table):
@@ -26,6 +27,8 @@ class VLuaHandler {
             throw std::runtime_error(errormsg);
         }
     }
+    virtual void InitComponent(es::EntityManager<es::DefaultEntity> *manager,
+                               int id, const std::string &filename) = 0;
 
     virtual ~VLuaHandler() { lua_close(L); }
 

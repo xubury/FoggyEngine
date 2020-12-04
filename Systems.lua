@@ -1,4 +1,4 @@
-SkinSystem = {}
+AnimSystem = {}
 
 CollisionSystem = {
     x = 0,

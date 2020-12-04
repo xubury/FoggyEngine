@@ -20,7 +20,8 @@ set(ES_Src
     Engine/EntitySystem/Entities/src/Entity.cpp
     Engine/EntitySystem/Components/src/Collision.cpp
     Engine/EntitySystem/Components/src/Transform.cpp
-    Engine/EntitySystem/Systems/src/CollisionSystem.cpp)
+    Engine/EntitySystem/Systems/src/CollisionSystem.cpp
+    Engine/EntitySystem/Systems/src/SkinSystem.cpp)
 
 set(GUI_Src
     Engine/GUI/src/Widget.cpp Engine/GUI/src/Label.cpp
