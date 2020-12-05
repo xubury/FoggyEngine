@@ -45,8 +45,8 @@ class Configuration {
     static void InitializePlayerInputs();
     static void InitializePlayerAnims();
 
-    static int lua_LoadTexture(lua_State *L);
-    static int lua_LoadFont(lua_State *L);
+    static void LoadTexture(int id, const std::string &name);
+    static void LoadFont(int id, const std::string &name);
 };
 
 #endif /* CONFIGURATION_H */

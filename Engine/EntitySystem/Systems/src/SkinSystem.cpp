@@ -1,3 +1,5 @@
+#include <sol/sol.hpp>
+
 #include "EntitySystem/Components/Skin.hpp"
 #include "EntitySystem/Systems/SkinSystem.hpp"
 
@@ -17,19 +19,19 @@ void SkinSystem::Update(es::EntityManager<es::DefaultEntity> &manager,
 
 LuaAnimation::LuaAnimation(es::SystemManager<es::DefaultEntity> *manager,
                            const std::string &filename) {
-    CheckLua(luaL_dofile(L, filename.c_str()));
-
-    lua_getglobal(L, "AnimSystem");
-    if (lua_istable(L, -1)) {
+    sol::state lua;
+    lua.script_file(filename);
+    sol::object system = lua["AnimSystem"];
+    if (system.is<sol::table>()) {
         std::cout << "adding Animation system" << std::endl;
         manager->Add<foggy::es::SkinSystem>();
     }
-    lua_pop(L, 1);
 }
 
 void LuaAnimation::InitComponent(es::EntityManager<es::DefaultEntity> *manager,
                                  int id, const std::string &filename) {
-    CheckLua(luaL_dofile(L, filename.c_str()));
+    sol::state lua;
+    lua.script_file(filename);
     manager->AddComponent<component::Skin>(id);
 }
 

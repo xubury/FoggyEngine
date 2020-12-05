@@ -3,6 +3,8 @@
 
 #include <Box2D/Box2D.h>
 
+#include <sol/sol.hpp>
+
 #include "EntitySystem/ES.hpp"
 #include "EntitySystem/Entities/Entity.hpp"
 #include "Lua/Handler.hpp"
@@ -29,9 +31,10 @@ class LuaCollision : public LuaHandler<LuaCollision> {
     LuaCollision(es::SystemManager<es::DefaultEntity> *manager,
                  const std::string &filename);
 
-    void PopulatePolygonFixture(component::Collision *handle);
+    void PopulatePolygonFixture(sol::table &table,
+                                component::Collision *handle);
 
-    void PopulateCircleFixture(component::Collision *handle);
+    void PopulateCircleFixture(sol::table &table, component::Collision *handle);
 
     es::CollisionSystem *m_world;
 };

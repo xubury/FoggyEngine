@@ -1,3 +1,5 @@
+#include <sol/sol.hpp>
+
 #include "Configuration/Configuration.hpp"
 
 foggy::ResourceManager<sf::Texture, Configuration::Textures>
@@ -9,27 +11,17 @@ foggy::ResourceManager<foggy::as::Animation, Configuration::PlayerAnim>
     Configuration::player_anims;
 
 void Configuration::Initialize() {
-    lua_State *L = luaL_newstate();
-    luaL_openlibs(L);
-    lua_register(L, "_LoadTexture", lua_LoadTexture);
-    lua_register(L, "_LoadFont", lua_LoadFont);
+    sol::state lua;
 
-    LUA_BEGIN_ENUM_TABLE(L)
-    LUA_ENUM_REGISTER(L, Fira)
-    LUA_ENUM_REGISTER(L, GUI)
-    LUA_END_ENUM_TABLE(L, FontType)
+    lua["Textures"] =
+        lua.create_table_with("PlayerAnim_Sheet", PlayerAnim_Sheet);
+    lua["FontType"] = lua.create_table_with("GUI", GUI, "Fira", Fira);
 
-    LUA_BEGIN_ENUM_TABLE(L)
-    LUA_ENUM_REGISTER(L, PlayerAnim_Sheet)
-    LUA_END_ENUM_TABLE(L, Textures)
+    lua.set_function("LoadFont", LoadFont);
+    lua.set_function("LoadTexture", LoadTexture);
 
-    foggy::CheckLua(L, luaL_dofile(L, "../Resources.lua"));
-    lua_getglobal(L, "LoadResources");
-
-    if (lua_isfunction(L, -1)) {
-        foggy::CheckLua(L, lua_pcall(L, 0, 0, 0));
-    }
-    lua_pop(L, 1);
+    lua.script_file("../Resources.lua");
+    lua["LoadResources"]();
 
     InitializePlayerInputs();
     InitializePlayerAnims();
@@ -72,18 +64,10 @@ void Configuration::InitializePlayerAnims() {
         .AddFrameSheet(53, 58, 7, 16, 35, 0);
 }
 
-int Configuration::lua_LoadTexture(lua_State *L) {
-    if (lua_gettop(L) != 2) return -1;
-    int id = lua_tointeger(L, 1);
-    std::string filename = lua_tostring(L, 2);
+void Configuration::LoadTexture(int id, const std::string &filename) {
     textures.Load((Textures)id, filename);
-    return 0;
 }
 
-int Configuration::lua_LoadFont(lua_State *L) {
-    if (lua_gettop(L) != 2) return -1;
-    int id = lua_tointeger(L, 1);
-    std::string filename = lua_tostring(L, 2);
+void Configuration::LoadFont(int id, const std::string &filename) {
     fonts.Load((FontType)id, filename);
-    return 0;
 }

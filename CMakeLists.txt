@@ -48,5 +48,5 @@ target_link_libraries(foggy PUBLIC
 
 target_include_directories(foggy PUBLIC Game Engine ${LUA_INCLUDE_DIR})
 
-target_compile_options(foggy PUBLIC -Wall -Wextra -Wundef -pedantic)
+target_compile_options(foggy PUBLIC -Wall -Wextra -Wundef -pedantic -std=c++17)
 

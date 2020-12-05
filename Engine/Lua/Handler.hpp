@@ -20,15 +20,13 @@ class VLuaHandler {
    public:
     VLuaHandler(const VLuaHandler &) = delete;
     VLuaHandler &operator=(const VLuaHandler &) = delete;
-    void CheckLua(int r) { ::foggy::CheckLua(L, r); }
     virtual void InitComponent(es::EntityManager<es::DefaultEntity> *manager,
                                int id, const std::string &filename) = 0;
 
-    virtual ~VLuaHandler() { lua_close(L); }
+    VLuaHandler() = default;
+    virtual ~VLuaHandler() = default;
 
    protected:
-    VLuaHandler() { L = luaL_newstate(); }
-    lua_State *L;
     static uint32_t s_id_counter;
 };
 
