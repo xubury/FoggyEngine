@@ -5,7 +5,6 @@
 #include <iostream>
 
 #include "EntitySystem/ES.hpp"
-#include "Lua/lunar.hpp"
 
 namespace foggy {
 namespace component {

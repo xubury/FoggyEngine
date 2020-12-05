@@ -4,7 +4,6 @@
 #include <SFML/Graphics/Font.hpp>
 
 #include "ActionSystem/ActionMap.hpp"
-#include "Lua/utils.hpp"
 #include "ResourceManager/ResourceManager.hpp"
 
 class Configuration {

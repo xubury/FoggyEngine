@@ -7,7 +7,6 @@
 
 #include "EntitySystem/Defines.hpp"
 #include "EntitySystem/ES.hpp"
-#include "Lua/utils.hpp"
 /* Code Snippet(How to iterate over table):
  * lua_pushnil(L);
  * for (; lua_next(L, -2) != 0; lua_pop(L, 1)) {
