@@ -10,7 +10,7 @@ PlayerAnimator::PlayerAnimator(const foggy::component::Skin::Handle &handle)
     m_anim->m_animations.emplace(Stand, &Configuration::player_anims.Get(
                                             Configuration::PlayerAnim::Stand));
     m_anim->m_animations.emplace(Squat, &Configuration::player_anims.Get(
-                                            Configuration::PlayerAnim::Suqat));
+                                            Configuration::PlayerAnim::Squat));
     m_anim->m_animations.emplace(
         Attack_0, &Configuration::player_anims.Get(
                       Configuration::PlayerAnim::Swoard_Attack_0));

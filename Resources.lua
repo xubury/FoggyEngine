@@ -1,6 +1,84 @@
+Animation = {
+    player = {
+        idle = {
+            id = PlayerAnim.Idle,
+            texture = Textures.PlayerAnim_Sheet,
+            start_frame = 0,
+            end_frame = 3,
+            cols = 7,
+            rows = 16
+        },
+        stand = {
+            id = PlayerAnim.Stand,
+            texture = Textures.PlayerAnim_Sheet,
+            start_frame = 4,
+            end_frame = 5,
+            cols = 7,
+            rows = 16
+        },
+        squat = {
+            id = PlayerAnim.Squat,
+            texture = Textures.PlayerAnim_Sheet,
+            start_frame = 6,
+            end_frame = 7,
+            cols = 7,
+            rows = 16
+
+        },
+        run = {
+            id = PlayerAnim.Run,
+            texture = Textures.PlayerAnim_Sheet,
+            start_frame = 8,
+            end_frame = 13,
+            cols = 7,
+            rows = 16
+
+        },
+        attack_0 = {
+            id = PlayerAnim.Swoard_Attack_0,
+            texture = Textures.PlayerAnim_Sheet,
+            start_frame = 42,
+            end_frame = 48,
+            cols = 7,
+            rows = 16
+
+        },
+        attack_1 = {
+            id = PlayerAnim.Swoard_Attack_1,
+            texture = Textures.PlayerAnim_Sheet,
+            start_frame = 49,
+            end_frame = 52,
+            cols = 7,
+            rows = 16
+
+        },
+        attack_2 = {
+            id = PlayerAnim.Swoard_Attack_2,
+            texture = Textures.PlayerAnim_Sheet,
+            start_frame = 53,
+            end_frame = 58,
+            cols = 7,
+            rows = 16
+
+        }
+    }
+}
+
+function LoadAnimation(t)
+    C_LoadAnimation(t.id, t.texture, t.start_frame, t.end_frame, t.cols, t.rows)
+end
+
 function LoadResources()
-    LoadTexture(Textures.PlayerAnim_Sheet, "adventurer-v1.5-Sheet.png");
-    LoadFont(FontType.GUI, "arial.ttf");
-    LoadFont(FontType.Fira, "fira.ttf");
+    C_LoadTexture(Textures.PlayerAnim_Sheet, "adventurer-v1.5-Sheet.png");
+    C_LoadFont(FontType.GUI, "arial.ttf");
+    C_LoadFont(FontType.Fira, "fira.ttf");
+
+    LoadAnimation(Animation.player.idle)
+    LoadAnimation(Animation.player.run)
+    LoadAnimation(Animation.player.squat)
+    LoadAnimation(Animation.player.stand)
+    LoadAnimation(Animation.player.attack_0)
+    LoadAnimation(Animation.player.attack_1)
+    LoadAnimation(Animation.player.attack_2)
 end
 

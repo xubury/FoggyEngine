@@ -25,7 +25,7 @@ class Configuration {
         Idle,
         Run,
         Stand,
-        Suqat,
+        Squat,
         Swoard_Attack_0,
         Swoard_Attack_1,
         Swoard_Attack_2
@@ -42,10 +42,11 @@ class Configuration {
 
    private:
     static void InitializePlayerInputs();
-    static void InitializePlayerAnims();
 
     static void LoadTexture(int id, const std::string &name);
     static void LoadFont(int id, const std::string &name);
+    static void LoadPlayerAnimation(int id, int texture_id, int start_frame,
+                                    int end_frame, int cols, int rows);
 };
 
 #endif /* CONFIGURATION_H */
