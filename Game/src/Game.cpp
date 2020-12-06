@@ -20,8 +20,10 @@ Game::Game(int width, int height, const std::string &title)
     m_cam = m_window.getDefaultView();
 
     foggy::LuaManager &lua_manager = foggy::LuaManager::Instance();
-    lua_manager.Add<foggy::es::LuaCollision>(&m_app.systems, "../Systems.lua");
-    lua_manager.Add<foggy::es::LuaAnimation>(&m_app.systems, "../Systems.lua");
+    lua_manager.Add<foggy::es::LuaCollision>(&m_app.systems,
+                                             "res/scripts/Systems.lua");
+    lua_manager.Add<foggy::es::LuaAnimation>(&m_app.systems,
+                                             "res/scripts/Systems.lua");
 }
 
 void Game::Run(int min_fps) {

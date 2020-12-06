@@ -13,7 +13,6 @@ foggy::ResourceManager<foggy::as::Animation, Configuration::PlayerAnim>
 void Configuration::Initialize() {
     sol::state lua;
 
-    lua.open_libraries();
     lua["Textures"] =
         lua.create_table_with("PlayerAnim_Sheet", PlayerAnim_Sheet);
     lua["FontType"] = lua.create_table_with("GUI", GUI, "Fira", Fira);
@@ -27,7 +26,7 @@ void Configuration::Initialize() {
     lua.set_function("C_LoadTexture", LoadTexture);
     lua.set_function("C_LoadAnimation", LoadPlayerAnimation);
 
-    lua.script_file("../Resources.lua");
+    lua.script_file("res/scripts/Resources.lua");
     lua["LoadResources"]();
 
     InitializePlayerInputs();

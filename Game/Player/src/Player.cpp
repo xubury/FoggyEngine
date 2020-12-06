@@ -23,8 +23,8 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     manager->AddComponent<PlayerAnimator>(id, skin);
 
     foggy::LuaManager &lua_manager = foggy::LuaManager::Instance();
-    lua_manager.Lua<foggy::es::LuaCollision>()->InitComponent(manager, id,
-                                                              "../Player.lua");
+    lua_manager.Lua<foggy::es::LuaCollision>()->InitComponent(
+        manager, id, "res/scripts/Player.lua");
 
     foggy::component::Controller::Handle handle =
         manager->AddComponent<foggy::component::Controller>(

@@ -69,9 +69,9 @@ function LoadAnimation(t)
 end
 
 function LoadResources()
-    C_LoadTexture(Textures.PlayerAnim_Sheet, "adventurer-v1.5-Sheet.png");
-    C_LoadFont(FontType.GUI, "arial.ttf");
-    C_LoadFont(FontType.Fira, "fira.ttf");
+    C_LoadTexture(Textures.PlayerAnim_Sheet, "res/player/adventurer-v1.5-Sheet.png");
+    C_LoadFont(FontType.GUI, "res/font/arial.ttf");
+    C_LoadFont(FontType.Fira, "res/font/fira.ttf");
 
     LoadAnimation(Animation.player.idle)
     LoadAnimation(Animation.player.run)
