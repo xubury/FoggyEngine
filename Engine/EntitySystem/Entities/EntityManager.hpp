@@ -10,7 +10,6 @@
 #include "EntitySystem/Defines.hpp"
 #include "EntitySystem/Systems/System.hpp"
 #include "util/Memory.hpp"
-#include <iostream>
 
 namespace foggy {
 namespace es {
@@ -37,12 +36,10 @@ class EntityManager {
     EntityManager(const EntityManager &) = delete;
     EntityManager &operator=(const EntityManager &) = delete;
 
-    EntityManager() : m_systems(nullptr) {};
+    EntityManager() : m_systems(nullptr){};
     ~EntityManager();
 
-    void SetSystems(SystemManager<ENTITY> *systems) {
-        std::cout << systems << std::endl;
-        m_systems = systems; }
+    void SetSystems(SystemManager<ENTITY> *systems) { m_systems = systems; }
     SystemManager<ENTITY> *GetSystems() const { return m_systems; }
 
     template <typename T = ENTITY, typename... ARGS>
