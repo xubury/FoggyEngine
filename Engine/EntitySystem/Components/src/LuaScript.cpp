@@ -34,7 +34,6 @@ void LuaScript::InitCollision() {
 
         component::Collision::Handle collision =
             manager->AddComponent<component::Collision>(id, body_def);
-        std::cout << "Comp Collision Added" << std::endl;
         sol::table fixture_table = comp_table["fixtures"];
         for (const auto &pair : fixture_table) {
             sol::table fixture = pair.second;
