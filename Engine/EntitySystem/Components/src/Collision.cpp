@@ -8,14 +8,20 @@
 namespace foggy {
 namespace component {
 
-Collision::Collision(es::CollisionSystem *world, b2BodyDef &def, bool debug)
-    : debug(debug) {
-    b2body_ref = world->CreateBody(&def);
+Collision::Collision(b2BodyDef &def, bool debug) : b2body_ref(nullptr), b2body_def(def), debug(debug) {
 }
 
 Collision::~Collision() { b2body_ref->GetWorld()->DestroyBody(b2body_ref); }
 
 void Collision::AddFixture(const b2FixtureDef &fixture) {
+    if (b2body_ref == nullptr) {
+        es::SystemManager<es::DefaultEntity> *systems =
+            m_manager->GetSystems();
+        assert(systems != nullptr);
+        auto *world = systems->System<es::CollisionSystem>();
+        assert(world != nullptr);
+        b2body_ref = world->CreateBody(&b2body_def);
+    }
     /* To stay consistance with the transform, we have to remove the
      * debug_shape's scale. Because the transform will be applied at drawing
      * stage. */

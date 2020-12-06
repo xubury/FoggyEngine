@@ -6,8 +6,7 @@ find_package(SFML 2 COMPONENTS audio graphics window system network)
 find_package(box2d REQUIRED)
 find_package(Lua REQUIRED)
 
-set(Lua_Src
-    Engine/Lua/src/Handler.cpp)
+#set(Lua_Src)
 
 set(Utils_Src
     Engine/util/src/Memory.cpp)
@@ -20,6 +19,7 @@ set(ES_Src
     Engine/EntitySystem/Entities/src/Entity.cpp
     Engine/EntitySystem/Components/src/Collision.cpp
     Engine/EntitySystem/Components/src/Transform.cpp
+    Engine/EntitySystem/Components/src/LuaScript.cpp
     Engine/EntitySystem/Systems/src/CollisionSystem.cpp
     Engine/EntitySystem/Systems/src/SkinSystem.cpp)
 

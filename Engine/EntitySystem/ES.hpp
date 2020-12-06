@@ -17,6 +17,7 @@ struct Skin;
 struct Collision;
 struct Controller;
 struct Transform;
+struct LuaScript;
 }  // namespace component
 }  // namespace foggy
 

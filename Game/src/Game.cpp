@@ -19,11 +19,8 @@ Game::Game(int width, int height, const std::string &title)
       m_hud_camera(m_window.getDefaultView()) {
     m_cam = m_window.getDefaultView();
 
-    foggy::LuaManager &lua_manager = foggy::LuaManager::Instance();
-    lua_manager.Add<foggy::es::LuaCollision>(&m_app.systems,
-                                             "res/scripts/Systems.lua");
-    lua_manager.Add<foggy::es::LuaAnimation>(&m_app.systems,
-                                             "res/scripts/Systems.lua");
+    m_app.systems.Add<foggy::es::CollisionSystem>(0, -9.8);
+    m_app.systems.Add<foggy::es::SkinSystem>();
 }
 
 void Game::Run(int min_fps) {
@@ -34,8 +31,7 @@ void Game::Run(int min_fps) {
     body_def.type = b2_staticBody;
     uint32_t id = m_app.entities.Create();
     foggy::component::Collision::Handle collsion =
-        m_app.entities.AddComponent<foggy::component::Collision>(
-            id, m_app.systems.System<foggy::es::CollisionSystem>(), body_def);
+        m_app.entities.AddComponent<foggy::component::Collision>(id, body_def);
 
     float width = 800;
     float height = 20;
@@ -98,8 +94,7 @@ void Game::ProcessEvent() {
             body_def.type = b2_dynamicBody;
             foggy::component::Collision::Handle collsion =
                 m_app.entities.AddComponent<foggy::component::Collision>(
-                    id, m_app.systems.System<foggy::es::CollisionSystem>(),
-                    body_def);
+                    id, body_def);
 
             b2CircleShape b2shape;
             b2shape.m_radius = foggy::converter::PixelsToMeters(15.f);
@@ -122,8 +117,7 @@ void Game::ProcessEvent() {
             body_def.type = b2_dynamicBody;
             foggy::component::Collision::Handle collsion =
                 m_app.entities.AddComponent<foggy::component::Collision>(
-                    id, m_app.systems.System<foggy::es::CollisionSystem>(),
-                    body_def);
+                    id, body_def);
 
             b2PolygonShape b2shape;
             b2shape.SetAsBox(foggy::converter::PixelsToMeters(15.f),

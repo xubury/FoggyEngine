@@ -88,7 +88,8 @@ Family System<COMPONENT, ENTITY>::Family() {
 
 template <typename ENTITY>
 SystemManager<ENTITY>::SystemManager(EntityManager<ENTITY>& manager)
-    : m_manager(manager) {}
+    : m_manager(manager) {
+}
 
 template <typename ENTITY>
 void SystemManager<ENTITY>::UpdateAll(const sf::Time& deltaTime) {

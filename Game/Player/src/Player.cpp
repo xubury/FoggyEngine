@@ -3,9 +3,9 @@
 #include "Configuration/Configuration.hpp"
 #include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/Controller.hpp"
+#include "EntitySystem/Components/LuaScript.hpp"
 #include "EntitySystem/Components/Skin.hpp"
 #include "EntitySystem/Components/Transform.hpp"
-#include "Lua/Handler.hpp"
 #include "Player/Animator/PlayerAnimator.hpp"
 #include "Player/Player.hpp"
 #include "util/converter.hpp"
@@ -17,14 +17,12 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     : foggy::es::DefaultEntity(manager, id), m_facing_right(true) {
     float scale = 2;
     Component<foggy::component::Transform>()->setScale(scale, scale);
-    foggy::component::Skin::Handle skin =
-        manager->AddComponent<foggy::component::Skin>(id);
 
-    manager->AddComponent<PlayerAnimator>(id, skin);
+    auto lua_script = manager->AddComponent<foggy::component::LuaScript>(id);
+    lua_script->InitScript("res/scripts/Player.lua");
 
-    foggy::LuaManager &lua_manager = foggy::LuaManager::Instance();
-    lua_manager.Lua<foggy::es::LuaCollision>()->InitComponent(
-        manager, id, "res/scripts/Player.lua");
+    manager->AddComponent<PlayerAnimator>(id,
+                                          Component<foggy::component::Skin>());
 
     foggy::component::Controller::Handle handle =
         manager->AddComponent<foggy::component::Controller>(

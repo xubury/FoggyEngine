@@ -13,7 +13,7 @@ namespace component {
 
 struct Collision : es::Component<Collision, es::DefaultEntity> {
    public:
-    Collision(es::CollisionSystem *world, b2BodyDef &def, bool debug = true);
+    Collision(b2BodyDef &def, bool debug = true);
     ~Collision();
     /** Add a fixture to this Collision compoennt. Notice that the fixture's
      * shape is independent to the Transform. So if you want to apply scale to
@@ -21,6 +21,7 @@ struct Collision : es::Component<Collision, es::DefaultEntity> {
     void AddFixture(const b2FixtureDef &fixture);
 
     b2Body *b2body_ref;
+    b2BodyDef b2body_def;
     std::list<std::unique_ptr<sf::Shape>> debug_shape;
     bool debug;
 };

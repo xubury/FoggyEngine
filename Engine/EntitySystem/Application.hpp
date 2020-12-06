@@ -23,7 +23,9 @@ class Application {
 };
 
 template <typename ENTITY>
-Application<ENTITY>::Application() : systems(entities) {}
+Application<ENTITY>::Application() : systems(entities) {
+    entities.SetSystems(&systems);
+}
 
 template <typename ENTITY>
 void Application<ENTITY>::Update(const sf::Time &deltaTime) {

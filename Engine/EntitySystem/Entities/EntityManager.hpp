@@ -8,7 +8,9 @@
 
 #include "EntitySystem/Components/Component.hpp"
 #include "EntitySystem/Defines.hpp"
+#include "EntitySystem/Systems/System.hpp"
 #include "util/Memory.hpp"
+#include <iostream>
 
 namespace foggy {
 namespace es {
@@ -35,8 +37,13 @@ class EntityManager {
     EntityManager(const EntityManager &) = delete;
     EntityManager &operator=(const EntityManager &) = delete;
 
-    EntityManager() = default;
+    EntityManager() : m_systems(nullptr) {};
     ~EntityManager();
+
+    void SetSystems(SystemManager<ENTITY> *systems) {
+        std::cout << systems << std::endl;
+        m_systems = systems; }
+    SystemManager<ENTITY> *GetSystems() const { return m_systems; }
 
     template <typename T = ENTITY, typename... ARGS>
     uint32_t Create(ARGS &&...args);
@@ -85,6 +92,7 @@ class EntityManager {
         ComponentHandle<COMPONENT, ENTITY> &...components);
 
    private:
+    SystemManager<ENTITY> *m_systems;
     // Stores every entity that have been allocated
     std::vector<ENTITY *> m_entites_allocated;
     // Stores what components does a entity of index havs

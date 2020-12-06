@@ -3,11 +3,8 @@
 
 #include <Box2D/Box2D.h>
 
-#include <sol/sol.hpp>
-
 #include "EntitySystem/ES.hpp"
 #include "EntitySystem/Entities/Entity.hpp"
-#include "Lua/Handler.hpp"
 
 namespace foggy {
 namespace es {
@@ -18,25 +15,6 @@ class CollisionSystem : public System<component::Collision, es::DefaultEntity>,
     CollisionSystem(float x, float y);
     virtual void Update(es::EntityManager<es::DefaultEntity> &manager,
                         const sf::Time &delta_time) override;
-};
-
-class LuaCollision : public LuaHandler<LuaCollision> {
-   public:
-    void InitComponent(es::EntityManager<es::DefaultEntity> *manager, int id,
-                       const std::string &filename) override;
-
-   private:
-    friend class foggy::LuaManager;
-
-    LuaCollision(es::SystemManager<es::DefaultEntity> *manager,
-                 const std::string &filename);
-
-    void PopulatePolygonFixture(sol::table &table,
-                                component::Collision *handle);
-
-    void PopulateCircleFixture(sol::table &table, component::Collision *handle);
-
-    es::CollisionSystem *m_world;
 };
 
 }  // namespace es
