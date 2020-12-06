@@ -6,9 +6,6 @@
 
 class Player : public foggy::es::DefaultEntity {
    public:
-    static const sf::Time MIN_TIME_BETWEEN_MOVEMENT;
-    static const sf::Time MIN_TIME_BETWEEN_ATTACK;
-
     Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id);
 
     virtual void draw(

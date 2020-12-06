@@ -7,10 +7,6 @@
 #include "EntitySystem/Components/Skin.hpp"
 #include "EntitySystem/Components/Transform.hpp"
 #include "Player/Player.hpp"
-#include "util/converter.hpp"
-
-const sf::Time Player::MIN_TIME_BETWEEN_MOVEMENT = sf::milliseconds(10);
-const sf::Time Player::MIN_TIME_BETWEEN_ATTACK = sf::seconds(0.5);
 
 Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     : foggy::es::DefaultEntity(manager, id), m_facing_right(true) {

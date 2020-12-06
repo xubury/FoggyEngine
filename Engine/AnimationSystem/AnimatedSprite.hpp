@@ -20,7 +20,7 @@ class AnimatedSprite : public sf::Drawable, public sf::Transformable {
 
     using FuncType = std::function<void()>;
     static FuncType default_func;
-    std::stack<FuncType> OnFinishd;
+    FuncType OnFinishd;
     enum Status { Stopped, Pasued, Playing };
 
     AnimatedSprite(Animation *animation = nullptr, Status status = Playing,

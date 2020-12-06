@@ -16,12 +16,29 @@ CompAnimation = {
         callbacks = {
             onMove = function(self, event, from, to)
                 C_SetAnimation(PlayerAnim.Run)
+                C_SetLoop(true)
+                C_Play()
             end,
             onReset = function(self, event, from, to)
                 C_SetAnimation(PlayerAnim.Idle)
+                C_SetLoop(true)
+                C_Play()
             end,
             onAttack = function(self, event, from, to)
-                print("attack", to)
+                print(to)
+                if to == 'attack0' then
+                    C_SetAnimation(PlayerAnim.Sword_Attack_0)
+                elseif to == 'attack1' then
+                    C_SetAnimation(PlayerAnim.Sword_Attack_1)
+                elseif to == 'attack2' then
+                    C_SetAnimation(PlayerAnim.Sword_Attack_2)
+                end
+                C_SetRepeat(1)
+                C_SetLoop(false)
+                C_Play()
+                C_OnAnimFinish(function ()
+                    CompAnimation.states:Reset()
+                end);
             end,
             onSquat = function (self, event, from, to)
                 print(to)
@@ -50,7 +67,7 @@ CompCollision = {
 
 function Update()
     local x, y = C_GetSpeed()
-    if math.sqrt(x * x + y * y) < 80 / 32 then
+    if CompAnimation.states.current == 'Run' and math.sqrt(x * x + y * y) < 80 / 32 then
         CompAnimation.states:Reset()
     end
 end
@@ -65,6 +82,7 @@ function Move (x, y)
     C_ApplyLinearImpulse(x, y)
     CompAnimation.states:Move()
 end
+
 
 local last_attack_timer = os.clock()
 function Attack()

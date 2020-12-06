@@ -77,11 +77,13 @@ void AnimatedSprite::Update(const sf::Time &delta_time) {
                     --m_repeat;
                     if (m_repeat <= 0) {
                         m_status = Stopped;
-                        if (!OnFinishd.empty() && OnFinishd.top() != nullptr) {
-                            auto &func = OnFinishd.top();
-                            func();
-                            OnFinishd.pop();
-                        }
+                        if (OnFinishd != nullptr) OnFinishd();
+                        // if (!OnFinishd.empty() && OnFinishd.top() != nullptr)
+                        // {
+                        //     auto &func = OnFinishd.top();
+                        //     func();
+                        //     OnFinishd.pop();
+                        // }
                     }
                 }
             }
