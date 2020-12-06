@@ -13,15 +13,6 @@ foggy::ResourceManager<foggy::as::Animation, Configuration::PlayerAnim>
 void Configuration::Initialize() {
     sol::state lua;
 
-    lua["Textures"] =
-        lua.create_table_with("PlayerAnim_Sheet", PlayerAnim_Sheet);
-    lua["FontType"] = lua.create_table_with("GUI", GUI, "Fira", Fira);
-
-    lua["PlayerAnim"] = lua.create_table_with(
-        "Idle", Idle, "Run", Run, "Stand", Stand, "Squat", Squat,
-        "Swoard_Attack_0", Swoard_Attack_0, "Swoard_Attack_1", Swoard_Attack_1,
-        "Swoard_Attack_2", Swoard_Attack_2);
-
     lua.set_function("C_LoadFont", LoadFont);
     lua.set_function("C_LoadTexture", LoadTexture);
     lua.set_function("C_LoadAnimation", LoadPlayerAnimation);

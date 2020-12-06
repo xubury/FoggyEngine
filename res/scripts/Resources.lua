@@ -1,3 +1,22 @@
+PlayerAnim = {
+    Idle           = 0,
+    Run            = 1,
+    Stand          = 2,
+    Squat          = 3,
+    Sword_Attack_0 = 4,
+    Sword_Attack_1 = 5,
+    Sword_Attack_2 = 6
+}
+
+Textures = {
+    PlayerAnim_Sheet = 0
+}
+
+FontType = {
+    GUI = 0,
+    Fira = 1
+}
+
 Animation = {
     player = {
         idle = {
@@ -35,7 +54,7 @@ Animation = {
 
         },
         attack_0 = {
-            id = PlayerAnim.Swoard_Attack_0,
+            id = PlayerAnim.Sword_Attack_0,
             texture = Textures.PlayerAnim_Sheet,
             start_frame = 42,
             end_frame = 48,
@@ -44,7 +63,7 @@ Animation = {
 
         },
         attack_1 = {
-            id = PlayerAnim.Swoard_Attack_1,
+            id = PlayerAnim.Sword_Attack_1,
             texture = Textures.PlayerAnim_Sheet,
             start_frame = 49,
             end_frame = 52,
@@ -53,7 +72,7 @@ Animation = {
 
         },
         attack_2 = {
-            id = PlayerAnim.Swoard_Attack_2,
+            id = PlayerAnim.Sword_Attack_2,
             texture = Textures.PlayerAnim_Sheet,
             start_frame = 53,
             end_frame = 58,

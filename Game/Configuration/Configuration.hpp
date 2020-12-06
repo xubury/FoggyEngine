@@ -26,9 +26,9 @@ class Configuration {
         Run,
         Stand,
         Squat,
-        Swoard_Attack_0,
-        Swoard_Attack_1,
-        Swoard_Attack_2
+        Sword_Attack_0,
+        Sword_Attack_1,
+        Sword_Attack_2
     };
 
     static foggy::ResourceManager<foggy::as::Animation, PlayerAnim>

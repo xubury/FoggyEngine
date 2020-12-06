@@ -20,6 +20,7 @@ set(ES_Src
     Engine/EntitySystem/Components/src/Collision.cpp
     Engine/EntitySystem/Components/src/Transform.cpp
     Engine/EntitySystem/Components/src/LuaScript.cpp
+    Engine/EntitySystem/Components/src/Skin.cpp
     Engine/EntitySystem/Systems/src/CollisionSystem.cpp
     Engine/EntitySystem/Systems/src/SkinSystem.cpp)
 
@@ -37,7 +38,6 @@ set(Engine_Src ${Utils_Src} ${ES_Src} ${Animation_Src} ${GUI_Src}
 add_executable(foggy 
     ${Engine_Src} Game/src/main.cpp Game/src/Game.cpp 
     Game/Configuration/src/Configuration.cpp
-    Game/Player/Animator/src/PlayerAnimator.cpp
     Game/Player/src/Player.cpp
     Game/Systems/src/HealthSystem.cpp)
 

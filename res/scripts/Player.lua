@@ -1,23 +1,37 @@
 local machine = require 'res/scripts/statemachine'
+require 'res/scripts/Resources'
 
 CompAnimation = {
-    anim_table = machine.create({
+    states = machine.create({
         initial = 'idle',
         events = {
-            { name = 'Move',  from = 'idle',  to = 'run' },
-            { name = 'Reset',  from = 'run',  to = 'idle' },
+            {name = 'Move',   from = 'idle',                                            to = 'run'},
+            {name = 'Squat',  from = {'idle', 'run'},                                   to = 'squat'},
+            {name = 'Stand',  from = 'squat',                                           to = 'idle'},
+            {name = 'Attack', from = {'idle', 'run'},                                   to = 'attack0'},
+            {name = 'Attack', from = 'attack0',                                         to = 'attack1'},
+            {name = 'Attack', from = 'attack1',                                         to = 'attack2'},
+            {name = 'Reset',  from = {'run', 'squat', 'attack0', 'attack1', 'attack2'}, to = 'idle'},
         },
         callbacks = {
             onMove = function(self, event, from, to)
-                print("moving")
+                C_SetAnimation(PlayerAnim.Run)
             end,
             onReset = function(self, event, from, to)
-                print("idle")
+                C_SetAnimation(PlayerAnim.Idle)
+            end,
+            onAttack = function(self, event, from, to)
+                print("attack", to)
+            end,
+            onSquat = function (self, event, from, to)
+                print(to)
+            end,
+            onStand = function (self, event, from, to)
+                print(to)
             end
         }
     })
 }
-
 
 CompCollision = {
     body_type = 2,
@@ -34,3 +48,38 @@ CompCollision = {
     }
 }
 
+function Update()
+    local x, y = C_GetSpeed()
+    if math.sqrt(x * x + y * y) < 80 / 32 then
+        CompAnimation.states:Reset()
+    end
+end
+
+local last_move_timer = os.clock()
+function Move (x, y)
+    local move_timer = os.clock()
+    if move_timer - last_move_timer < 1e-2 then
+        return
+    end
+    last_move_timer = move_timer
+    C_ApplyLinearImpulse(x, y)
+    CompAnimation.states:Move()
+end
+
+local last_attack_timer = os.clock()
+function Attack()
+    local attack_timer = os.clock()
+    if attack_timer - last_attack_timer < 0.5 then
+        return
+    end
+    last_attack_timer = attack_timer
+    CompAnimation.states:Attack()
+end
+
+function Squat()
+    CompAnimation.states:Squat()
+end
+
+function Standup()
+    CompAnimation.states:Stand()    
+end

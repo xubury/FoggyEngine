@@ -10,6 +10,15 @@ namespace component {
 void LuaScript::InitScript(const std::string &filename) {
     lua.open_libraries();
     lua.script_file(filename);
+    lua.set_function("C_GetSpeed", [this]() {
+        b2Vec2 speed;
+        if (Manager()->HasComponent<foggy::component::Collision>(OwnerID())) {
+            foggy::component::Collision::Handle collision =
+                Manager()->GetComponent<foggy::component::Collision>(OwnerID());
+            speed = collision->b2body_ref->GetLinearVelocity();
+        }
+        return std::make_tuple(speed.x, speed.y);
+    });
     InitComponent();
 }
 
@@ -43,7 +52,8 @@ void LuaScript::InitCollision() {
 void LuaScript::InitSkin() {
     sol::object comp = lua["CompAnimation"];
     if (comp.is<sol::table>()) {
-        Manager()->AddComponent<component::Skin>(OwnerID());
+        std::cout << "adding skin" << std::endl;
+        Manager()->AddComponent<component::Skin>(OwnerID(), lua);
     }
 }
 
