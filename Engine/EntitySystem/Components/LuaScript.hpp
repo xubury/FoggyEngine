@@ -17,11 +17,9 @@ struct LuaScript : es::Component<LuaScript, es::DefaultEntity> {
     void InitComponent();
     void InitCollision();
     void InitSkin();
-    void PopulatePolygonFixture(sol::table &table,
-                                component::Collision *collision);
+    void PopulatePolygonFixture(sol::table &table);
 
-    void PopulateCircleFixture(sol::table &table,
-                               component::Collision *collision);
+    void PopulateCircleFixture(sol::table &table);
 };
 
 }  // namespace component

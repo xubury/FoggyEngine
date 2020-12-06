@@ -26,16 +26,15 @@ void LuaScript::InitCollision() {
         body_def.type = comp_table["body_type"];
         body_def.fixedRotation = comp_table["fix_angle"];
 
-        component::Collision::Handle collision =
-            Manager()->AddComponent<component::Collision>(OwnerID(), body_def);
+        Manager()->AddComponent<component::Collision>(OwnerID(), body_def);
         sol::table fixture_table = comp_table["fixtures"];
         for (const auto &pair : fixture_table) {
             sol::table fixture = pair.second;
             std::string shape = fixture["shape"];
             if (shape == "Polygon") {
-                PopulatePolygonFixture(fixture, collision.Get());
+                PopulatePolygonFixture(fixture);
             } else if (shape == "Circle") {
-                PopulateCircleFixture(fixture, collision.Get());
+                PopulateCircleFixture(fixture);
             }
         }
     }
@@ -48,8 +47,8 @@ void LuaScript::InitSkin() {
     }
 }
 
-void LuaScript::PopulatePolygonFixture(sol::table &table,
-                                       component::Collision *collision) {
+void LuaScript::PopulatePolygonFixture(sol::table &table) {
+    auto collision = Manager()->GetComponent<component::Collision>(OwnerID());
     sol::table vertices_table = table["vertices"];
     std::vector<b2Vec2> vertices;
     for (const auto &pair : vertices_table) {
@@ -70,8 +69,8 @@ void LuaScript::PopulatePolygonFixture(sol::table &table,
     collision->AddFixture(fixture_def);
 }
 
-void LuaScript::PopulateCircleFixture(sol::table &table,
-                                      component::Collision *collision) {
+void LuaScript::PopulateCircleFixture(sol::table &table) {
+    auto collision = Manager()->GetComponent<component::Collision>(OwnerID());
     b2CircleShape b2shape;
     float radius = table["radius"];
     b2shape.m_radius = converter::PixelsToMeters(radius);
