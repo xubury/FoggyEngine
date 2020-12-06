@@ -10,8 +10,6 @@ namespace component {
 void LuaScript::InitScript(const std::string &filename) {
     lua.open_libraries();
     lua.script_file(filename);
-    lua["manager"] = m_manager;
-    lua["owner_id"] = m_owner_id;
     InitComponent();
 }
 
@@ -23,17 +21,13 @@ void LuaScript::InitComponent() {
 void LuaScript::InitCollision() {
     sol::object comp = lua["CompCollision"];
     if (comp.is<sol::table>()) {
-        es::EntityManager<es::DefaultEntity> *manager = lua["manager"];
-        assert(manager != nullptr);
-        int id = lua["owner_id"];
-
         sol::table comp_table = comp;
         b2BodyDef body_def;
         body_def.type = comp_table["body_type"];
         body_def.fixedRotation = comp_table["fix_angle"];
 
         component::Collision::Handle collision =
-            manager->AddComponent<component::Collision>(id, body_def);
+            Manager()->AddComponent<component::Collision>(OwnerID(), body_def);
         sol::table fixture_table = comp_table["fixtures"];
         for (const auto &pair : fixture_table) {
             sol::table fixture = pair.second;
@@ -50,10 +44,7 @@ void LuaScript::InitCollision() {
 void LuaScript::InitSkin() {
     sol::object comp = lua["CompAnimation"];
     if (comp.is<sol::table>()) {
-        es::EntityManager<es::DefaultEntity> *manager = lua["manager"];
-        assert(manager != nullptr);
-        int id = lua["owner_id"];
-        manager->AddComponent<component::Skin>(id);
+        Manager()->AddComponent<component::Skin>(OwnerID());
     }
 }
 

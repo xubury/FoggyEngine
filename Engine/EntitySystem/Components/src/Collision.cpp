@@ -16,7 +16,7 @@ Collision::~Collision() { b2body_ref->GetWorld()->DestroyBody(b2body_ref); }
 void Collision::AddFixture(const b2FixtureDef &fixture) {
     if (b2body_ref == nullptr) {
         es::SystemManager<es::DefaultEntity> *systems =
-            m_manager->GetSystems();
+            Manager()->GetSystems();
         assert(systems != nullptr);
         auto *world = systems->System<es::CollisionSystem>();
         assert(world != nullptr);
@@ -25,7 +25,7 @@ void Collision::AddFixture(const b2FixtureDef &fixture) {
     /* To stay consistance with the transform, we have to remove the
      * debug_shape's scale. Because the transform will be applied at drawing
      * stage. */
-    Transform::Handle trans = m_manager->GetComponent<Transform>(m_owner_id);
+    Transform::Handle trans = Manager()->GetComponent<Transform>(OwnerID());
     sf::Vector2f scale = trans->getScale();
     b2Shape::Type type = fixture.shape->GetType();
     if (type == b2Shape::Type::e_circle) {

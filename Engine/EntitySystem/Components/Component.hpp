@@ -43,16 +43,18 @@ class VComponent {
    public:
     virtual ~VComponent() = default;
     uint32_t OwnerID() const;
+    EntityManager<ENTITY> *Manager() { return m_manager; }
 
    protected:
     friend class EntityManager<ENTITY>;
 
     VComponent();
 
-    const EntityManager<ENTITY> *m_manager;
-    uint32_t m_owner_id;
-
     static Family s_family_counter;
+
+   private:
+    EntityManager<ENTITY> *m_manager;
+    uint32_t m_owner_id;
 };
 
 #define ES_INIT_VCOMPONENT(ENTITY) \

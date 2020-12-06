@@ -84,7 +84,7 @@ void PlayerAnimator::OnThirdAttack(const AttackEvent &event) {
         m_anim->m_sprite.SetAnimation(m_anim->m_animations.at(Attack_2));
         m_anim->m_sprite.Play();
         b2Body *b2body_ref =
-            m_manager->GetComponent<foggy::component::Collision>(m_owner_id)
+            Manager()->GetComponent<foggy::component::Collision>(OwnerID())
                 ->b2body_ref;
         b2body_ref->ApplyLinearImpulse(b2Vec2(impulse_x, 0),
                                        b2body_ref->GetWorldCenter(), true);
