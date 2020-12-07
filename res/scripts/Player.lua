@@ -97,5 +97,5 @@ function Squat()
 end
 
 function Stand()
-    CompAnimation.states:Reset()    
+    CompAnimation.states:Reset()
 end
