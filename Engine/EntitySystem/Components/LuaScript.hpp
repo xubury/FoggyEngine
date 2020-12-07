@@ -9,7 +9,7 @@ namespace component {
 
 struct LuaScript : es::Component<LuaScript, es::DefaultEntity> {
    public:
-    explicit LuaScript() = default;
+    LuaScript() = default;
     void InitScript(const std::string &filename);
     sol::state lua;
 

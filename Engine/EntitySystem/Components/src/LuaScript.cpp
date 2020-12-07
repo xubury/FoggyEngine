@@ -1,3 +1,4 @@
+#define SOL_ALL_SAFETIES_ON 1
 #include <Box2D/Box2D.h>
 
 #include "EntitySystem/Components/Collision.hpp"
@@ -9,7 +10,12 @@ namespace component {
 
 void LuaScript::InitScript(const std::string &filename) {
     lua.open_libraries();
-    lua.script_file(filename);
+    auto res = lua.safe_script_file(filename);
+    if (!res.valid()) {
+        sol::error err = res;
+        std::cout << err.what() << std::endl;
+        return;
+    }
     lua.set_function("C_GetSpeed", [this]() {
         b2Vec2 speed;
         if (Manager()->HasComponent<foggy::component::Collision>(OwnerID())) {
@@ -52,8 +58,8 @@ void LuaScript::InitCollision() {
 void LuaScript::InitSkin() {
     sol::object comp = lua["CompAnimation"];
     if (comp.is<sol::table>()) {
-        std::cout << "adding skin" << std::endl;
-        Manager()->AddComponent<component::Skin>(OwnerID(), lua);
+        auto skin = Manager()->AddComponent<component::Skin>(OwnerID());
+        skin->RegisterLuaScript();
     }
 }
 

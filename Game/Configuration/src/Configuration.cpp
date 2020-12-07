@@ -17,7 +17,12 @@ void Configuration::Initialize() {
     lua.set_function("C_LoadTexture", LoadTexture);
     lua.set_function("C_LoadAnimation", LoadPlayerAnimation);
 
-    lua.script_file("res/scripts/Resources.lua");
+    auto res = lua.safe_script_file("res/scripts/Resources.lua");
+    if (!res.valid()) {
+        sol::error err = res;
+        std::cout << err.what() << std::endl;
+        return;
+    }
     lua["LoadResources"]();
 
     InitializePlayerInputs();

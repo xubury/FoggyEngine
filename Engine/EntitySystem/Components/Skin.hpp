@@ -10,17 +10,14 @@ namespace component {
 
 struct Skin : es::Component<Skin, es::DefaultEntity> {
    public:
-    explicit Skin(sol::state &lua);
-
-    std::string GetCurrentState();
+    Skin();
 
     void Update();
 
+    void RegisterLuaScript();
+
     as::AnimatedSprite m_sprite;
     std::unordered_map<int, as::Animation *> m_animations;
-
-   private:
-    sol::state &lua;
 };
 
 }  // namespace component

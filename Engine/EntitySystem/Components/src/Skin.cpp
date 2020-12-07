@@ -1,11 +1,22 @@
 #include <utility>
 
+#include "EntitySystem/Components/LuaScript.hpp"
 #include "EntitySystem/Components/Skin.hpp"
 
 namespace foggy {
 namespace component {
 
-Skin::Skin(sol::state &lua) : lua(lua) {
+Skin::Skin() {}
+
+void Skin::Update() {
+    auto lua_comp = Manager()->GetComponent<LuaScript>(OwnerID());
+    sol::state &lua = lua_comp->lua;
+    lua["Update"]();
+}
+
+void Skin::RegisterLuaScript() {
+    auto lua_comp = Manager()->GetComponent<LuaScript>(OwnerID());
+    sol::state &lua = lua_comp->lua;
     lua.set_function("C_SetAnimation", [this](int id) {
         m_sprite.SetAnimation(m_animations[id]);
     });
@@ -19,10 +30,6 @@ Skin::Skin(sol::state &lua) : lua(lua) {
         // FIXME:How to pass lua callback properly??
     });
 }
-
-std::string Skin::GetCurrentState() { return lua["states"]["current"]; }
-
-void Skin::Update() { lua["Update"](); }
 
 }  // namespace component
 }  // namespace foggy
