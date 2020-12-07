@@ -1,7 +1,21 @@
 local machine = require 'res/scripts/statemachine'
 require 'res/scripts/Resources'
+local deque = require 'res/scripts/deque'
+
+local PlayAttackAnim = function (id)
+    C_SetAnimation(id)
+    C_SetRepeat(1)
+    C_SetLoop(false)
+    C_Play()
+end
 
 CompAnimation = {
+    anim_queue = deque.new(),
+    OnFinish = function ()
+        local q = CompAnimation.anim_queue:peek_left()
+        q()
+        CompAnimation.anim_queue:pop_left()
+    end,
     states = machine.create({
         initial = 'idle',
         events = {
@@ -26,18 +40,28 @@ CompAnimation = {
             onAttack = function(self, event, from, to)
                 print(to)
                 if to == 'attack0' then
-                    C_SetAnimation(PlayerAnim.Sword_Attack_0)
+                    PlayAttackAnim(PlayerAnim.Sword_Attack_0)
+                    CompAnimation.anim_queue:push_right(function ()
+                        CompAnimation.states:Reset()
+                    end)
                 elseif to == 'attack1' then
-                    C_SetAnimation(PlayerAnim.Sword_Attack_1)
+                    CompAnimation.anim_queue:pop_right()
+                    CompAnimation.anim_queue:push_right(function ()
+                        PlayAttackAnim(PlayerAnim.Sword_Attack_1)
+                    end)
+                    CompAnimation.anim_queue:push_right(function ()
+                        CompAnimation.states:Reset()
+                    end)
                 elseif to == 'attack2' then
-                    C_SetAnimation(PlayerAnim.Sword_Attack_2)
+                    CompAnimation.anim_queue:pop_right()
+                    CompAnimation.anim_queue:push_right(function ()
+                        C_ApplyLinearImpulse(100, 0)
+                        PlayAttackAnim(PlayerAnim.Sword_Attack_2)
+                    end)
+                    CompAnimation.anim_queue:push_right(function ()
+                        CompAnimation.states:Reset()
+                    end)
                 end
-                C_SetRepeat(1)
-                C_SetLoop(false)
-                C_Play()
-                C_OnAnimFinish(function ()
-                    CompAnimation.states:Reset()
-                end);
             end,
             onSquat = function (self, event, from, to)
                 C_SetAnimation(PlayerAnim.Squat)
@@ -65,7 +89,8 @@ CompCollision = {
 
 function Update()
     local x, y = C_GetSpeed()
-    if CompAnimation.states.current == 'run' and math.sqrt(x * x + y * y) < 80 / 32 then
+    local current = CompAnimation.states.current
+    if current == 'run' and math.sqrt(x * x + y * y) < 100 / 32 then
         CompAnimation.states:Reset()
     end
 end
@@ -73,11 +98,14 @@ end
 local last_move_timer = os.clock()
 function Move (x, y)
     local move_timer = os.clock()
-    if move_timer - last_move_timer < 1e-2 then
+    if move_timer - last_move_timer < 0.02 then
         return
     end
     last_move_timer = move_timer
-    C_ApplyLinearImpulse(x, y)
+    local current_state = CompAnimation.states.current
+    if current_state == 'idle' or current_state == 'run' then
+        C_ApplyLinearImpulse(x, y)
+    end
     CompAnimation.states:Move()
 end
 
@@ -85,7 +113,7 @@ end
 local last_attack_timer = os.clock()
 function Attack()
     local attack_timer = os.clock()
-    if attack_timer - last_attack_timer < 0.5 then
+    if attack_timer - last_attack_timer < 0.2 then
         return
     end
     last_attack_timer = attack_timer

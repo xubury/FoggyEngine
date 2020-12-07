@@ -4,17 +4,20 @@
 
 namespace foggy {
 namespace as {
+AnimatedSprite::FuncType AnimatedSprite::default_func;
+
 AnimatedSprite::AnimatedSprite(Animation *animation, Status status,
                                const sf::Time &delta_time, bool loop,
                                int repeat)
-    : m_status(status),
+    : OnFinished(nullptr),
+      m_status(status),
       m_delta_time(delta_time),
       m_loop(loop),
       m_repeat(repeat) {
     SetAnimation(animation);
 }
 
-AnimatedSprite::~AnimatedSprite() { OnFinished = nullptr; }
+AnimatedSprite::~AnimatedSprite() {}
 
 void AnimatedSprite::SetAnimation(Animation *animation) {
     if (m_animation != animation) {
@@ -81,7 +84,6 @@ void AnimatedSprite::Update(const sf::Time &delta_time) {
                         m_status = Stopped;
                         if (OnFinished != nullptr) {
                             OnFinished();
-                            OnFinished = nullptr;
                         }
                         // if (!OnFinishd.empty() && OnFinishd.top() != nullptr)
                         // {

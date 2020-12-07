@@ -25,10 +25,10 @@ void Skin::RegisterLuaScript() {
     lua.set_function("C_SetRepeat",
                      [this](int repeat) { m_sprite.SetRepeat(repeat); });
     lua.set_function("C_Play", [this]() { m_sprite.Play(); });
-    lua.set_function("C_OnAnimFinish", [this](std::function<void()> func) {
-        m_sprite.OnFinished = std::move(func);
-        // FIXME:How to pass lua callback properly??
+    lua.set_function("C_IsPlaying", [this]() {
+        return m_sprite.GetStatus() == as::AnimatedSprite::Playing;
     });
+    m_sprite.OnFinished = [&lua]() { lua["CompAnimation"]["OnFinish"](); };
 }
 
 }  // namespace component
