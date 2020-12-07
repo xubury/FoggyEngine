@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <functional>
+#include <sol/sol.hpp>
 #include <stack>
 
 #include "AnimationSystem/Animation.hpp"
@@ -20,12 +21,14 @@ class AnimatedSprite : public sf::Drawable, public sf::Transformable {
 
     using FuncType = std::function<void()>;
     static FuncType default_func;
-    FuncType OnFinishd;
+    FuncType OnFinished;
     enum Status { Stopped, Pasued, Playing };
 
     AnimatedSprite(Animation *animation = nullptr, Status status = Playing,
                    const sf::Time &delta_time = sf::milliseconds(100),
                    bool loop = true, int repeat = 0);
+
+    ~AnimatedSprite();
 
     void SetAnimation(Animation *animation);
     Animation *GetAnimation() const;

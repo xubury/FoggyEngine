@@ -1,6 +1,6 @@
-#include "EntitySystem/Components/Skin.hpp"
-
 #include <utility>
+
+#include "EntitySystem/Components/Skin.hpp"
 
 namespace foggy {
 namespace component {
@@ -14,10 +14,10 @@ Skin::Skin(sol::state &lua) : lua(lua) {
     lua.set_function("C_SetRepeat",
                      [this](int repeat) { m_sprite.SetRepeat(repeat); });
     lua.set_function("C_Play", [this]() { m_sprite.Play(); });
-    lua.set_function("C_OnAnimFinish",
-                     [this](std::function<void()> func) {
-        //FIXME:How to pass lua callback properly??
-         });
+    lua.set_function("C_OnAnimFinish", [this](std::function<void()> func) {
+        m_sprite.OnFinished = std::move(func);
+        // FIXME:How to pass lua callback properly??
+    });
 }
 
 std::string Skin::GetCurrentState() { return lua["states"]["current"]; }

@@ -38,7 +38,7 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
         [s = lua_script.Get()](const sf::Event &) { s->lua["Squat"](); });
     handle->Bind(
         Configuration::PlayerInput::Down_Realeased,
-        [s = lua_script.Get()](const sf::Event &) { s->lua["Standup"](); });
+        [s = lua_script.Get()](const sf::Event &) { s->lua["Stand"](); });
     handle->Bind(
         Configuration::PlayerInput::Left,
         [s = lua_script.Get()](const sf::Event &) { s->lua["Move"](-10, 0); });

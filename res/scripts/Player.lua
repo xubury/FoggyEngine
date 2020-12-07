@@ -7,7 +7,6 @@ CompAnimation = {
         events = {
             {name = 'Move',   from = 'idle',                                            to = 'run'},
             {name = 'Squat',  from = {'idle', 'run'},                                   to = 'squat'},
-            {name = 'Stand',  from = 'squat',                                           to = 'idle'},
             {name = 'Attack', from = {'idle', 'run'},                                   to = 'attack0'},
             {name = 'Attack', from = 'attack0',                                         to = 'attack1'},
             {name = 'Attack', from = 'attack1',                                         to = 'attack2'},
@@ -41,10 +40,9 @@ CompAnimation = {
                 end);
             end,
             onSquat = function (self, event, from, to)
-                print(to)
-            end,
-            onStand = function (self, event, from, to)
-                print(to)
+                C_SetAnimation(PlayerAnim.Squat)
+                C_SetLoop(true)
+                C_Play()
             end
         }
     })
@@ -67,7 +65,7 @@ CompCollision = {
 
 function Update()
     local x, y = C_GetSpeed()
-    if CompAnimation.states.current == 'Run' and math.sqrt(x * x + y * y) < 80 / 32 then
+    if CompAnimation.states.current == 'run' and math.sqrt(x * x + y * y) < 80 / 32 then
         CompAnimation.states:Reset()
     end
 end
@@ -98,6 +96,6 @@ function Squat()
     CompAnimation.states:Squat()
 end
 
-function Standup()
-    CompAnimation.states:Stand()    
+function Stand()
+    CompAnimation.states:Reset()    
 end

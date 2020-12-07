@@ -27,18 +27,19 @@ Animation = {
             cols = 7,
             rows = 16
         },
+        --TODO
         stand = {
             id = PlayerAnim.Stand,
             texture = Textures.PlayerAnim_Sheet,
-            start_frame = 4,
-            end_frame = 5,
+            start_frame = 0,
+            end_frame = 0,
             cols = 7,
             rows = 16
         },
         squat = {
             id = PlayerAnim.Squat,
             texture = Textures.PlayerAnim_Sheet,
-            start_frame = 6,
+            start_frame = 4,
             end_frame = 7,
             cols = 7,
             rows = 16

@@ -14,6 +14,8 @@ AnimatedSprite::AnimatedSprite(Animation *animation, Status status,
     SetAnimation(animation);
 }
 
+AnimatedSprite::~AnimatedSprite() { OnFinished = nullptr; }
+
 void AnimatedSprite::SetAnimation(Animation *animation) {
     if (m_animation != animation) {
         m_animation = animation;
@@ -77,7 +79,10 @@ void AnimatedSprite::Update(const sf::Time &delta_time) {
                     --m_repeat;
                     if (m_repeat <= 0) {
                         m_status = Stopped;
-                        if (OnFinishd != nullptr) OnFinishd();
+                        if (OnFinished != nullptr) {
+                            OnFinished();
+                            OnFinished = nullptr;
+                        }
                         // if (!OnFinishd.empty() && OnFinishd.top() != nullptr)
                         // {
                         //     auto &func = OnFinishd.top();
