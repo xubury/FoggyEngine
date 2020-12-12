@@ -28,6 +28,8 @@ void Skin::RegisterLuaScript() {
     lua.set_function("C_IsPlaying", [this]() {
         return m_sprite.GetStatus() == as::AnimatedSprite::Playing;
     });
+    lua.set_function("C_SetSpriteScale",
+                     [this](float x, float y) { m_sprite.setScale(x, y); });
     m_sprite.OnFinished = [&lua]() { lua["CompAnimation"]["OnFinish"](); };
 }
 

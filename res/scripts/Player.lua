@@ -9,6 +9,8 @@ local PlayAttackAnim = function (id)
     C_Play()
 end
 
+local front_x
+
 CompAnimation = {
     anim_queue = deque.new(),
     OnFinish = function ()
@@ -55,7 +57,7 @@ CompAnimation = {
                 elseif to == 'attack2' then
                     CompAnimation.anim_queue:pop_right()
                     CompAnimation.anim_queue:push_right(function ()
-                        C_ApplyLinearImpulse(100, 0)
+                        C_ApplyLinearImpulse(100 * front_x, 0)
                         PlayAttackAnim(PlayerAnim.Sword_Attack_2)
                     end)
                     CompAnimation.anim_queue:push_right(function ()
@@ -96,13 +98,22 @@ function Update()
 end
 
 local last_move_timer = os.clock()
-function Move (x, y)
+function Move(x, y)
+    local current_state = CompAnimation.states.current
+    if IsAttacking() then
+        return
+    end
     local move_timer = os.clock()
     if move_timer - last_move_timer < 0.02 then
         return
     end
+    if x > 0 then
+        front_x = 1
+    else
+        front_x = -1
+    end
+    C_SetSpriteScale(front_x, 1)
     last_move_timer = move_timer
-    local current_state = CompAnimation.states.current
     if current_state == 'idle' or current_state == 'run' then
         C_ApplyLinearImpulse(x, y)
     end
@@ -126,4 +137,12 @@ end
 
 function Stand()
     CompAnimation.states:Reset()
+end
+
+function IsAttacking()
+    if string.match(CompAnimation.states.current, "attack%d") then
+        return true
+    else
+        return false
+    end
 end
