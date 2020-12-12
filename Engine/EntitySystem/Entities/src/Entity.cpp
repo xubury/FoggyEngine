@@ -32,25 +32,5 @@ void DefaultEntity::draw(sf::RenderTarget &target,
     }
 }
 
-void DefaultEntity::SetPosition(float x, float y) {
-    Component<component::Transform>()->SetPosition(x, y);
-}
-
-void DefaultEntity::SetPosition(const sf::Vector2f &pos) {
-    SetPosition(pos.x, pos.y);
-}
-
-sf::Vector2f DefaultEntity::GetPosition() const {
-    return Component<component::Transform>()->GetPosition();
-}
-
-void DefaultEntity::SetRotation(float angle) {
-    Component<component::Transform>()->SetRotation(angle);
-}
-
-float DefaultEntity::GetRotation() const {
-    return Component<component::Transform>()->GetRotation();
-}
-
 }  // namespace es
 }  // namespace foggy

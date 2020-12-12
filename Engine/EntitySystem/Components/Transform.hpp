@@ -13,12 +13,6 @@ struct Transform : es::Component<Transform, es::DefaultEntity>,
                    sf::Transformable {
    public:
     Transform();
-    void SetPosition(float x, float y);
-    void SetPosition(const sf::Vector2f &pos);
-    sf::Vector2f GetPosition() const;
-
-    void SetRotation(float angle);
-    float GetRotation() const;
 };
 
 }  // namespace component

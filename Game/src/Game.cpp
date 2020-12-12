@@ -6,6 +6,7 @@
 #include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/Controller.hpp"
 #include "EntitySystem/Components/Skin.hpp"
+#include "EntitySystem/Components/Transform.hpp"
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 #include "EntitySystem/Systems/SkinSystem.hpp"
 #include "Game.hpp"
@@ -18,6 +19,7 @@ Game::Game(int width, int height, const std::string &title)
       // m_world(sf::Vector2f(0, -9.8f)),
       m_hud_camera(m_window.getDefaultView()) {
     m_cam = m_window.getDefaultView();
+    m_cam.setSize(width, -height);
 
     m_app.systems.Add<foggy::es::CollisionSystem>(0, -9.8);
     m_app.systems.Add<foggy::es::SkinSystem>();
@@ -80,12 +82,12 @@ void Game::ProcessEvent() {
             }
         } else if (event.type == sf::Event::Resized) {
             // update the view to the new size of the window
-            m_cam.Resize(event.size.width, event.size.height);
+            m_cam.setSize(event.size.width, -(int)event.size.height);
             m_hud_camera.reset(
                 sf::FloatRect(0, 0, event.size.width, event.size.height));
         } else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            sf::Vector2f pos =
-                m_cam.ViewToWorld(m_window, sf::Mouse::getPosition(m_window));
+            sf::Vector2f pos = m_window.mapPixelToCoords(
+                sf::Mouse::getPosition(m_window), m_cam);
             int id = m_app.entities.Create();
             b2BodyDef body_def;
             body_def.position.Set(
@@ -107,8 +109,8 @@ void Game::ProcessEvent() {
             m_timer.AddTimer(sf::seconds(3),
                              [id, this]() { m_app.entities.Remove(id); });
         } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-            sf::Vector2f pos =
-                m_cam.ViewToWorld(m_window, sf::Mouse::getPosition(m_window));
+            sf::Vector2f pos = m_window.mapPixelToCoords(
+                sf::Mouse::getPosition(m_window), m_cam);
             int id = m_app.entities.Create();
             b2BodyDef body_def;
             body_def.position.Set(
@@ -149,14 +151,19 @@ void Game::ProcessEvent() {
 
 void Game::Update(sf::Time &delta_time) {
     Player *player = dynamic_cast<Player *>(m_app.entities.GetPtr(m_player_id));
-    sf::Vector2f pos = player->GetPosition() - m_cam.GetCenter();
-    m_cam.Move(pos.x, pos.y);
+    sf::Vector2f pos =
+        player->Component<foggy::component::Transform>()->getPosition() -
+        m_cam.getCenter();
+    m_cam.move(pos.x, pos.y);
     m_timer.Update();
     m_app.Update(delta_time);
 }
 
 void Game::Render() {
     m_window.clear();
+    m_fps.setString("FPS: " + std::to_string(GetFps()));
+    m_window.setView(m_hud_camera);
+    m_window.draw(m_fps);
 
     m_window.setView(m_cam);
 
@@ -165,9 +172,6 @@ void Game::Render() {
     for (; iter != end; ++iter) {
         m_window.draw(m_app.entities.Get(*iter));
     }
-    m_fps.setString("FPS: " + std::to_string(GetFps()));
-    m_window.setView(m_hud_camera);
-    m_window.draw(m_fps);
 
     m_fps_clock.restart();
     m_window.display();

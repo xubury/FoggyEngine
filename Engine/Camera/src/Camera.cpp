@@ -16,26 +16,6 @@ Camera &Camera::operator=(sf::View view) {
     return *this;
 }
 
-void Camera::Move(const int x, const int y) { move(x, -y); }
-
-void Camera::Resize(const int width, const int height) {
-    sf::Vector2f pos = GetPosition();
-    setCenter(pos.x + width / 2.f, -pos.y + height / 2.f);
-    setSize(width, height);
-}
-
-sf::Vector2f Camera::GetPosition() const {
-    sf::Vector2f pos(getCenter().x - getSize().x / 2,
-                     -getCenter().y + getSize().y / 2);
-    return pos;
-}
-
-sf::Vector2f Camera::GetCenter() const {
-    sf::Vector2f center(getCenter());
-    center.y = -center.y;
-    return center;
-}
-
 void Camera::Update() {}
 
 }  // namespace foggy

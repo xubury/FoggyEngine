@@ -99,7 +99,7 @@ void AnimatedSprite::Update(const sf::Time &delta_time) {
     }
 }
 
-void AnimatedSprite::SetFrame(std::size_t index, bool reset_time) {
+void AnimatedSprite::SetFrame(std::size_t index, bool reset_time, bool flip_y) {
     if (m_animation != nullptr) {
         sf::IntRect rect = m_animation->GetRect(index);
 
@@ -117,10 +117,17 @@ void AnimatedSprite::SetFrame(std::size_t index, bool reset_time) {
         float top = (float)rect.top;
         float bottom = top + (float)rect.height;
 
-        m_vertices[0].texCoords = sf::Vector2f(left, top);
-        m_vertices[1].texCoords = sf::Vector2f(left, bottom);
-        m_vertices[2].texCoords = sf::Vector2f(right, bottom);
-        m_vertices[3].texCoords = sf::Vector2f(right, top);
+        if (flip_y) {
+            m_vertices[0].texCoords = sf::Vector2f(left, bottom);
+            m_vertices[1].texCoords = sf::Vector2f(left, top);
+            m_vertices[2].texCoords = sf::Vector2f(right, top);
+            m_vertices[3].texCoords = sf::Vector2f(right, bottom);
+        } else {
+            m_vertices[0].texCoords = sf::Vector2f(left, top);
+            m_vertices[1].texCoords = sf::Vector2f(left, bottom);
+            m_vertices[2].texCoords = sf::Vector2f(right, bottom);
+            m_vertices[3].texCoords = sf::Vector2f(right, top);
+        }
     }
     if (reset_time) {
         m_time_elapsed = sf::Time::Zero;
