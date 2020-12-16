@@ -61,12 +61,13 @@ void VLayout::ProcessEvents(const sf::Vector2f &parent_pos) {
 
 void VLayout::UpdateShape() {
     float max_x = (m_parent ? m_parent->GetSize().x : 0);
-    Widget *max_widget =
-        *std::max_element(m_widgets.begin(), m_widgets.end(),
-                          [](const Widget *lhs, const Widget *rhs) -> bool {
-                              return lhs->GetSize().x < rhs->GetSize().x;
-                          });
-    max_x = std::max(max_x, max_widget->GetSize().x);
+    auto max_widget =
+        std::max_element(m_widgets.begin(), m_widgets.end(),
+                         [](const Widget *lhs, const Widget *rhs) -> bool {
+                             return lhs->GetSize().x < rhs->GetSize().x;
+                         });
+    if (max_widget != m_widgets.end())
+        max_x = std::max(max_x, (*max_widget)->GetSize().x);
 
     for (Widget *widget : m_widgets) {
         sf::Vector2f size = widget->GetSize();

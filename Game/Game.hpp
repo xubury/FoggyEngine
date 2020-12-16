@@ -9,6 +9,7 @@
 
 #include "Camera/Camera.hpp"
 #include "EntitySystem/Application.hpp"
+#include "GUI/Frame.hpp"
 #include "Systems/HealthSystem.hpp"
 #include "TimerSystem/TimerSystem.hpp"
 
@@ -25,7 +26,15 @@ class Game {
 
     float GetFps();
 
+    enum Status{
+        MainMenu,
+        Normal
+    };
    private:
+    void InitGui();
+
+    void InitWorld();
+
     void Render();
 
     void Update(sf::Time &delta_time);
@@ -40,16 +49,19 @@ class Game {
 
     sf::Text m_fps;
 
-    // foggy::World m_world;
     sf::View m_hud_camera;
 
     foggy::Camera m_cam;
 
     foggy::es::Application<foggy::es::DefaultEntity> m_app;
 
-    uint32_t m_player_id;
+    int32_t m_player_id;
 
     foggy::ts::TimerSystem m_timer;
+
+    foggy::Frame m_main_menu;
+
+    Status m_status;
 };
 
 inline float Game::GetFps() {

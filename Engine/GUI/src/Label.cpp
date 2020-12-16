@@ -24,12 +24,20 @@ void Label::SetCharacterSize(uint32_t size) {
 
 uint32_t Label::GetCharacterSize() const { return m_text.getCharacterSize(); }
 
+void Label::SetOrigin(float x, float y) {
+    m_text.setOrigin(x, y);
+}
+
 sf::Vector2f Label::GetSize() const {
     sf::FloatRect rect = m_text.getGlobalBounds();
     return sf::Vector2f(rect.width, rect.height);
 }
 
 void Label::SetTextColor(const sf::Color &color) { m_text.setFillColor(color); }
+
+sf::Color Label::GetTextColor() const {
+    return m_text.getFillColor();
+}
 
 void Label::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     states.transform.translate(m_pos);

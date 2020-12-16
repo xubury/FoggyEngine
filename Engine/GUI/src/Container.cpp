@@ -16,13 +16,12 @@ Container::~Container() {
 void Container::SetLayout(Layout *layout) {
     if (m_layout != nullptr && m_layout->m_parent == this) {
         m_layout->m_parent = nullptr;
+        delete m_layout;
     }
     if ((m_layout = layout) != nullptr) {
         m_layout->m_parent = this;
         m_layout->UpdateShape();
     }
-
-    m_layout = layout;
 }
 
 Layout *Container::GetLayout() const { return m_layout; }
@@ -52,7 +51,7 @@ bool Container::ProcessEvent(const sf::Event &event,
 
 void Container::ProcessEvents(const sf::Vector2f &parent_pos) {
     if (m_layout != nullptr) {
-        ProcessEvents(parent_pos);
+        m_layout->ProcessEvents(parent_pos);
     }
 }
 

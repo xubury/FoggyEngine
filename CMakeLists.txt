@@ -11,7 +11,7 @@ find_package(Lua REQUIRED)
 set(Utils_Src
     Engine/util/src/Memory.cpp)
 
-set(Animation_Src 
+set(Animation_Src
     Engine/AnimationSystem/src/Animation.cpp
     Engine/AnimationSystem/src/AnimatedSprite.cpp)
 
@@ -27,7 +27,7 @@ set(ES_Src
 set(GUI_Src
     Engine/GUI/src/Widget.cpp Engine/GUI/src/Label.cpp
     Engine/GUI/src/Button.cpp Engine/GUI/src/Frame.cpp
-    Engine/GUI/src/Container.cpp Engine/GUI/src/Label.cpp)
+    Engine/GUI/src/Container.cpp Engine/GUI/src/Layout.cpp)
 
 set(Engine_Src ${Utils_Src} ${ES_Src} ${Animation_Src} ${GUI_Src}
     ${Lua_Src}
@@ -35,15 +35,15 @@ set(Engine_Src ${Utils_Src} ${ES_Src} ${Animation_Src} ${GUI_Src}
     Engine/Camera/src/Camera.cpp
     Engine/TimerSystem/src/TimerSystem.cpp)
 
-add_executable(foggy 
-    ${Engine_Src} Game/src/main.cpp Game/src/Game.cpp 
+add_executable(foggy
+    ${Engine_Src} Game/src/main.cpp Game/src/Game.cpp
     Game/Configuration/src/Configuration.cpp
     Game/Player/src/Player.cpp
     Game/Systems/src/HealthSystem.cpp)
 
-target_link_libraries(foggy PUBLIC 
-    sfml-audio sfml-graphics sfml-window sfml-system sfml-network 
-    box2d 
+target_link_libraries(foggy PUBLIC
+    sfml-audio sfml-graphics sfml-window sfml-system sfml-network
+    box2d
     ${LUA_LIBRARIES})
 
 target_include_directories(foggy PUBLIC Game Engine ${LUA_INCLUDE_DIR})
