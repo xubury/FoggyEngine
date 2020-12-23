@@ -50,7 +50,7 @@ class VComponent {
 
     VComponent();
 
-    static Family s_family_counter;
+    static uint32_t s_family_counter;
 
    private:
     EntityManager<ENTITY> *m_manager;
@@ -59,7 +59,7 @@ class VComponent {
 
 #define ES_INIT_VCOMPONENT(ENTITY) \
     template <>                    \
-    foggy::es::Family foggy::es::VComponent<ENTITY>::s_family_counter = 0;
+    uint32_t foggy::es::VComponent<ENTITY>::s_family_counter = 0;
 
 template <typename COMPONENT, typename ENTITY>
 class Component : public VComponent<ENTITY> {
@@ -71,7 +71,7 @@ class Component : public VComponent<ENTITY> {
     virtual ~Component() = default;
 
     void Remove();
-    static Family Family();
+    static uint32_t Family();
     using Handle = ComponentHandle<COMPONENT, ENTITY>;
 };
 
@@ -128,8 +128,8 @@ inline void Component<COMPONENT, ENTITY>::Remove() {
 }
 
 template <typename COMPONENT, typename ENTITY>
-inline Family Component<COMPONENT, ENTITY>::Family() {
-    static ::foggy::es::Family family = VComponent<ENTITY>::s_family_counter++;
+inline uint32_t Component<COMPONENT, ENTITY>::Family() {
+    static uint32_t family = VComponent<ENTITY>::s_family_counter++;
     assert(family < MAX_COMPONENTS);
     return family;
 }

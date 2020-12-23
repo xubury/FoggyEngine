@@ -5,7 +5,6 @@
 namespace foggy {
 namespace es {
 
-using Family = uint32_t;
 constexpr int MAX_COMPONENTS = 32;
 
 }  // namespace es

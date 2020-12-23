@@ -1,5 +1,5 @@
 #define SOL_ALL_SAFETIES_ON 1
-#include <Box2D/Box2D.h>
+#include <box2d/box2d.h>
 
 #include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/LuaScript.hpp"

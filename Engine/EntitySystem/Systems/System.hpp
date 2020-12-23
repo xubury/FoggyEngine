@@ -29,7 +29,7 @@ class VSystem {
 
    protected:
     VSystem() = default;
-    static Family s_family_counter;
+    static uint32_t s_family_counter;
 };
 
 template <typename COMPONENT, typename ENTITY>
@@ -41,12 +41,12 @@ class System : public VSystem<ENTITY> {
     System() = default;
     virtual ~System() = default;
 
-    static Family Family();
+    static uint32_t Family();
 };
 
 #define ES_INIT_VSYSTEM(ENTITY) \
     template <>                 \
-    foggy::es::Family foggy::es::VSystem<ENTITY>::s_family_counter = 0;
+    uint32_t foggy::es::VSystem<ENTITY>::s_family_counter = 0;
 
 template <typename ENTITY>
 class SystemManager {
@@ -76,20 +76,19 @@ class SystemManager {
 
    private:
     EntityManager<ENTITY>& m_manager;
-    std::unordered_map<Family, std::shared_ptr<VSystem<ENTITY>>> m_systems;
+    std::unordered_map<uint32_t, std::shared_ptr<VSystem<ENTITY>>> m_systems;
 };
 
 template <typename COMPONENT, typename ENTITY>
-Family System<COMPONENT, ENTITY>::Family() {
-    static ::foggy::es::Family family = VSystem<ENTITY>::s_family_counter++;
+uint32_t System<COMPONENT, ENTITY>::Family() {
+    static uint32_t family = VSystem<ENTITY>::s_family_counter++;
     assert(family < MAX_COMPONENTS);
     return family;
 }
 
 template <typename ENTITY>
 SystemManager<ENTITY>::SystemManager(EntityManager<ENTITY>& manager)
-    : m_manager(manager) {
-}
+    : m_manager(manager) {}
 
 template <typename ENTITY>
 void SystemManager<ENTITY>::UpdateAll(const sf::Time& deltaTime) {

@@ -318,7 +318,7 @@ template <typename COMPONENT, typename... ARGS>
 inline ComponentHandle<COMPONENT, ENTITY> EntityManager<ENTITY>::AddComponent(
     uint32_t id, ARGS &&...args) {
     CheckComponent<COMPONENT>();
-    Family family = COMPONENT::Family();
+    uint32_t family = COMPONENT::Family();
 
     assert(!m_entites_component_masks.at(id).test(family));
     utils::memory::Pool<COMPONENT> *pool =
@@ -337,7 +337,7 @@ template <class ENTITY>
 template <typename COMPONENT>
 inline void EntityManager<ENTITY>::RemoveComponent(uint32_t id) {
     // CheckComponent<COMPONENT>();
-    Family family = COMPONENT::Family();
+    uint32_t family = COMPONENT::Family();
     assert(m_entites_component_masks.at(id).test(family));
 
     utils::memory::Pool<COMPONENT> *pool =
@@ -351,7 +351,7 @@ inline void EntityManager<ENTITY>::RemoveComponent(uint32_t id) {
 template <class ENTITY>
 template <typename COMPONENT>
 inline bool EntityManager<ENTITY>::HasComponent(uint32_t id) const {
-    Family family = COMPONENT::Family();
+    uint32_t family = COMPONENT::Family();
     return m_entites_component_masks.at(id).test(family);
 }
 
@@ -375,7 +375,7 @@ EntityManager<ENTITY>::GetComponents(uint32_t id) const {
 template <class ENTITY>
 template <typename COMPONENT>
 inline COMPONENT *EntityManager<ENTITY>::GetComponentPtr(uint32_t id) const {
-    Family family = COMPONENT::Family();
+    uint32_t family = COMPONENT::Family();
     return &static_cast<utils::memory::Pool<COMPONENT> *>(
                 m_components_entites[family])
                 ->At(id);
@@ -419,7 +419,7 @@ inline void EntityManager<ENTITY>::Reset(uint32_t id) {
 template <class ENTITY>
 template <typename COMPONENT>
 inline void EntityManager<ENTITY>::CheckComponent() {
-    Family family = COMPONENT::Family();
+    uint32_t family = COMPONENT::Family();
     if (m_components_entites.size() <= family) {
         m_components_entites.resize(family + 1, nullptr);
     }

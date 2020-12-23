@@ -8,15 +8,14 @@
 namespace foggy {
 namespace component {
 
-Collision::Collision(b2BodyDef &def, bool debug) : b2body_ref(nullptr), b2body_def(def), debug(debug) {
-}
+Collision::Collision(b2BodyDef &def, bool debug)
+    : b2body_ref(nullptr), b2body_def(def), debug(debug) {}
 
 Collision::~Collision() { b2body_ref->GetWorld()->DestroyBody(b2body_ref); }
 
 void Collision::AddFixture(const b2FixtureDef &fixture) {
     if (b2body_ref == nullptr) {
-        es::SystemManager<es::DefaultEntity> *systems =
-            Manager()->GetSystems();
+        es::SystemManager<es::DefaultEntity> *systems = Manager()->GetSystems();
         assert(systems != nullptr);
         auto *world = systems->System<es::CollisionSystem>();
         assert(world != nullptr);
@@ -44,9 +43,9 @@ void Collision::AddFixture(const b2FixtureDef &fixture) {
         debug_shape.emplace_back(std::make_unique<sf::ConvexShape>());
         sf::ConvexShape *convex =
             static_cast<sf::ConvexShape *>(debug_shape.back().get());
-        convex->setPointCount(rect->GetVertexCount());
-        for (int i = 0; i < rect->GetVertexCount(); ++i) {
-            b2Vec2 pt = rect->GetVertex(i);
+        convex->setPointCount(rect->m_count);
+        for (int i = 0; i < rect->m_count; ++i) {
+            b2Vec2 pt = rect->m_vertices[i];
             convex->setPoint(
                 i, sf::Vector2f(converter::MetersToPixels(pt.x / scale.x),
                                 converter::MetersToPixels(-pt.y / scale.y)));

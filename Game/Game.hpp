@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <Box2D/Box2D.h>
+#include <box2d/box2d.h>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -26,10 +26,8 @@ class Game {
 
     float GetFps();
 
-    enum Status{
-        MainMenu,
-        Normal
-    };
+    enum Status { MainMenu, Normal };
+
    private:
     void InitGui();
 

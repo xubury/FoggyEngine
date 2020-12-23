@@ -1,4 +1,4 @@
-#include <Box2D/Dynamics/b2Body.h>
+#include <box2d/b2_body.h>
 
 #include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/Skin.hpp"

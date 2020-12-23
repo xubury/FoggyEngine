@@ -1,7 +1,7 @@
 #ifndef COLLISION_H
 #define COLLISION_H
 
-#include <Box2D/Box2D.h>
+#include <box2d/box2d.h>
 
 #include <SFML/Graphics/Shape.hpp>
 

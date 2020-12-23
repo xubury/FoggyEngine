@@ -1,7 +1,7 @@
 #ifndef COLLISIONSYSTEM_H
 #define COLLISIONSYSTEM_H
 
-#include <Box2D/Box2D.h>
+#include <box2d/box2d.h>
 
 #include "EntitySystem/ES.hpp"
 #include "EntitySystem/Entities/Entity.hpp"
