@@ -25,18 +25,27 @@ set(ES_Src
     Engine/EntitySystem/Systems/src/SkinSystem.cpp)
 
 set(GUI_Src
-    Engine/GUI/src/Widget.cpp Engine/GUI/src/Label.cpp
-    Engine/GUI/src/Button.cpp Engine/GUI/src/Frame.cpp
-    Engine/GUI/src/Container.cpp Engine/GUI/src/Layout.cpp)
+    Engine/GUI/src/Widget.cpp 
+    Engine/GUI/src/Label.cpp
+    Engine/GUI/src/Button.cpp 
+    Engine/GUI/src/Frame.cpp
+    Engine/GUI/src/Container.cpp 
+    Engine/GUI/src/Layout.cpp)
 
-set(Engine_Src ${Utils_Src} ${ES_Src} ${Animation_Src} ${GUI_Src}
+set(Engine_Src 
+    ${Utils_Src}
+    ${ES_Src}
+    ${Animation_Src}
+    ${GUI_Src}
     ${Lua_Src}
     Engine/ActionSystem/src/Action.cpp
     Engine/Camera/src/Camera.cpp
     Engine/TimerSystem/src/TimerSystem.cpp)
 
 add_executable(foggy
-    ${Engine_Src} Game/src/main.cpp Game/src/Game.cpp
+    ${Engine_Src} 
+    Game/src/main.cpp 
+    Game/src/Game.cpp
     Game/Configuration/src/Configuration.cpp
     Game/Player/src/Player.cpp
     Game/Systems/src/HealthSystem.cpp)
