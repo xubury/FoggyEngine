@@ -5,8 +5,8 @@ project(FoggyEngine VERSION 0.1.0)
 find_package(SFML 2 COMPONENTS audio graphics window system network)
 find_package(box2d REQUIRED)
 find_package(Lua REQUIRED)
-
-#set(Lua_Src)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(JSONCPP jsoncpp)
 
 set(Utils_Src
     Engine/util/src/Memory.cpp)
@@ -32,12 +32,18 @@ set(GUI_Src
     Engine/GUI/src/Container.cpp 
     Engine/GUI/src/Layout.cpp)
 
+set(TileMap_Src
+    Engine/TileMap/src/Layer.cpp
+    Engine/TileMap/src/Map.cpp
+    Engine/TileMap/src/Square.cpp)
+
 set(Engine_Src 
     ${Utils_Src}
     ${ES_Src}
     ${Animation_Src}
     ${GUI_Src}
     ${Lua_Src}
+    ${TileMap_Src}
     Engine/ActionSystem/src/Action.cpp
     Engine/Camera/src/Camera.cpp
     Engine/TimerSystem/src/TimerSystem.cpp)
@@ -53,7 +59,8 @@ add_executable(foggy
 target_link_libraries(foggy PUBLIC
     sfml-audio sfml-graphics sfml-window sfml-system sfml-network
     box2d
-    ${LUA_LIBRARIES})
+    ${LUA_LIBRARIES}
+    ${JSONCPP_LIBRARIES})
 
 target_include_directories(foggy PUBLIC Game Engine ${LUA_INCLUDE_DIR})
 
