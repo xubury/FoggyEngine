@@ -34,7 +34,7 @@ void Game::Run(int min_fps) {
     // m_window.setFramerateLimit(120);
 
     m_fps = sf::Text("FPS: " + std::to_string(GetFps()),
-                     Configuration::fonts.Get(Configuration::FontType::GUI));
+                     Configuration::fonts.get(Configuration::FontType::GUI));
 
     sf::Clock clock;
     m_time_since_last_update = sf::Time::Zero;
@@ -195,7 +195,7 @@ void Game::InitGui() {
     layout->setSpace(25);
     auto *btn = new foggy::TextButton(
         "New", sf::Color::Green, sf::Color::White, 5,
-        Configuration::fonts.Get(Configuration::GUI), sf::Color::White);
+        Configuration::fonts.get(Configuration::GUI), sf::Color::White);
     btn->onClick = [this](const sf::Event &, foggy::Button &) { InitWorld(); };
     layout->add(btn);
     m_main_menu.setLayout(layout);

@@ -48,7 +48,7 @@ void Configuration::LoadFont(int id, const std::string &filename) {
 
 void Configuration::LoadPlayerAnimation(int id, int texture_id, int start_frame,
                                         int end_frame, int cols, int rows) {
-    player_anims.load((PlayerAnim) id, &textures.Get((Textures) texture_id))
+    player_anims.load((PlayerAnim) id, &textures.get((Textures) texture_id))
         .addFrameSheet(start_frame, end_frame, cols, rows, 35,
                        0);  // TODO: remove the offset by editing the sheet?
 }

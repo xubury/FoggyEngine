@@ -23,7 +23,7 @@ class ResourceManager {
 
     bool count(const IDENTIFIER &id);
 
-    RESOURCE &Get(const IDENTIFIER &id);
+    RESOURCE &get(const IDENTIFIER &id);
 
     template <typename... ARGS>
     RESOURCE &getOrLoad(const IDENTIFIER &id, ARGS &&...args);
@@ -100,7 +100,7 @@ RESOURCE &ResourceManager<RESOURCE, IDENTIFIER>::load(const IDENTIFIER &id,
 }
 
 template <typename RESOURCE, typename IDENTIFIER>
-RESOURCE &ResourceManager<RESOURCE, IDENTIFIER>::Get(const IDENTIFIER &id) {
+RESOURCE &ResourceManager<RESOURCE, IDENTIFIER>::get(const IDENTIFIER &id) {
     return *m_map.at(id);
 }
 
@@ -116,7 +116,7 @@ RESOURCE &ResourceManager<RESOURCE, IDENTIFIER>::getOrLoad(const IDENTIFIER &id,
     if (m_map.count(id) == 0) {
         return load(id, std::forward<ARGS>(args)...);
     }
-    return Get(id);
+    return get(id);
 }
 
 template <typename RESOURCE, typename IDENTIFIER>
