@@ -8,27 +8,27 @@ Square::__Initiatiser Square::__initiatiser__;
 
 const float height = 2;
 
-const sf::ConvexShape& Square::GetShape() { return m_shape; }
+const sf::ConvexShape& Square::getShape() { return m_shape; }
 
-sf::Vector2f Square::MapCoordsToPixel(int X, int Y, float scale) {
+sf::Vector2f Square::mapCoordsToPixel(int X, int Y, float scale) {
     return sf::Vector2f(X * scale * height, Y * scale * height);
 }
 
-sf::Vector2i Square::MapPixelToCoords(float X, float Y, float scale) {
-    return Round(X / scale / height, Y / scale / height);
+sf::Vector2i Square::mapPixelToCoords(float X, float Y, float scale) {
+    return round(X / scale / height, Y / scale / height);
 }
 
-sf::Vector2i Square::Round(float x, float y) {
+sf::Vector2i Square::round(float x, float y) {
     return sf::Vector2i(x + 0.5, y + 0.5);
 }
 
-sf::IntRect Square::GetTextureRect(int x, int y, float scale) {
-    sf::Vector2f pos = MapCoordsToPixel(x, y, scale);
+sf::IntRect Square::getTextureRect(int x, int y, float scale) {
+    sf::Vector2f pos = mapCoordsToPixel(x, y, scale);
     sf::IntRect res(pos.x, pos.y, height * scale, height * scale);
     return res;
 }
 
-int Square::Distance(int x1, int y1, int x2, int y2) {
+int Square::distance(int x1, int y1, int x2, int y2) {
     float x = x1 - x2;
     x = x * x;
 
@@ -38,7 +38,7 @@ int Square::Distance(int x1, int y1, int x2, int y2) {
     return ceil(sqrt(x + y));
 }
 
-void Square::Init() {
+void Square::init() {
     m_shape.setPointCount(4);
     m_shape.setPoint(0, sf::Vector2f(0, 0));
     m_shape.setPoint(1, sf::Vector2f(0, height));

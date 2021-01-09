@@ -15,32 +15,32 @@ class Tile : public sf::Drawable {
     Tile& operator=(Tile&&) = default;
 
     // convert pixel to word coord
-    static sf::Vector2i MapPixelToCoords(float x, float y, float scale);
-    static sf::Vector2i MapPixelToCoords(const sf::Vector2f& pos, float scale);
+    static sf::Vector2i mapPixelToCoords(float x, float y, float scale);
+    static sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos, float scale);
 
     // return the center of the tile position in pixel relative to the openGL
     // world
-    static sf::Vector2f MapCoordsToPixel(int x, int y, float scale);
-    static sf::Vector2f MapCoordsToPixel(const sf::Vector2i& pos, float scale);
+    static sf::Vector2f mapCoordsToPixel(int x, int y, float scale);
+    static sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos, float scale);
 
     Tile(int pos_x, int pos_y, float scale);
 
     template <typename... Args>
-    inline void SetFillColor(Args&&... args);
+    inline void setFillColor(Args&&... args);
 
     template <typename... Args>
-    void SetPosition(Args&&... args);
+    void setPosition(Args&&... args);
 
-    sf::Vector2f GetPosition() const;
+    sf::Vector2f getPosition() const;
 
     template <typename... Args>
-    void SetCoords(Args&&... args);
+    void setCoords(Args&&... args);
 
-    void SetTexture(const sf::Texture* texture, bool resetRect = false);
-    void SetTextureRect(const sf::IntRect& rect);
+    void setTexture(const sf::Texture* texture, bool resetRect = false);
+    void setTextureRect(const sf::IntRect& rect);
 
-    sf::FloatRect GetGlobalBounds() const;
-    sf::FloatRect GetLocalBounds() const;
+    sf::FloatRect getGlobalBounds() const;
+    sf::FloatRect getLocalBounds() const;
 
    private:
     sf::ConvexShape m_shape;
@@ -50,80 +50,80 @@ class Tile : public sf::Drawable {
 };
 
 template <typename GEOMETRY>
-inline sf::Vector2i Tile<GEOMETRY>::MapPixelToCoords(float x, float y,
+inline sf::Vector2i Tile<GEOMETRY>::mapPixelToCoords(float x, float y,
                                                      float scale) {
     return GEOMETRY::MapPixelToCoords(x, y, scale);
 }
 
 template <typename GEOMETRY>
-inline sf::Vector2i Tile<GEOMETRY>::MapPixelToCoords(const sf::Vector2f& pos,
+inline sf::Vector2i Tile<GEOMETRY>::mapPixelToCoords(const sf::Vector2f& pos,
                                                      float scale) {
-    return MapPixelToCoords(pos.x, pos.y, scale);
+    return mapPixelToCoords(pos.x, pos.y, scale);
 }
 
 template <typename GEOMETRY>
-inline sf::Vector2f Tile<GEOMETRY>::MapCoordsToPixel(int x, int y,
+inline sf::Vector2f Tile<GEOMETRY>::mapCoordsToPixel(int x, int y,
                                                      float scale) {
-    return GEOMETRY::MapCoordsToPixel(x, y, scale);
+    return GEOMETRY::mapCoordsToPixel(x, y, scale);
 }
 
 template <typename GEOMETRY>
-inline sf::Vector2f Tile<GEOMETRY>::MapCoordsToPixel(const sf::Vector2i& pos,
+inline sf::Vector2f Tile<GEOMETRY>::mapCoordsToPixel(const sf::Vector2i& pos,
                                                      float scale) {
-    return MapCoordsToPixel(pos.x, pos.y, scale);
+    return mapCoordsToPixel(pos.x, pos.y, scale);
 }
 
 template <typename GEOMETRY>
 Tile<GEOMETRY>::Tile(int pos_x, int pos_y, float scale) {
-    m_shape = GEOMETRY::GetShape();
+    m_shape = GEOMETRY::getShape();
     m_shape.setOutlineColor(sf::Color(255, 255, 255, 25));
     m_shape.setOutlineThickness(2.f / scale);
     m_shape.setScale(scale, scale);
-    SetCoords(pos_x, pos_y);
+    setCoords(pos_x, pos_y);
 }
 
 template <typename GEOMETRY>
 template <typename... Args>
-inline void Tile<GEOMETRY>::SetFillColor(Args&&... args) {
+inline void Tile<GEOMETRY>::setFillColor(Args&&... args) {
     m_shape.setFillColor(std::forward<Args&>(args)...);
 }
 
 template <typename GEOMETRY>
 template <typename... Args>
-inline void Tile<GEOMETRY>::SetPosition(Args&&... args) {
+inline void Tile<GEOMETRY>::setPosition(Args&&... args) {
     m_shape.setPosition(args...);
 }
 
 template <typename GEOMETRY>
 template <typename... Args>
-inline void Tile<GEOMETRY>::SetCoords(Args&&... args) {
+inline void Tile<GEOMETRY>::setCoords(Args&&... args) {
     sf::Vector2f pos = mapCoordsToPixel(args..., m_shape.getScale().x);
     m_shape.setPosition(pos);
 }
 
 template <typename GEOMETRY>
-inline sf::Vector2f Tile<GEOMETRY>::GetPosition() const {
+inline sf::Vector2f Tile<GEOMETRY>::getPosition() const {
     return m_shape.getPosition();
 }
 
 template <typename GEOMETRY>
-inline void Tile<GEOMETRY>::SetTexture(const sf::Texture* texture,
+inline void Tile<GEOMETRY>::setTexture(const sf::Texture* texture,
                                        bool resetRect) {
     m_shape.setTexture(texture, resetRect);
 }
 
 template <typename GEOMETRY>
-inline void Tile<GEOMETRY>::SetTextureRect(const sf::IntRect& rect) {
+inline void Tile<GEOMETRY>::setTextureRect(const sf::IntRect& rect) {
     m_shape.setTextureRect(rect);
 }
 
 template <typename GEOMETRY>
-inline sf::FloatRect Tile<GEOMETRY>::GetGlobalBounds() const {
+inline sf::FloatRect Tile<GEOMETRY>::getGlobalBounds() const {
     return m_shape.getGlobalBounds();
 }
 
 template <typename GEOMETRY>
-inline sf::FloatRect Tile<GEOMETRY>::GetLocalBounds() const {
+inline sf::FloatRect Tile<GEOMETRY>::getLocalBounds() const {
     return m_shape.getLocalBounds();
 }
 
