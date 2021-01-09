@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 namespace geometry {
+
 struct Square {
     static const sf::ConvexShape& GetShape();
     static sf::Vector2f MapCoordsToPixel(int x, int y, float scale);
@@ -20,5 +21,7 @@ struct Square {
         __Initiatiser() { Square::Init(); };
     } __initiatiser__;
 };
+
 }  // namespace geometry
+
 #endif /* SQUARE_H */
