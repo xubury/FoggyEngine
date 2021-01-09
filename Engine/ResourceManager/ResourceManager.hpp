@@ -48,7 +48,7 @@ class ResourceManager<sf::Music, IDENTIFIER> {
 
     bool count(const IDENTIFIER &id);
 
-    sf::Music &Get(const IDENTIFIER &id);
+    sf::Music &get(const IDENTIFIER &id);
 
     template <typename... ARGS>
     sf::Music &getOrLoad(const IDENTIFIER &id, ARGS &&...args);
@@ -73,7 +73,7 @@ class ResourceManager<as::Animation, IDENTIFIER> {
 
     bool count(const IDENTIFIER &id);
 
-    as::Animation &Get(const IDENTIFIER &id);
+    as::Animation &get(const IDENTIFIER &id);
 
     template <typename... ARGS>
     as::Animation &getOrLoad(const IDENTIFIER &id, ARGS &&...args);
@@ -140,7 +140,7 @@ sf::Music &ResourceManager<sf::Music, IDENTIFIER>::load(const IDENTIFIER &id,
 }
 
 template <typename IDENTIFIER>
-sf::Music &ResourceManager<sf::Music, IDENTIFIER>::Get(const IDENTIFIER &id) {
+sf::Music &ResourceManager<sf::Music, IDENTIFIER>::get(const IDENTIFIER &id) {
     return *m_map.at(id);
 }
 
@@ -156,7 +156,7 @@ sf::Music &ResourceManager<sf::Music, IDENTIFIER>::getOrLoad(
     if (m_map.count(id) == 0) {
         return load(id, std::forward<ARGS>(args)...);
     }
-    return Get(id);
+    return get(id);
 }
 
 template <typename IDENTIFIER>
@@ -178,7 +178,7 @@ as::Animation &ResourceManager<as::Animation, IDENTIFIER>::load(
 }
 
 template <typename IDENTIFIER>
-as::Animation &ResourceManager<as::Animation, IDENTIFIER>::Get(
+as::Animation &ResourceManager<as::Animation, IDENTIFIER>::get(
     const IDENTIFIER &id) {
     return *m_map.at(id);
 }
@@ -195,7 +195,7 @@ as::Animation &ResourceManager<as::Animation, IDENTIFIER>::getOrLoad(
     if (m_map.count(id) == 0) {
         return load(id, std::forward<ARGS>(args)...);
     }
-    return Get(id);
+    return get(id);
 }
 
 template <typename IDENTIFIER>
