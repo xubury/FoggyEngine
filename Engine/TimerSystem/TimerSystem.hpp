@@ -14,9 +14,9 @@ public:
 
     Timer(const sf::Time &life_time, FuncType callback);
 
-    bool IsTimeUp() const;
+    bool isTimeUp() const;
 
-    sf::Time GetRemainingTime() const;
+    sf::Time getRemainingTime() const;
 
     struct LessRemainingTime {
         bool operator()(const Timer &lhs, const Timer &rhs) const;
@@ -26,9 +26,9 @@ public:
         bool operator()(const Timer &lhs, const Timer &rhs) const;
     };
 
-    void Invoke() const;
+    void invoke() const;
 
-    void Restart();
+    void restart();
 
 private:
     sf::Clock m_spawn_timer;
@@ -38,9 +38,9 @@ private:
 
 class TimerSystem {
    public:
-    void Update();
+    void update();
 
-    void AddTimer(const sf::Time &time, const Timer::FuncType &callback);
+    void addTimer(const sf::Time &time, const Timer::FuncType &callback);
 
    private:
     PriorityQueue<Timer, std::vector<Timer>, Timer::LessRemainingTime> m_queue;

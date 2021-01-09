@@ -94,8 +94,8 @@ void Game::ProcessEvent() {
                     fixture_def.restitution = 0.5;
                     fixture_def.shape = &b2shape;
                     collsion->addFixture(fixture_def);
-                    m_timer.AddTimer(sf::seconds(3), [id, this]() {
-                        m_app.entities.Remove(id);
+                    m_timer.addTimer(sf::seconds(3), [id, this]() {
+                      m_app.entities.Remove(id);
                     });
                 } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
                     sf::Vector2f pos = m_window.mapPixelToCoords(
@@ -120,8 +120,8 @@ void Game::ProcessEvent() {
                     fixture_def.restitution = 0.5;
                     fixture_def.shape = &b2shape;
                     collsion->addFixture(fixture_def);
-                    m_timer.AddTimer(sf::seconds(3), [id, this]() {
-                        m_app.entities.Remove(id);
+                    m_timer.addTimer(sf::seconds(3), [id, this]() {
+                      m_app.entities.Remove(id);
                     });
                 } else {
                     foggy::component::Controller::Handle controller;
@@ -165,7 +165,7 @@ void Game::Update(sf::Time &delta_time) {
             m_cam.getCenter();
         m_cam.move(pos.x, pos.y);
     }
-    m_timer.Update();
+    m_timer.update();
     m_app.Update(delta_time);
 }
 

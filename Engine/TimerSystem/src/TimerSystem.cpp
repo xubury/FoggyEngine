@@ -6,34 +6,34 @@ namespace ts {
 Timer::Timer(const sf::Time &life_time, FuncType callback)
     : m_life_time(life_time), m_callback(std::move(callback)) {}
 
-bool Timer::IsTimeUp() const { return GetRemainingTime() <= sf::seconds(0); }
+bool Timer::isTimeUp() const { return getRemainingTime() <= sf::seconds(0); }
 
-sf::Time Timer::GetRemainingTime() const {
+sf::Time Timer::getRemainingTime() const {
     return m_life_time - m_spawn_timer.getElapsedTime();
 }
 
 bool Timer::LessRemainingTime::operator()(const Timer &lhs,
                                           const Timer &rhs) const {
-    return lhs.GetRemainingTime() > rhs.GetRemainingTime();
+    return lhs.getRemainingTime() > rhs.getRemainingTime();
 }
 
 bool Timer::GreaterRemainingTime::operator()(const Timer &lhs,
                                              const Timer &rhs) const {
-    return lhs.GetRemainingTime() > rhs.GetRemainingTime();
+    return lhs.getRemainingTime() > rhs.getRemainingTime();
 }
 
-void Timer::Invoke() const { m_callback(); }
+void Timer::invoke() const { m_callback(); }
 
-void Timer::Restart() { m_spawn_timer.restart(); }
+void Timer::restart() { m_spawn_timer.restart(); }
 
-void TimerSystem::Update() {
-    while (!m_queue.empty() && m_queue.top().IsTimeUp()) {
-        m_queue.top().Invoke();
+void TimerSystem::update() {
+    while (!m_queue.empty() && m_queue.top().isTimeUp()) {
+        m_queue.top().invoke();
         m_queue.pop();
     }
 }
 
-void TimerSystem::AddTimer(const sf::Time &time,
+void TimerSystem::addTimer(const sf::Time &time,
                            const Timer::FuncType &callback) {
     m_queue.emplace(time, callback);
 }
