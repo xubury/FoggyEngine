@@ -4,11 +4,11 @@ namespace utils {
 
 namespace memory {
 
-std::size_t VPool::Size() const { return m_memory.size(); }
+std::size_t VPool::size() const { return m_memory.size(); }
 
-void VPool::Resize(std::size_t size) { m_memory.resize(size, nullptr); }
+void VPool::resize(std::size_t size) { m_memory.resize(size, nullptr); }
 
-bool VPool::IsSet(std::size_t index) const {
+bool VPool::isSet(std::size_t index) const {
     return m_memory.at(index) != nullptr;
 }
 

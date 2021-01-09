@@ -19,12 +19,12 @@ inline constexpr T metersToPixels(const T& x) {
 }
 
 template <typename T>
-inline constexpr T DegToRad(const T& x) {
+inline constexpr T degToRad(const T& x) {
     return x * PI / 180;
 }
 
 template <typename T>
-inline constexpr T RadToDeg(const T& x) {
+inline constexpr T radToDeg(const T& x) {
     return x * 180 / PI;
 }
 

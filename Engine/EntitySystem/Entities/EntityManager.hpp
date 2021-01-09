@@ -182,7 +182,7 @@ inline uint32_t EntityManager<ENTITY>::Create(ARGS &&...args) {
         std::size_t comp_size = m_components_entites.size();
         for (std::size_t i = 0; i < comp_size; ++i) {
             if (m_components_entites[i] != nullptr) {
-                m_components_entites[i]->Resize(index + 1);
+                m_components_entites[i]->resize(index + 1);
             }
         }
         m_entites_allocated[index] =
@@ -210,7 +210,7 @@ inline void EntityManager<ENTITY>::Emplace(uint32_t index, ARGS &&...args) {
             if (m_components_entites[i] != nullptr) {
                 /* resize the components pool in case the new entity needs to
                  * add a certain kind of component */
-                m_components_entites[i]->Resize(index + 1);
+                m_components_entites[i]->resize(index + 1);
             }
         }
     } else if (m_entites_allocated[index] !=
@@ -257,7 +257,7 @@ inline void EntityManager<ENTITY>::Reset() {
     for (std::size_t i = 0; i < comp_size; ++i) {
         if (m_components_entites[i] != nullptr) {
             for (std::size_t j = 0; j < m_entities_index.size(); ++j) {
-                m_components_entites[i]->Erase<VComponent<ENTITY>>(j);
+                m_components_entites[i]->erase<VComponent<ENTITY>>(j);
             }
             delete m_components_entites[i];
         }
@@ -325,9 +325,9 @@ inline ComponentHandle<COMPONENT, ENTITY> EntityManager<ENTITY>::AddComponent(
         static_cast<utils::memory::Pool<COMPONENT> *>(
             m_components_entites[family]);
 
-    pool->Emplace(id, std::forward<ARGS>(args)...);
-    pool->At(id).m_owner_id = id;
-    pool->At(id).m_manager = this;
+    pool->emplace(id, std::forward<ARGS>(args)...);
+    pool->at(id).m_owner_id = id;
+    pool->at(id).m_manager = this;
 
     m_entites_component_masks.at(id).set(family);
     return ComponentHandle<COMPONENT, ENTITY>(this, id);
@@ -343,7 +343,7 @@ inline void EntityManager<ENTITY>::RemoveComponent(uint32_t id) {
     utils::memory::Pool<COMPONENT> *pool =
         static_cast<utils::memory::Pool<COMPONENT> *>(
             m_components_entites[family]);
-    pool->Erase(id);
+    pool->erase(id);
 
     m_entites_component_masks.at(id).reset(family);
 }
@@ -377,8 +377,8 @@ template <typename COMPONENT>
 inline COMPONENT *EntityManager<ENTITY>::GetComponentPtr(uint32_t id) const {
     uint32_t family = COMPONENT::family();
     return &static_cast<utils::memory::Pool<COMPONENT> *>(
-                m_components_entites[family])
-                ->At(id);
+        m_components_entites[family])
+        ->at(id);
 }
 
 template <typename COMPONENT>
@@ -408,7 +408,7 @@ inline void EntityManager<ENTITY>::Reset(uint32_t id) {
     std::size_t comp_size = m_components_entites.size();
     for (std::size_t i = 0; i < comp_size; ++i) {
         if (m_components_entites[i] != nullptr) {
-            m_components_entites[i]->Erase<VComponent<ENTITY>>(id);
+            m_components_entites[i]->erase<VComponent<ENTITY>>(id);
         }
     }
     m_entites_component_masks.at(id).reset();
@@ -427,7 +427,7 @@ inline void EntityManager<ENTITY>::CheckComponent() {
     if (m_components_entites[family] == nullptr) {
         utils::memory::Pool<COMPONENT> *pool =
             new utils::memory::Pool<COMPONENT>;
-        pool->Resize(m_entites_allocated.size());
+        pool->resize(m_entites_allocated.size());
         m_components_entites[family] = pool;
     }
 }

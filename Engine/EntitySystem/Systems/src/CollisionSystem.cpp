@@ -20,7 +20,7 @@ void CollisionSystem::update(es::EntityManager<es::DefaultEntity> &manager,
         b2Vec2 pos(body->GetPosition());
         pos.x = converter::metersToPixels(pos.x);
         pos.y = converter::metersToPixels(pos.y);
-        float angle = converter::RadToDeg(body->GetAngle());
+        float angle = converter::radToDeg(body->GetAngle());
         cur->component<component::Transform>()->setPosition(pos.x, pos.y);
         cur->component<component::Transform>()->setRotation(angle);
     }
