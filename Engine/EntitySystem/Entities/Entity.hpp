@@ -37,7 +37,7 @@ class Entity {
     void remove();
 
     template <typename COMPONENT, typename... ARGS>
-    void Add(ARGS &&...args);
+    void add(ARGS &&...args);
 
     template <typename COMPONENT>
     void remove();
@@ -105,7 +105,7 @@ inline void Entity<ENTITY>::remove() {
 
 template <typename ENTITY>
 template <typename COMPONENT, typename... Args>
-inline void Entity<ENTITY>::Add(Args &&...args) {
+inline void Entity<ENTITY>::add(Args &&...args) {
     m_manager->template addComponent<COMPONENT>(m_id,
                                                 std::forward<Args>(args)...);
 }

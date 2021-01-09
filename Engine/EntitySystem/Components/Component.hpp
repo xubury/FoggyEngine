@@ -110,7 +110,7 @@ inline COMPONENT *ComponentHandle<COMPONENT, ENTITY>::operator->() {
 template <typename COMPONENT, typename ENTITY>
 inline const COMPONENT *ComponentHandle<COMPONENT, ENTITY>::operator->() const {
     assert(isValid());
-    return m_manager->template GetComponentPtr<COMPONENT>(m_entity_id);
+    return m_manager->template getComponentPtr<COMPONENT>(m_entity_id);
 }
 
 template <typename ENTITY>
@@ -123,7 +123,7 @@ inline uint32_t VComponent<ENTITY>::ownerID() const {
 
 template <typename COMPONENT, typename ENTITY>
 inline void Component<COMPONENT, ENTITY>::remove() {
-    VComponent<ENTITY>::m_manager->template RemoveComponent<COMPONENT>(
+    VComponent<ENTITY>::m_manager->template removeComponent<COMPONENT>(
         VComponent<ENTITY>::m_owner_id);
 }
 
