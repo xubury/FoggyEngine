@@ -15,7 +15,7 @@ Collision::~Collision() { b2body_ref->GetWorld()->DestroyBody(b2body_ref); }
 
 void Collision::addFixture(const b2FixtureDef &fixture) {
     if (b2body_ref == nullptr) {
-        es::SystemManager<es::DefaultEntity> *systems = manager()->GetSystems();
+        es::SystemManager<es::DefaultEntity> *systems = manager()->getSystems();
         assert(systems != nullptr);
         auto *world = systems->system<es::CollisionSystem>();
         assert(world != nullptr);

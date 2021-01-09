@@ -41,7 +41,7 @@ void LuaScript::initCollision() {
         body_def.type = comp_table["body_type"];
         body_def.fixedRotation = comp_table["fix_angle"];
 
-        manager()->AddComponent<component::Collision>(ownerID(), body_def);
+        manager()->addComponent<component::Collision>(ownerID(), body_def);
         sol::table fixture_table = comp_table["fixtures"];
         for (const auto &pair : fixture_table) {
             sol::table fixture = pair.second;
@@ -58,7 +58,7 @@ void LuaScript::initCollision() {
 void LuaScript::initSkin() {
     sol::object comp = lua["CompAnimation"];
     if (comp.is<sol::table>()) {
-        auto skin = manager()->AddComponent<component::Skin>(ownerID());
+        auto skin = manager()->addComponent<component::Skin>(ownerID());
         skin->registerLuaScript();
     }
 }

@@ -12,9 +12,9 @@ void CollisionSystem::update(es::EntityManager<es::DefaultEntity> &manager,
                              const sf::Time &delta_time) {
     Step(delta_time.asSeconds(), 8, 3);
     component::Collision::Handle collision;
-    auto view = manager.GetByComponents(collision);
-    auto cur = view.Begin();
-    auto end = view.End();
+    auto view = manager.getByComponents(collision);
+    auto cur = view.begin();
+    auto end = view.end();
     for (; cur != end; ++cur) {
         b2Body *body = collision->b2body_ref;
         b2Vec2 pos(body->GetPosition());

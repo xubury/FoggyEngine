@@ -40,39 +40,39 @@ class EntityManager {
     ~EntityManager();
 
     void SetSystems(SystemManager<ENTITY> *systems) { m_systems = systems; }
-    SystemManager<ENTITY> *GetSystems() const { return m_systems; }
+    SystemManager<ENTITY> *getSystems() const { return m_systems; }
 
     template <typename T = ENTITY, typename... ARGS>
-    uint32_t Create(ARGS &&...args);
+    uint32_t create(ARGS &&...args);
 
     template <typename... ARGS>
-    void Emplace(uint32_t index, ARGS &&...args);
+    void emplace(uint32_t index, ARGS &&...args);
 
-    void Remove(std::size_t id);
+    void remove(std::size_t id);
 
     void update();
 
-    void Reset();
+    void reset();
 
-    std::size_t Size();
+    std::size_t size();
 
-    bool IsValid(uint32_t id) const;
+    bool isValid(uint32_t id) const;
 
-    const ENTITY &Get(std::size_t id) const;
-    ENTITY &Get(std::size_t id);
+    const ENTITY &get(std::size_t id) const;
+    ENTITY &get(std::size_t id);
 
-    const ENTITY *GetPtr(std::size_t id) const;
-    ENTITY *GetPtr(std::size_t id);
+    const ENTITY *getPtr(std::size_t id) const;
+    ENTITY *getPtr(std::size_t id);
 
-    Container::const_iterator Begin() const;
-    Container::const_iterator End() const;
+    Container::const_iterator begin() const;
+    Container::const_iterator end() const;
 
     template <typename COMPONENT, typename... ARGS>
-    ComponentHandle<COMPONENT, ENTITY> AddComponent(uint32_t id,
+    ComponentHandle<COMPONENT, ENTITY> addComponent(uint32_t id,
                                                     ARGS &&...args);
 
     template <typename COMPONENT>
-    void RemoveComponent(uint32_t id);
+    void removeComponent(uint32_t id);
 
     template <typename COMPONENT>
     bool hasComponent(uint32_t id) const;
@@ -81,33 +81,33 @@ class EntityManager {
     ComponentHandle<COMPONENT, ENTITY> getComponent(uint32_t id) const;
 
     template <typename... COMPONENT>
-    std::tuple<ComponentHandle<COMPONENT, ENTITY>...> GetComponents(
+    std::tuple<ComponentHandle<COMPONENT, ENTITY>...> getComponents(
         uint32_t id) const;
 
     template <typename... COMPONENT>
-    View<COMPONENT...> GetByComponents(
+    View<COMPONENT...> getByComponents(
         ComponentHandle<COMPONENT, ENTITY> &...components);
 
    private:
     SystemManager<ENTITY> *m_systems;
     // Stores every entity that have been allocated
     std::vector<ENTITY *> m_entites_allocated;
-    // Stores what components does a entity of index havs
-    std::vector<std::bitset<MAX_COMPONENTS>> m_entites_component_masks;
+    // Stores what components does a entity of index has
+    std::vector<std::bitset<MAX_COMPONENTS>> m_entities_component_masks;
     // Stores entities that has component of index
-    std::vector<utils::memory::VPool *> m_components_entites;
+    std::vector<utils::memory::VPool *> m_components_entities;
 
     Container m_entities_index;
     Container m_entities_index_free;
     Container m_entities_to_destroy;
 
-    void Reset(uint32_t id);
+    void reset(uint32_t id);
 
     template <typename COMPONENT>
-    void CheckComponent();
+    void checkComponent();
 
     template <typename COMPONENT>
-    COMPONENT *GetComponentPtr(uint32_t id) const;
+    COMPONENT *getComponentPtr(uint32_t id) const;
 
     template <typename... COMPONENT>
     class View {
@@ -117,21 +117,21 @@ class EntityManager {
         View(EntityManager<ENTITY> &manager,
              const std::bitset<MAX_COMPONENTS> &mask,
              ComponentHandle<COMPONENT, ENTITY> &...components);
-        Iterator Begin();
-        Iterator End();
+        Iterator begin();
+        Iterator end();
 
        private:
         template <int N, typename C>
-        void UnpackID(std::uint32_t id);
+        void unpackId(std::uint32_t id);
 
         template <int N, typename C0, typename C1, typename... Cx>
-        void UnpackID(std::uint32_t id);
+        void unpackId(std::uint32_t id);
 
         template <int N, typename C>
-        void UnpackManager();
+        void unpackManager();
 
         template <int N, typename C0, typename C1, typename... Cx>
-        void UnpackManager();
+        void unpackManager();
 
         EntityManager<ENTITY> &m_manager;
         const std::bitset<MAX_COMPONENTS> m_mask;
@@ -159,12 +159,12 @@ class EntityManager {
 
 template <class ENTITY>
 EntityManager<ENTITY>::~EntityManager() {
-    Reset();
+    reset();
 }
 
 template <class ENTITY>
 template <typename T, typename... ARGS>
-inline uint32_t EntityManager<ENTITY>::Create(ARGS &&...args) {
+inline uint32_t EntityManager<ENTITY>::create(ARGS &&...args) {
     static_assert(std::is_base_of<ENTITY, T>::value,
                   "T must be derived from ENTITY");
     uint32_t index = 0;
@@ -174,15 +174,15 @@ inline uint32_t EntityManager<ENTITY>::Create(ARGS &&...args) {
         m_entites_allocated[index] =
             new T(this, index, std::forward<ARGS>(args)...);
     } else {
-        m_entites_component_masks.emplace_back();
+        m_entities_component_masks.emplace_back();
 
         index = m_entites_allocated.size();
         m_entites_allocated.emplace_back(nullptr);
 
-        std::size_t comp_size = m_components_entites.size();
+        std::size_t comp_size = m_components_entities.size();
         for (std::size_t i = 0; i < comp_size; ++i) {
-            if (m_components_entites[i] != nullptr) {
-                m_components_entites[i]->resize(index + 1);
+            if (m_components_entities[i] != nullptr) {
+                m_components_entities[i]->resize(index + 1);
             }
         }
         m_entites_allocated[index] =
@@ -194,28 +194,28 @@ inline uint32_t EntityManager<ENTITY>::Create(ARGS &&...args) {
 
 template <class ENTITY>
 template <typename... ARGS>
-inline void EntityManager<ENTITY>::Emplace(uint32_t index, ARGS &&...args) {
+inline void EntityManager<ENTITY>::emplace(uint32_t index, ARGS &&...args) {
     std::size_t size = m_entites_allocated.size();
     if (size <= index) {
         m_entites_allocated.resize(index + 1, nullptr);
-        m_entites_component_masks.resize(index + 1, 0);
+        m_entities_component_masks.resize(index + 1, 0);
         m_entities_index.emplace_back(index);
 
         for (std::size_t i = size; i < index; ++i) {
             m_entities_index_free.emplace_back(i);
         }
 
-        std::size_t comp_size = m_components_entites.size();
+        std::size_t comp_size = m_components_entities.size();
         for (std::size_t i = 0; i < comp_size; ++i) {
-            if (m_components_entites[i] != nullptr) {
+            if (m_components_entities[i] != nullptr) {
                 /* resize the components pool in case the new entity needs to
                  * add a certain kind of component */
-                m_components_entites[i]->resize(index + 1);
+                m_components_entities[i]->resize(index + 1);
             }
         }
     } else if (m_entites_allocated[index] !=
                nullptr) {  // already in use, free it
-        Reset(index);
+        reset(index);
     } else {
         m_entities_index_free.remove(index);
         m_entities_index.emplace_back(index);
@@ -226,7 +226,7 @@ inline void EntityManager<ENTITY>::Emplace(uint32_t index, ARGS &&...args) {
 }
 
 template <class ENTITY>
-inline void EntityManager<ENTITY>::Remove(std::size_t id) {
+inline void EntityManager<ENTITY>::remove(std::size_t id) {
     m_entities_to_destroy.emplace_back(id);
 }
 
@@ -239,7 +239,7 @@ inline void EntityManager<ENTITY>::update() {
             uint32_t id = *iter;
             ENTITY *entity = m_entites_allocated.at(id);
             if (entity != nullptr) {
-                Reset(id);
+                reset(id);
                 m_entities_index.erase(std::find(m_entities_index.begin(),
                                                  m_entities_index.end(), id));
             }
@@ -249,21 +249,21 @@ inline void EntityManager<ENTITY>::update() {
 }
 
 template <class ENTITY>
-inline void EntityManager<ENTITY>::Reset() {
+inline void EntityManager<ENTITY>::reset() {
     m_entities_index_free.clear();
     m_entities_index.clear();
 
-    std::size_t comp_size = m_components_entites.size();
+    std::size_t comp_size = m_components_entities.size();
     for (std::size_t i = 0; i < comp_size; ++i) {
-        if (m_components_entites[i] != nullptr) {
+        if (m_components_entities[i] != nullptr) {
             for (std::size_t j = 0; j < m_entities_index.size(); ++j) {
-                m_components_entites[i]->erase<VComponent<ENTITY>>(j);
+                m_components_entities[i]->erase<VComponent<ENTITY>>(j);
             }
-            delete m_components_entites[i];
+            delete m_components_entities[i];
         }
     }
-    m_components_entites.clear();
-    m_entites_component_masks.clear();
+    m_components_entities.clear();
+    m_entities_component_masks.clear();
     std::size_t size = m_entites_allocated.size();
     for (std::size_t i = 0; i < size; ++i) {
         delete m_entites_allocated[i];
@@ -272,87 +272,87 @@ inline void EntityManager<ENTITY>::Reset() {
 }
 
 template <class ENTITY>
-inline std::size_t EntityManager<ENTITY>::Size() {
+inline std::size_t EntityManager<ENTITY>::size() {
     return m_entites_allocated.size() - m_entities_index_free.size();
 }
 
 template <class ENTITY>
-inline bool EntityManager<ENTITY>::IsValid(uint32_t id) const {
+inline bool EntityManager<ENTITY>::isValid(uint32_t id) const {
     return id < m_entites_allocated.size() &&
            m_entites_allocated[id] != nullptr;
 }
 template <class ENTITY>
-inline const ENTITY &EntityManager<ENTITY>::Get(std::size_t id) const {
+inline const ENTITY &EntityManager<ENTITY>::get(std::size_t id) const {
     return *m_entites_allocated.at(id);
 }
 
 template <class ENTITY>
-inline ENTITY &EntityManager<ENTITY>::Get(std::size_t id) {
+inline ENTITY &EntityManager<ENTITY>::get(std::size_t id) {
     return *m_entites_allocated.at(id);
 }
 
 template <class ENTITY>
-inline const ENTITY *EntityManager<ENTITY>::GetPtr(std::size_t id) const {
+inline const ENTITY *EntityManager<ENTITY>::getPtr(std::size_t id) const {
     return m_entites_allocated.at(id);
 }
 
 template <class ENTITY>
-inline ENTITY *EntityManager<ENTITY>::GetPtr(std::size_t id) {
+inline ENTITY *EntityManager<ENTITY>::getPtr(std::size_t id) {
     return m_entites_allocated.at(id);
 }
 
 template <class ENTITY>
 inline EntityManager<ENTITY>::Container::const_iterator
-EntityManager<ENTITY>::Begin() const {
+EntityManager<ENTITY>::begin() const {
     return m_entities_index.cbegin();
 }
 
 template <class ENTITY>
 inline EntityManager<ENTITY>::Container::const_iterator
-EntityManager<ENTITY>::End() const {
+EntityManager<ENTITY>::end() const {
     return m_entities_index.cend();
 }
 
 template <class ENTITY>
 template <typename COMPONENT, typename... ARGS>
-inline ComponentHandle<COMPONENT, ENTITY> EntityManager<ENTITY>::AddComponent(
+inline ComponentHandle<COMPONENT, ENTITY> EntityManager<ENTITY>::addComponent(
     uint32_t id, ARGS &&...args) {
-    CheckComponent<COMPONENT>();
+    checkComponent<COMPONENT>();
     uint32_t family = COMPONENT::family();
 
-    assert(!m_entites_component_masks.at(id).test(family));
+    assert(!m_entities_component_masks.at(id).test(family));
     utils::memory::Pool<COMPONENT> *pool =
         static_cast<utils::memory::Pool<COMPONENT> *>(
-            m_components_entites[family]);
+            m_components_entities[family]);
 
     pool->emplace(id, std::forward<ARGS>(args)...);
     pool->at(id).m_owner_id = id;
     pool->at(id).m_manager = this;
 
-    m_entites_component_masks.at(id).set(family);
+    m_entities_component_masks.at(id).set(family);
     return ComponentHandle<COMPONENT, ENTITY>(this, id);
 }
 
 template <class ENTITY>
 template <typename COMPONENT>
-inline void EntityManager<ENTITY>::RemoveComponent(uint32_t id) {
-    // CheckComponent<COMPONENT>();
+inline void EntityManager<ENTITY>::removeComponent(uint32_t id) {
+    // checkComponent<COMPONENT>();
     uint32_t family = COMPONENT::family();
-    assert(m_entites_component_masks.at(id).test(family));
+    assert(m_entities_component_masks.at(id).test(family));
 
     utils::memory::Pool<COMPONENT> *pool =
         static_cast<utils::memory::Pool<COMPONENT> *>(
-            m_components_entites[family]);
+            m_components_entities[family]);
     pool->erase(id);
 
-    m_entites_component_masks.at(id).reset(family);
+    m_entities_component_masks.at(id).reset(family);
 }
 
 template <class ENTITY>
 template <typename COMPONENT>
 inline bool EntityManager<ENTITY>::hasComponent(uint32_t id) const {
     uint32_t family = COMPONENT::family();
-    return m_entites_component_masks.at(id).test(family);
+    return m_entities_component_masks.at(id).test(family);
 }
 
 template <class ENTITY>
@@ -368,67 +368,67 @@ inline ComponentHandle<COMPONENT, ENTITY> EntityManager<ENTITY>::getComponent(
 template <class ENTITY>
 template <typename... COMPONENT>
 inline std::tuple<ComponentHandle<COMPONENT, ENTITY>...>
-EntityManager<ENTITY>::GetComponents(uint32_t id) const {
+EntityManager<ENTITY>::getComponents(uint32_t id) const {
     return std::make_tuple(getComponent<COMPONENT>(id)...);
 }
 
 template <class ENTITY>
 template <typename COMPONENT>
-inline COMPONENT *EntityManager<ENTITY>::GetComponentPtr(uint32_t id) const {
+inline COMPONENT *EntityManager<ENTITY>::getComponentPtr(uint32_t id) const {
     uint32_t family = COMPONENT::family();
     return &static_cast<utils::memory::Pool<COMPONENT> *>(
-        m_components_entites[family])
+        m_components_entities[family])
         ->at(id);
 }
 
 template <typename COMPONENT>
-inline void GetMask(std::bitset<MAX_COMPONENTS> &mask) {
+inline void getMask(std::bitset<MAX_COMPONENTS> &mask) {
     mask.set(COMPONENT::family());
 }
 
 template <typename C1, typename C2, typename... COMPONENT>
-inline void GetMask(std::bitset<MAX_COMPONENTS> &mask) {
+inline void getMask(std::bitset<MAX_COMPONENTS> &mask) {
     mask.set(C1::family());
-    GetMask<C2, COMPONENT...>(mask);
+    getMask<C2, COMPONENT...>(mask);
 }
 
 template <class ENTITY>
 template <typename... COMPONENT>
 inline typename EntityManager<ENTITY>::template View<COMPONENT...>
-EntityManager<ENTITY>::GetByComponents(
+EntityManager<ENTITY>::getByComponents(
     ComponentHandle<COMPONENT, ENTITY> &...components) {
     std::bitset<MAX_COMPONENTS> mask;
-    GetMask<COMPONENT...>(mask);
+    getMask<COMPONENT...>(mask);
     return View<COMPONENT...>(*this, mask, components...);
 }
 
 template <class ENTITY>
-inline void EntityManager<ENTITY>::Reset(uint32_t id) {
+inline void EntityManager<ENTITY>::reset(uint32_t id) {
     ENTITY *entity = m_entites_allocated.at(id);
-    std::size_t comp_size = m_components_entites.size();
+    std::size_t comp_size = m_components_entities.size();
     for (std::size_t i = 0; i < comp_size; ++i) {
-        if (m_components_entites[i] != nullptr) {
-            m_components_entites[i]->erase<VComponent<ENTITY>>(id);
+        if (m_components_entities[i] != nullptr) {
+            m_components_entities[i]->erase<VComponent<ENTITY>>(id);
         }
     }
-    m_entites_component_masks.at(id).reset();
+    m_entities_component_masks.at(id).reset();
     delete entity;
     m_entites_allocated[id] = nullptr;
 }
 
 template <class ENTITY>
 template <typename COMPONENT>
-inline void EntityManager<ENTITY>::CheckComponent() {
+inline void EntityManager<ENTITY>::checkComponent() {
     uint32_t family = COMPONENT::family();
-    if (m_components_entites.size() <= family) {
-        m_components_entites.resize(family + 1, nullptr);
+    if (m_components_entities.size() <= family) {
+        m_components_entities.resize(family + 1, nullptr);
     }
 
-    if (m_components_entites[family] == nullptr) {
+    if (m_components_entities[family] == nullptr) {
         utils::memory::Pool<COMPONENT> *pool =
             new utils::memory::Pool<COMPONENT>;
         pool->resize(m_entites_allocated.size());
-        m_components_entites[family] = pool;
+        m_components_entities[family] = pool;
     }
 }
 
@@ -441,19 +441,19 @@ EntityManager<ENTITY>::View<COMPONENT...>::View(
       m_mask(mask),
       m_handles(
           std::tuple<ComponentHandle<COMPONENT, ENTITY> &...>(components...)) {
-    UnpackManager<0, COMPONENT...>();
+    unpackManager<0, COMPONENT...>();
 }
 
 template <class ENTITY>
 template <typename... COMPONENT>
 inline typename EntityManager<ENTITY>::template View<COMPONENT...>::Iterator
-EntityManager<ENTITY>::View<COMPONENT...>::Begin() {
+EntityManager<ENTITY>::View<COMPONENT...>::begin() {
     Container::iterator begin = m_manager.m_entities_index.begin();
     Container::iterator end = m_manager.m_entities_index.end();
     for (; begin != end; ++begin) {
         uint32_t index = *begin;
-        if ((m_manager.m_entites_component_masks[index] & m_mask) == m_mask) {
-            UnpackID<0, COMPONENT...>(index);
+        if ((m_manager.m_entities_component_masks[index] & m_mask) == m_mask) {
+            unpackId<0, COMPONENT...>(index);
             break;
         }
     }
@@ -463,7 +463,7 @@ EntityManager<ENTITY>::View<COMPONENT...>::Begin() {
 template <class ENTITY>
 template <typename... COMPONENT>
 inline typename EntityManager<ENTITY>::template View<COMPONENT...>::Iterator
-EntityManager<ENTITY>::View<COMPONENT...>::End() {
+EntityManager<ENTITY>::View<COMPONENT...>::end() {
     return Iterator(*this, m_manager.m_entities_index.end(),
                     m_manager.m_entities_index.end());
 }
@@ -471,7 +471,7 @@ EntityManager<ENTITY>::View<COMPONENT...>::End() {
 template <class ENTITY>
 template <typename... COMPONENT>
 template <int N, typename C>
-inline void EntityManager<ENTITY>::View<COMPONENT...>::UnpackID(
+inline void EntityManager<ENTITY>::View<COMPONENT...>::unpackId(
     std::uint32_t id) {
     std::get<N>(m_handles).m_entity_id = id;
 }
@@ -479,25 +479,25 @@ inline void EntityManager<ENTITY>::View<COMPONENT...>::UnpackID(
 template <class ENTITY>
 template <typename... COMPONENT>
 template <int N, typename C0, typename C1, typename... Cx>
-inline void EntityManager<ENTITY>::View<COMPONENT...>::UnpackID(
+inline void EntityManager<ENTITY>::View<COMPONENT...>::unpackId(
     std::uint32_t id) {
-    UnpackID<N, C0>(id);
-    UnpackID<N + 1, C1, Cx...>(id);
+    unpackId<N, C0>(id);
+    unpackId<N + 1, C1, Cx...>(id);
 }
 
 template <class ENTITY>
 template <typename... COMPONENT>
 template <int N, typename C>
-inline void EntityManager<ENTITY>::View<COMPONENT...>::UnpackManager() {
+inline void EntityManager<ENTITY>::View<COMPONENT...>::unpackManager() {
     std::get<N>(m_handles).m_manager = &m_manager;
 }
 
 template <class ENTITY>
 template <typename... COMPONENT>
 template <int N, typename C0, typename C1, typename... Cx>
-inline void EntityManager<ENTITY>::View<COMPONENT...>::UnpackManager() {
-    UnpackManager<N, C0>();
-    UnpackManager<N + 1, C1, Cx...>();
+inline void EntityManager<ENTITY>::View<COMPONENT...>::unpackManager() {
+    unpackManager<N, C0>();
+    unpackManager<N + 1, C1, Cx...>();
 }
 
 template <class ENTITY>
@@ -515,9 +515,9 @@ EntityManager<ENTITY>::View<COMPONENT...>::Iterator::operator++() {
     while (m_iter != m_iter_end) {
         std::uint32_t index = *m_iter;
         if (m_view.m_manager.m_entites_allocated.at(index) != nullptr &&
-            (m_view.m_manager.m_entites_component_masks.at(index) &
+            (m_view.m_manager.m_entities_component_masks.at(index) &
              m_view.m_mask) == m_view.m_mask) {
-            m_view.UnpackID<0, COMPONENT...>(index);
+            m_view.unpackId<0, COMPONENT...>(index);
             break;
         }
         ++m_iter;

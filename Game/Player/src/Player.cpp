@@ -13,7 +13,7 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     float scale = 2;
     component<foggy::component::Transform>()->setScale(scale, scale);
 
-    auto lua_script = manager->AddComponent<foggy::component::LuaScript>(id);
+    auto lua_script = manager->addComponent<foggy::component::LuaScript>(id);
     lua_script->initScript("res/scripts/Player.lua");
     lua_script->lua.set_function(
         "C_ApplyLinearImpulse", [this](float x, float y) {
@@ -28,7 +28,7 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     auto skin = component<foggy::component::Skin>();
 
     foggy::component::Controller::Handle handle =
-        manager->AddComponent<foggy::component::Controller>(
+        manager->addComponent<foggy::component::Controller>(
             id, Configuration::player_inputs);
     handle->Bind(
         Configuration::PlayerInput::Up,

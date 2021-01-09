@@ -75,7 +75,7 @@ void Game::ProcessEvent() {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                     sf::Vector2f pos = m_window.mapPixelToCoords(
                         sf::Mouse::getPosition(m_window), m_cam);
-                    int id = m_app.entities.Create();
+                    int id = m_app.entities.create();
                     b2BodyDef body_def;
                     body_def.position.Set(
                         foggy::converter::pixelsToMeters<float>(pos.x),
@@ -83,7 +83,7 @@ void Game::ProcessEvent() {
                     body_def.type = b2_dynamicBody;
                     foggy::component::Collision::Handle collsion =
                         m_app.entities
-                            .AddComponent<foggy::component::Collision>(
+                            .addComponent<foggy::component::Collision>(
                                 id, body_def);
 
                     b2CircleShape b2shape;
@@ -95,12 +95,12 @@ void Game::ProcessEvent() {
                     fixture_def.shape = &b2shape;
                     collsion->addFixture(fixture_def);
                     m_timer.addTimer(sf::seconds(3), [id, this]() {
-                      m_app.entities.Remove(id);
+                      m_app.entities.remove(id);
                     });
                 } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
                     sf::Vector2f pos = m_window.mapPixelToCoords(
                         sf::Mouse::getPosition(m_window), m_cam);
-                    int id = m_app.entities.Create();
+                    int id = m_app.entities.create();
                     b2BodyDef body_def;
                     body_def.position.Set(
                         foggy::converter::pixelsToMeters<float>(pos.x),
@@ -108,7 +108,7 @@ void Game::ProcessEvent() {
                     body_def.type = b2_dynamicBody;
                     foggy::component::Collision::Handle collsion =
                         m_app.entities
-                            .AddComponent<foggy::component::Collision>(
+                            .addComponent<foggy::component::Collision>(
                                 id, body_def);
 
                     b2PolygonShape b2shape;
@@ -121,13 +121,13 @@ void Game::ProcessEvent() {
                     fixture_def.shape = &b2shape;
                     collsion->addFixture(fixture_def);
                     m_timer.addTimer(sf::seconds(3), [id, this]() {
-                      m_app.entities.Remove(id);
+                      m_app.entities.remove(id);
                     });
                 } else {
                     foggy::component::Controller::Handle controller;
-                    auto view = m_app.entities.GetByComponents(controller);
-                    auto end = view.End();
-                    for (auto cur = view.Begin(); cur != end; ++cur) {
+                    auto view = m_app.entities.getByComponents(controller);
+                    auto end = view.end();
+                    for (auto cur = view.begin(); cur != end; ++cur) {
                         controller->ProcessEvent(event);
                     }
                 }
@@ -142,9 +142,9 @@ void Game::ProcessEvent() {
     switch (m_status) {
         case Normal: {
             foggy::component::Controller::Handle controller;
-            auto view = m_app.entities.GetByComponents(controller);
-            auto end = view.End();
-            for (auto cur = view.Begin(); cur != end; ++cur) {
+            auto view = m_app.entities.getByComponents(controller);
+            auto end = view.end();
+            for (auto cur = view.begin(); cur != end; ++cur) {
                 controller->ProcessEvents();
             }
             break;
@@ -159,7 +159,7 @@ void Game::ProcessEvent() {
 void Game::Update(sf::Time &delta_time) {
     if (m_player_id >= 0) {
         auto *player =
-            dynamic_cast<Player *>(m_app.entities.GetPtr(m_player_id));
+            dynamic_cast<Player *>(m_app.entities.getPtr(m_player_id));
         sf::Vector2f pos =
             player->component<foggy::component::Transform>()->getPosition() -
             m_cam.getCenter();
@@ -173,10 +173,10 @@ void Game::Render() {
     m_window.clear();
 
     m_window.setView(m_cam);
-    auto iter = m_app.entities.Begin();
-    auto end = m_app.entities.End();
+    auto iter = m_app.entities.begin();
+    auto end = m_app.entities.end();
     for (; iter != end; ++iter) {
-        m_window.draw(m_app.entities.Get(*iter));
+        m_window.draw(m_app.entities.get(*iter));
     }
     m_fps.setString("FPS: " + std::to_string(GetFps()));
     m_window.setView(m_hud_camera);
@@ -205,9 +205,9 @@ void Game::InitWorld() {
     b2BodyDef body_def;
     body_def.position.Set(0, foggy::converter::pixelsToMeters(-80));
     body_def.type = b2_staticBody;
-    uint32_t id = m_app.entities.Create();
+    uint32_t id = m_app.entities.create();
     foggy::component::Collision::Handle collsion =
-        m_app.entities.AddComponent<foggy::component::Collision>(id, body_def);
+        m_app.entities.addComponent<foggy::component::Collision>(id, body_def);
 
     float width = 800;
     float height = 20;
@@ -221,6 +221,6 @@ void Game::InitWorld() {
     fixture.shape = &b2polygon_shape;
     collsion->addFixture(fixture);
 
-    m_player_id = m_app.entities.Create<Player>();
+    m_player_id = m_app.entities.create<Player>();
     m_status = Normal;
 }

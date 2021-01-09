@@ -92,19 +92,19 @@ ComponentHandle<COMPONENT, ENTITY>::ComponentHandle(
 template <typename COMPONENT, typename ENTITY>
 inline COMPONENT *ComponentHandle<COMPONENT, ENTITY>::get() {
     assert(isValid());
-    return m_manager->template GetComponentPtr<COMPONENT>(m_entity_id);
+    return m_manager->template getComponentPtr<COMPONENT>(m_entity_id);
 }
 
 template <typename COMPONENT, typename ENTITY>
 inline const COMPONENT *ComponentHandle<COMPONENT, ENTITY>::get() const {
     assert(isValid());
-    return m_manager->template GetComponentPtr<COMPONENT>(m_entity_id);
+    return m_manager->template getComponentPtr<COMPONENT>(m_entity_id);
 }
 
 template <typename COMPONENT, typename ENTITY>
 inline COMPONENT *ComponentHandle<COMPONENT, ENTITY>::operator->() {
     assert(isValid());
-    return m_manager->template GetComponentPtr<COMPONENT>(m_entity_id);
+    return m_manager->template getComponentPtr<COMPONENT>(m_entity_id);
 }
 
 template <typename COMPONENT, typename ENTITY>

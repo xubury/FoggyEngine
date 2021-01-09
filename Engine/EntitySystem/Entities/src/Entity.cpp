@@ -13,7 +13,7 @@ ES_INIT_ENTITY(DefaultEntity)
 DefaultEntity::DefaultEntity(foggy::es::EntityManager<DefaultEntity> *manager,
                              uint32_t id)
     : Entity<DefaultEntity>(manager, id) {
-    manager->AddComponent<component::Transform>(id);
+    manager->addComponent<component::Transform>(id);
     m_name = "???";
 }
 

@@ -100,20 +100,20 @@ bool Entity<ENTITY>::operator!=(const Entity<ENTITY> &other) const {
 
 template <typename ENTITY>
 inline void Entity<ENTITY>::remove() {
-    m_manager->Remove(m_id);
+    m_manager->remove(m_id);
 }
 
 template <typename ENTITY>
 template <typename COMPONENT, typename... Args>
 inline void Entity<ENTITY>::Add(Args &&...args) {
-    m_manager->template AddComponent<COMPONENT>(m_id,
+    m_manager->template addComponent<COMPONENT>(m_id,
                                                 std::forward<Args>(args)...);
 }
 
 template <typename ENTITY>
 template <typename COMPONENT>
 inline void Entity<ENTITY>::remove() {
-    m_manager->template RemoveComponent<COMPONENT>(m_id);
+    m_manager->template removeComponent<COMPONENT>(m_id);
 }
 
 template <typename ENTITY>
@@ -132,7 +132,7 @@ template <typename ENTITY>
 template <typename... COMPONENT>
 inline std::tuple<ComponentHandle<COMPONENT, ENTITY>...>
 Entity<ENTITY>::components() const {
-    return m_manager->template GetComponents<COMPONENT...>(m_id);
+    return m_manager->template getComponents<COMPONENT...>(m_id);
 }
 
 }  // namespace es
