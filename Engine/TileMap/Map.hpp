@@ -65,7 +65,7 @@ void Map<GEOMETRY>::loadFromJson(const Json::Value& root) {
                 int height = std::max<int>(0, texture["height"].asInt());
                 int width = std::max<int>(0, texture["width"].asInt());
                 std::string img = texture["img"].asString();
-                sf::Texture& tex = m_textures.GetOrLoad(img, img);
+                sf::Texture& tex = m_textures.getOrLoad(img, img);
                 tex.setRepeated(true);
                 for (int y = tex_y; y < tex_y + height; ++y) {
                     for (int x = tex_x; x < tex_x + width; ++x) {
@@ -100,7 +100,7 @@ void Map<GEOMETRY>::loadFromJson(const Json::Value& root) {
 
                 std::string img = data["img"].asString();
 
-                sf::Sprite spr(m_textures.GetOrLoad(img, img));
+                sf::Sprite spr(m_textures.getOrLoad(img, img));
                 spr.setPosition(GEOMETRY::mapCoordsToPixel(x, y, m_tile_size));
 
                 sf::FloatRect rec = spr.getLocalBounds();

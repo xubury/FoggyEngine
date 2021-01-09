@@ -13,23 +13,23 @@ Container::~Container() {
     }
 }
 
-void Container::SetLayout(Layout *layout) {
+void Container::setLayout(Layout *layout) {
     if (m_layout != nullptr && m_layout->m_parent == this) {
         m_layout->m_parent = nullptr;
         delete m_layout;
     }
     if ((m_layout = layout) != nullptr) {
         m_layout->m_parent = this;
-        m_layout->UpdateShape();
+        m_layout->updateShape();
     }
 }
 
-Layout *Container::GetLayout() const { return m_layout; }
+Layout *Container::getLayout() const { return m_layout; }
 
-sf::Vector2f Container::GetSize() const {
+sf::Vector2f Container::getSize() const {
     sf::Vector2f res(0, 0);
     if (m_layout != nullptr) {
-        res = m_layout->GetSize();
+        res = m_layout->getSize();
     }
     return res;
 }
@@ -40,18 +40,18 @@ void Container::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     }
 }
 
-bool Container::ProcessEvent(const sf::Event &event,
+bool Container::processEvent(const sf::Event &event,
                              const sf::Vector2f &parent_pos) {
     bool res = false;
     if (m_layout != nullptr) {
-        res = m_layout->ProcessEvent(event, parent_pos);
+        res = m_layout->processEvent(event, parent_pos);
     }
     return res;
 }
 
-void Container::ProcessEvents(const sf::Vector2f &parent_pos) {
+void Container::processEvents(const sf::Vector2f &parent_pos) {
     if (m_layout != nullptr) {
-        m_layout->ProcessEvents(parent_pos);
+        m_layout->processEvents(parent_pos);
     }
 }
 

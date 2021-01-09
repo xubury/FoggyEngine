@@ -4,16 +4,16 @@
 
 namespace foggy {
 
-Button::FuncType Button::DefaultFunc = [](const sf::Event &, Button &) {};
+Button::FuncType Button::defaultFunc = [](const sf::Event &, Button &) {};
 
 Button::Button(Widget *parent)
-    : Widget(parent), OnClick(DefaultFunc), m_status(None) {}
+    : Widget(parent), onClick(defaultFunc), m_status(None) {}
 
-bool Button::ProcessEvent(const sf::Event &event,
+bool Button::processEvent(const sf::Event &event,
                           const sf::Vector2f &parent_pos) {
     bool res = false;
     const sf::Vector2f pos = m_pos + parent_pos;
-    const sf::Vector2f size = GetSize();
+    const sf::Vector2f size = getSize();
     sf::FloatRect rect;
     rect.left = pos.x;
     rect.top = pos.y;
@@ -22,7 +22,7 @@ bool Button::ProcessEvent(const sf::Event &event,
     if (event.type == sf::Event::MouseButtonReleased) {
         const sf::Vector2f mouse_pos(event.mouseButton.x, event.mouseButton.y);
         if (rect.contains(mouse_pos)) {
-            OnClick(event, *this);
+            onClick(event, *this);
             res = true;
         }
     } else if (event.type == sf::Event::MouseMoved) {
@@ -33,64 +33,64 @@ bool Button::ProcessEvent(const sf::Event &event,
             m_status = Hover;
         }
         if ((old_status & Hover) && !(m_status & Hover)) {
-            OnMouseLeft();
+            onMouseLeft();
         } else if (!(old_status & Hover) && (m_status & Hover)) {
-            OnMouseEntered();
+            onMouseEntered();
         }
     }
     return res;
 }
 
-void Button::OnMouseEntered() {}
+void Button::onMouseEntered() {}
 
-void Button::OnMouseLeft() {}
+void Button::onMouseLeft() {}
 
 TextButton::TextButton(const std::string &text, const sf::Color &fill,
                        const sf::Color &outline, float outline_thickness,
                        const sf::Font &font, const sf::Color &color,
                        Widget *parent)
     : Button(parent), m_label(text, font, color, this) {
-    SetFillColor(fill);
-    SetOutlineColor(outline);
-    SetOutlineThickness(outline_thickness);
+    setFillColor(fill);
+    setOutlineColor(outline);
+    setOutlineThickness(outline_thickness);
 }
 
-void TextButton::SetText(const std::string &text) { m_label.SetText(text); }
+void TextButton::setText(const std::string &text) { m_label.setText(text); }
 
-void TextButton::SetCharacterSize(uint32_t size) {
-    m_label.SetCharacterSize(size);
+void TextButton::setCharacterSize(uint32_t size) {
+    m_label.setCharacterSize(size);
 }
 
-void TextButton::SetTextColor(const sf::Color &color) {
-    m_label.SetTextColor(color);
+void TextButton::setTextColor(const sf::Color &color) {
+    m_label.setTextColor(color);
 }
 
-void TextButton::SetFillColor(const sf::Color &color) {
+void TextButton::setFillColor(const sf::Color &color) {
     m_fill_color = color;
     m_shape.setFillColor(color);
 }
 
-void TextButton::SetOutlineColor(const sf::Color &color) {
+void TextButton::setOutlineColor(const sf::Color &color) {
     m_outline_color = color;
     m_shape.setOutlineColor(color);
 }
 
-void TextButton::SetOutlineThickness(float thickness) {
+void TextButton::setOutlineThickness(float thickness) {
     m_shape.setOutlineThickness(thickness);
 }
 
-sf::Vector2f TextButton::GetSize() const {
+sf::Vector2f TextButton::getSize() const {
     sf::FloatRect rect = m_shape.getGlobalBounds();
     return sf::Vector2f(rect.width, rect.height);
 }
 
-void TextButton::UpdateShape() {
-    sf::Vector2f label_size = m_label.GetSize();
-    uint32_t char_size = m_label.GetCharacterSize();
+void TextButton::updateShape() {
+    sf::Vector2f label_size = m_label.getSize();
+    uint32_t char_size = m_label.getCharacterSize();
     m_shape.setSize(sf::Vector2f(char_size * 2 + label_size.x,
                                  char_size * 2 + label_size.y));
-    m_label.SetPosition(char_size, char_size - label_size.y / 2);
-    Widget::UpdateShape();
+    m_label.setPosition(char_size, char_size - label_size.y / 2);
+    Widget::updateShape();
 }
 
 void TextButton::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -99,7 +99,7 @@ void TextButton::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(m_label, states);
 }
 
-void TextButton::OnMouseEntered() {
+void TextButton::onMouseEntered() {
     const float light = 1.4f;
     m_shape.setOutlineColor(sf::Color(m_outline_color.r * light,
                                       m_outline_color.g * light,
@@ -109,7 +109,7 @@ void TextButton::OnMouseEntered() {
                                    m_fill_color.b * light));
 }
 
-void TextButton::OnMouseLeft() {
+void TextButton::onMouseLeft() {
     m_shape.setOutlineColor(m_outline_color);
     m_shape.setFillColor(m_fill_color);
 }

@@ -11,18 +11,18 @@ class Container : public Widget {
     Container(Widget* parent = nullptr);
     virtual ~Container();
 
-    void SetLayout(Layout* layout);
-    Layout* GetLayout() const;
+    void setLayout(Layout* layout);
+    Layout* getLayout() const;
 
-    virtual sf::Vector2f GetSize() const override;
+    virtual sf::Vector2f getSize() const override;
 
    protected:
     virtual void draw(sf::RenderTarget& target,
                       sf::RenderStates states) const override;
 
-    virtual bool ProcessEvent(const sf::Event& event,
+    virtual bool processEvent(const sf::Event& event,
                               const sf::Vector2f& parent_pos) override;
-    virtual void ProcessEvents(const sf::Vector2f& parent_pos) override;
+    virtual void processEvents(const sf::Vector2f& parent_pos) override;
 
    private:
     Layout* m_layout;

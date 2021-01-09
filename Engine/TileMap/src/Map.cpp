@@ -59,7 +59,7 @@ void VMap::clear() {
         delete (m_layers[i]);
     }
     m_layers.clear();
-    m_textures.Clear();
+    m_textures.clear();
 }
 
 float VMap::getTileSize() const { return m_tile_size; }

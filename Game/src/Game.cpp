@@ -134,7 +134,7 @@ void Game::ProcessEvent() {
                 break;
             }
             case MainMenu: {
-                m_main_menu.ProcessEvent(event);
+                m_main_menu.processEvent(event);
                 break;
             }
         }
@@ -150,7 +150,7 @@ void Game::ProcessEvent() {
             break;
         }
         case MainMenu: {
-            m_main_menu.ProcessEvents();
+            m_main_menu.processEvents();
             break;
         }
     }
@@ -192,13 +192,13 @@ void Game::Render() {
 
 void Game::InitGui() {
     auto *layout = new foggy::VLayout();
-    layout->SetSpace(25);
+    layout->setSpace(25);
     auto *btn = new foggy::TextButton(
         "New", sf::Color::Green, sf::Color::White, 5,
         Configuration::fonts.Get(Configuration::GUI), sf::Color::White);
-    btn->OnClick = [this](const sf::Event &, foggy::Button &) { InitWorld(); };
-    layout->Add(btn);
-    m_main_menu.SetLayout(layout);
+    btn->onClick = [this](const sf::Event &, foggy::Button &) { InitWorld(); };
+    layout->add(btn);
+    m_main_menu.setLayout(layout);
 }
 
 void Game::InitWorld() {

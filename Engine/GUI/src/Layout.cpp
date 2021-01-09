@@ -5,10 +5,10 @@ namespace foggy {
 
 Layout::Layout(Widget *parent) : Widget(parent), m_space(5) {}
 
-void Layout::SetSpace(float pixel) {
+void Layout::setSpace(float pixel) {
     if (pixel >= 0) {
         m_space = pixel;
-        UpdateShape();
+        updateShape();
     } else {
         throw std::invalid_argument("pixel value must be >= 0");
     }
@@ -24,19 +24,19 @@ VLayout::~VLayout() {
     }
 }
 
-void VLayout::Add(Widget *widget) {
+void VLayout::add(Widget *widget) {
     widget->m_parent = this;
     m_widgets.emplace_back(widget);
-    UpdateShape();
+    updateShape();
 }
 
-Widget *VLayout::At(uint32_t index) { return m_widgets[index]; }
+Widget *VLayout::at(uint32_t index) { return m_widgets[index]; }
 
-sf::Vector2f VLayout::GetSize() const {
+sf::Vector2f VLayout::getSize() const {
     float max_x = 0;
     float y = 0;
     for (Widget *widget : m_widgets) {
-        sf::Vector2f size = widget->GetSize();
+        sf::Vector2f size = widget->getSize();
         if (size.x > max_x) {
             max_x = size.x;
         }
@@ -45,47 +45,47 @@ sf::Vector2f VLayout::GetSize() const {
     return sf::Vector2f(max_x + m_space * 2, y + m_space);
 }
 
-bool VLayout::ProcessEvent(const sf::Event &event,
+bool VLayout::processEvent(const sf::Event &event,
                            const sf::Vector2f &parent_pos) {
     for (Widget *widget : m_widgets) {
-        if (widget->ProcessEvent(event, parent_pos)) return true;
+        if (widget->processEvent(event, parent_pos)) return true;
     }
     return false;
 }
 
-void VLayout::ProcessEvents(const sf::Vector2f &parent_pos) {
+void VLayout::processEvents(const sf::Vector2f &parent_pos) {
     for (Widget *widget : m_widgets) {
-        widget->ProcessEvents(parent_pos);
+        widget->processEvents(parent_pos);
     }
 }
 
-void VLayout::UpdateShape() {
-    float max_x = (m_parent ? m_parent->GetSize().x : 0);
+void VLayout::updateShape() {
+    float max_x = (m_parent ? m_parent->getSize().x : 0);
     auto max_widget =
         std::max_element(m_widgets.begin(), m_widgets.end(),
                          [](const Widget *lhs, const Widget *rhs) -> bool {
-                             return lhs->GetSize().x < rhs->GetSize().x;
+                             return lhs->getSize().x < rhs->getSize().x;
                          });
     if (max_widget != m_widgets.end())
-        max_x = std::max(max_x, (*max_widget)->GetSize().x);
+        max_x = std::max(max_x, (*max_widget)->getSize().x);
 
     for (Widget *widget : m_widgets) {
-        sf::Vector2f size = widget->GetSize();
+        sf::Vector2f size = widget->getSize();
         float widget_x = size.x;
 
         if (widget_x > max_x) max_x = widget_x;
     }
 
     float pos_y = m_space;
-    if (m_parent) pos_y = (m_parent->GetSize().y - GetSize().y) / 2.f;
+    if (m_parent) pos_y = (m_parent->getSize().y - getSize().y) / 2.f;
 
     for (Widget *widget : m_widgets) {
-        sf::Vector2f size = widget->GetSize();
-        widget->SetPosition((max_x - size.x) / 2.0, pos_y);
+        sf::Vector2f size = widget->getSize();
+        widget->setPosition((max_x - size.x) / 2.0, pos_y);
         pos_y += size.y + m_space;
     }
 
-    Widget::UpdateShape();
+    Widget::updateShape();
 }
 
 void VLayout::draw(sf::RenderTarget &target, sf::RenderStates states) const {

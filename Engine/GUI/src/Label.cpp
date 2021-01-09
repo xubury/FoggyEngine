@@ -8,34 +8,34 @@ Label::Label(const std::string &text, const sf::Font &font,
              const sf::Color &color, Widget *parent)
     : Widget(parent) {
     m_text.setFont(font);
-    SetTextColor(color);
-    SetText(text);
+    setTextColor(color);
+    setText(text);
 }
 
-void Label::SetText(const std::string &text) {
+void Label::setText(const std::string &text) {
     m_text.setString(text);
-    UpdateShape();
+    updateShape();
 }
 
-void Label::SetCharacterSize(uint32_t size) {
+void Label::setCharacterSize(uint32_t size) {
     m_text.setCharacterSize(size);
-    UpdateShape();
+    updateShape();
 }
 
-uint32_t Label::GetCharacterSize() const { return m_text.getCharacterSize(); }
+uint32_t Label::getCharacterSize() const { return m_text.getCharacterSize(); }
 
-void Label::SetOrigin(float x, float y) {
+void Label::setOrigin(float x, float y) {
     m_text.setOrigin(x, y);
 }
 
-sf::Vector2f Label::GetSize() const {
+sf::Vector2f Label::getSize() const {
     sf::FloatRect rect = m_text.getGlobalBounds();
     return sf::Vector2f(rect.width, rect.height);
 }
 
-void Label::SetTextColor(const sf::Color &color) { m_text.setFillColor(color); }
+void Label::setTextColor(const sf::Color &color) { m_text.setFillColor(color); }
 
-sf::Color Label::GetTextColor() const {
+sf::Color Label::getTextColor() const {
     return m_text.getFillColor();
 }
 

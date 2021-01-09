@@ -14,12 +14,12 @@ AnimatedSprite::AnimatedSprite(Animation *animation, Status status,
       m_delta_time(delta_time),
       m_loop(loop),
       m_repeat(repeat) {
-    SetAnimation(animation);
+    setAnimation(animation);
 }
 
 AnimatedSprite::~AnimatedSprite() {}
 
-void AnimatedSprite::SetAnimation(Animation *animation) {
+void AnimatedSprite::setAnimation(Animation *animation) {
     if (m_animation != animation) {
         m_animation = animation;
         m_time_elapsed = sf::Time::Zero;
@@ -28,53 +28,53 @@ void AnimatedSprite::SetAnimation(Animation *animation) {
     }
 }
 
-Animation *AnimatedSprite::GetAnimation() const { return m_animation; }
+Animation *AnimatedSprite::getAnimation() const { return m_animation; }
 
-void AnimatedSprite::SetFrameTime(const sf::Time &delta_time) {
+void AnimatedSprite::setFrameTime(const sf::Time &delta_time) {
     m_delta_time = delta_time;
 }
 
-sf::Time AnimatedSprite::GetFrameTime() const { return m_delta_time; }
+sf::Time AnimatedSprite::getFrameTime() const { return m_delta_time; }
 
-void AnimatedSprite::SetLoop(bool loop) { m_loop = loop; }
+void AnimatedSprite::setLoop(bool loop) { m_loop = loop; }
 
-bool AnimatedSprite::GetLoop() const { return m_loop; }
+bool AnimatedSprite::getLoop() const { return m_loop; }
 
-void AnimatedSprite::SetRepeat(int repeat) { m_repeat = repeat; }
+void AnimatedSprite::setRepeat(int repeat) { m_repeat = repeat; }
 
-int AnimatedSprite::GetRepeat() const { return m_repeat; }
+int AnimatedSprite::getRepeat() const { return m_repeat; }
 
-void AnimatedSprite::Play() { m_status = AnimatedSprite::Playing; }
+void AnimatedSprite::play() { m_status = AnimatedSprite::Playing; }
 
-void AnimatedSprite::Pause() { m_status = AnimatedSprite::Pasued; }
+void AnimatedSprite::pause() { m_status = AnimatedSprite::Pasued; }
 
-void AnimatedSprite::Stop() {
+void AnimatedSprite::stop() {
     m_status = AnimatedSprite::Stopped;
     m_current_frame = 0;
     SetFrame(0, true);
 }
 
-AnimatedSprite::Status AnimatedSprite::GetStatus() const { return m_status; }
+AnimatedSprite::Status AnimatedSprite::getStatus() const { return m_status; }
 
-void AnimatedSprite::SetFrame(std::size_t index) {
+void AnimatedSprite::setFrame(std::size_t index) {
     assert(m_animation != nullptr);
-    m_current_frame = index % m_animation->Size();
+    m_current_frame = index % m_animation->size();
     SetFrame(index, true);
 }
 
-void AnimatedSprite::SetColor(const sf::Color &color) {
+void AnimatedSprite::setColor(const sf::Color &color) {
     m_vertices[0].color = color;
     m_vertices[1].color = color;
     m_vertices[2].color = color;
     m_vertices[3].color = color;
 }
 
-void AnimatedSprite::Update(const sf::Time &delta_time) {
+void AnimatedSprite::update(const sf::Time &delta_time) {
     if (m_status == Playing && m_animation != nullptr) {
         m_time_elapsed += delta_time;
         if (m_time_elapsed > m_delta_time) {
             m_time_elapsed -= m_delta_time;
-            if (m_current_frame + 1 < m_animation->Size()) {
+            if (m_current_frame + 1 < m_animation->size()) {
                 ++m_current_frame;
             } else {
                 m_current_frame = 0;
@@ -101,7 +101,7 @@ void AnimatedSprite::Update(const sf::Time &delta_time) {
 
 void AnimatedSprite::SetFrame(std::size_t index, bool reset_time, bool flip_y) {
     if (m_animation != nullptr) {
-        sf::IntRect rect = m_animation->GetRect(index);
+        sf::IntRect rect = m_animation->getRect(index);
 
         m_vertices[0].position =
             sf::Vector2f(-(float)rect.width / 2, -(float)rect.height / 2);

@@ -18,15 +18,15 @@ void Skin::registerLuaScript() {
     auto lua_comp = manager()->getComponent<LuaScript>(ownerID());
     sol::state &lua = lua_comp->lua;
     lua.set_function("C_SetAnimation", [this](int id) {
-        m_sprite.SetAnimation(m_animations[id]);
+      m_sprite.setAnimation(m_animations[id]);
     });
     lua.set_function("C_SetLoop",
-                     [this](bool loop) { m_sprite.SetLoop(loop); });
+                     [this](bool loop) { m_sprite.setLoop(loop); });
     lua.set_function("C_SetRepeat",
-                     [this](int repeat) { m_sprite.SetRepeat(repeat); });
-    lua.set_function("C_Play", [this]() { m_sprite.Play(); });
+                     [this](int repeat) { m_sprite.setRepeat(repeat); });
+    lua.set_function("C_Play", [this]() { m_sprite.play(); });
     lua.set_function("C_IsPlaying", [this]() {
-        return m_sprite.GetStatus() == as::AnimatedSprite::Playing;
+        return m_sprite.getStatus() == as::AnimatedSprite::Playing;
     });
     lua.set_function("C_SetSpriteScale",
                      [this](float x, float y) { m_sprite.setScale(x, y); });

@@ -39,16 +39,16 @@ void Configuration::InitializePlayerInputs() {
 }
 
 void Configuration::LoadTexture(int id, const std::string &filename) {
-    textures.Load((Textures)id, filename);
+    textures.load((Textures) id, filename);
 }
 
 void Configuration::LoadFont(int id, const std::string &filename) {
-    fonts.Load((FontType)id, filename);
+    fonts.load((FontType) id, filename);
 }
 
 void Configuration::LoadPlayerAnimation(int id, int texture_id, int start_frame,
                                         int end_frame, int cols, int rows) {
-    player_anims.Load((PlayerAnim)id, &textures.Get((Textures)texture_id))
-        .AddFrameSheet(start_frame, end_frame, cols, rows, 35,
+    player_anims.load((PlayerAnim) id, &textures.Get((Textures) texture_id))
+        .addFrameSheet(start_frame, end_frame, cols, rows, 35,
                        0);  // TODO: remove the offset by editing the sheet?
 }

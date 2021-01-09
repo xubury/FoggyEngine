@@ -4,24 +4,24 @@ namespace foggy {
 
 Widget::Widget(Widget *parent) : m_parent(parent) {}
 
-void Widget::SetPosition(float x, float y) {
+void Widget::setPosition(float x, float y) {
     m_pos.x = x;
     m_pos.y = y;
 }
 
-void Widget::SetPosition(const sf::Vector2f &pos) { SetPosition(pos.x, pos.y); }
+void Widget::setPosition(const sf::Vector2f &pos) { setPosition(pos.x, pos.y); }
 
-sf::Vector2f Widget::GetPosition() const { return m_pos; }
+sf::Vector2f Widget::getPosition() const { return m_pos; }
 
-bool Widget::ProcessEvent(const sf::Event &, const sf::Vector2f &) {
+bool Widget::processEvent(const sf::Event &, const sf::Vector2f &) {
     return false;
 }
 
-void Widget::ProcessEvents(const sf::Vector2f &) {}
+void Widget::processEvents(const sf::Vector2f &) {}
 
-void Widget::UpdateShape() {
+void Widget::updateShape() {
     if (m_parent != nullptr) {
-        m_parent->UpdateShape();
+        m_parent->updateShape();
     }
 }
 

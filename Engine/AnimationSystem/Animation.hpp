@@ -10,17 +10,17 @@ class Animation {
     Animation(sf::Texture *texture);
     ~Animation();
 
-    void SetTexture(sf::Texture *texture);
-    sf::Texture *GetTexture() const;
+    void setTexture(sf::Texture *texture);
+    sf::Texture *getTexture() const;
 
-    Animation &AddFrame(const sf::IntRect &rect);
-    Animation &AddFrameRow(int number_x, int number_y, int row);
-    Animation &AddFrameColoumn(int number_x, int number_y, int col);
-    Animation &AddFrameSheet(int start, int end, int number_x, int number_y,
+    Animation &addFrame(const sf::IntRect &rect);
+    Animation &addFrameRow(int number_x, int number_y, int row);
+    Animation &addFrameColumn(int number_x, int number_y, int col);
+    Animation &addFrameSheet(int start, int end, int number_x, int number_y,
                              int x_offset, int y_offset);
 
-    std::size_t Size() const;
-    const sf::IntRect &GetRect(std::size_t index) const;
+    std::size_t size() const;
+    const sf::IntRect &getRect(std::size_t index) const;
 
    private:
     friend class AnimatedSprite;

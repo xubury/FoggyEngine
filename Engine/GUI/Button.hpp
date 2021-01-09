@@ -13,17 +13,17 @@ namespace foggy {
 class Button : public Widget {
    public:
     using FuncType = std::function<void(const sf::Event& event, Button& self)>;
-    static FuncType DefaultFunc;
+    static FuncType defaultFunc;
     Button(Widget* parent = nullptr);
     virtual ~Button() = default;
-    FuncType OnClick;
+    FuncType onClick;
 
    protected:
-    virtual bool ProcessEvent(const sf::Event& event,
+    virtual bool processEvent(const sf::Event& event,
                               const sf::Vector2f& parent_pos);
 
-    virtual void OnMouseEntered();
-    virtual void OnMouseLeft();
+    virtual void onMouseEntered();
+    virtual void onMouseLeft();
 
    private:
     enum Status { None = 0, Hover = 1 };
@@ -37,24 +37,24 @@ class TextButton : public Button {
                const sf::Font& font, const sf::Color& color,
                Widget* parent = nullptr);
     virtual ~TextButton() = default;
-    void SetText(const std::string& text);
-    void SetCharacterSize(uint32_t size);
-    void SetTextColor(const sf::Color& color);
-    void SetFillColor(const sf::Color& color);
-    void SetOutlineColor(const sf::Color& color);
-    void SetOutlineThickness(float thickness);
-    virtual sf::Vector2f GetSize() const override;
+    void setText(const std::string& text);
+    void setCharacterSize(uint32_t size);
+    void setTextColor(const sf::Color& color);
+    void setFillColor(const sf::Color& color);
+    void setOutlineColor(const sf::Color& color);
+    void setOutlineThickness(float thickness);
+    virtual sf::Vector2f getSize() const override;
 
    private:
     sf::RectangleShape m_shape;
     Label m_label;
-    void UpdateShape() override;
+    void updateShape() override;
     virtual void draw(sf::RenderTarget& target,
                       sf::RenderStates states) const override;
     sf::Color m_fill_color;
     sf::Color m_outline_color;
-    virtual void OnMouseEntered() override;
-    virtual void OnMouseLeft() override;
+    virtual void onMouseEntered() override;
+    virtual void onMouseLeft() override;
 };
 
 }  // namespace foggy

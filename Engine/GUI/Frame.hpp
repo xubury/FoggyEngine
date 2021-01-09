@@ -14,19 +14,19 @@ class Frame : public Container, protected ActionTarget<int> {
     Frame(sf::RenderWindow& window);
     virtual ~Frame() = default;
 
-    bool ProcessEvent(const sf::Event& event);
-    void ProcessEvents();
+    bool processEvent(const sf::Event& event);
+    void processEvents();
 
-    void Bind(int key, FuncType& callback);
-    void Unbind(int key);
-    void Draw();
+    void bind(int key, FuncType& callback);
+    void unbind(int key);
+    void draw();
 
-    virtual sf::Vector2f GetSize() const override;
+    virtual sf::Vector2f getSize() const override;
 
    private:
-    virtual bool ProcessEvent(const sf::Event& event,
+    virtual bool processEvent(const sf::Event& event,
                               const sf::Vector2f& parent_pos) override;
-    virtual void ProcessEvents(const sf::Vector2f& parent_pos) override;
+    virtual void processEvents(const sf::Vector2f& parent_pos) override;
 
    private:
     static ActionMap<int> gui_inputs;

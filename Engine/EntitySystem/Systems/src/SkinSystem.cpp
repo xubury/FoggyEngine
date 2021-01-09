@@ -14,7 +14,7 @@ void SkinSystem::update(es::EntityManager<es::DefaultEntity> &manager,
     auto end = view.End();
     for (; cur != end; ++cur) {
         skin->update();
-        skin->m_sprite.Update(delta_time);
+        skin->m_sprite.update(delta_time);
     }
 }
 

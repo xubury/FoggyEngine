@@ -70,7 +70,7 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     skin->m_animations.emplace(Configuration::PlayerAnim::Sword_Attack_2,
                                &Configuration::player_anims.Get(
                                    Configuration::PlayerAnim::Sword_Attack_2));
-    skin->m_sprite.SetAnimation(
+    skin->m_sprite.setAnimation(
         skin->m_animations.at(Configuration::PlayerAnim::Idle));
 }
 

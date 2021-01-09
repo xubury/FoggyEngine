@@ -12,7 +12,7 @@ class Layout : protected Widget {
     Layout(Widget *parent = nullptr);
     virtual ~Layout() = default;
 
-    void SetSpace(float pixel);
+    void setSpace(float pixel);
 
    protected:
     friend class Container;
@@ -26,18 +26,18 @@ class VLayout : public Layout {
     VLayout(Widget *parent = nullptr);
     ~VLayout();
 
-    void Add(Widget *widget);
-    Widget *At(uint32_t index);
-    virtual sf::Vector2f GetSize() const override;
+    void add(Widget *widget);
+    Widget *at(uint32_t index);
+    virtual sf::Vector2f getSize() const override;
 
    protected:
-    virtual bool ProcessEvent(const sf::Event &event,
+    virtual bool processEvent(const sf::Event &event,
                               const sf::Vector2f &parent_pos) override;
-    virtual void ProcessEvents(const sf::Vector2f &parent_pos) override;
+    virtual void processEvents(const sf::Vector2f &parent_pos) override;
 
    private:
     std::vector<Widget *> m_widgets;
-    virtual void UpdateShape() override;
+    virtual void updateShape() override;
     virtual void draw(sf::RenderTarget &target,
                       sf::RenderStates states) const override;
 };

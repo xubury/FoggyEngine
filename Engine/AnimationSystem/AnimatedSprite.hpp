@@ -30,26 +30,26 @@ class AnimatedSprite : public sf::Drawable, public sf::Transformable {
 
     ~AnimatedSprite();
 
-    void SetAnimation(Animation *animation);
-    Animation *GetAnimation() const;
+    void setAnimation(Animation *animation);
+    Animation *getAnimation() const;
 
-    void SetFrameTime(const sf::Time &delta_time);
-    sf::Time GetFrameTime() const;
+    void setFrameTime(const sf::Time &delta_time);
+    sf::Time getFrameTime() const;
 
-    void SetLoop(bool loop);
-    bool GetLoop() const;
+    void setLoop(bool loop);
+    bool getLoop() const;
 
-    void SetRepeat(int repeat);
-    int GetRepeat() const;
+    void setRepeat(int repeat);
+    int getRepeat() const;
 
-    void Play();
-    void Pause();
-    void Stop();
-    Status GetStatus() const;
+    void play();
+    void pause();
+    void stop();
+    Status getStatus() const;
 
-    void SetFrame(std::size_t index);
-    void SetColor(const sf::Color &color);
-    void Update(const sf::Time &delta_time);
+    void setFrame(std::size_t index);
+    void setColor(const sf::Color &color);
+    void update(const sf::Time &delta_time);
 
    private:
     Animation *m_animation;

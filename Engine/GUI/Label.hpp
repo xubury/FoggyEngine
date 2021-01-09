@@ -14,17 +14,17 @@ class Label : public Widget {
           Widget *parent = nullptr);
     virtual ~Label() = default;
 
-    void SetText(const std::string &text);
+    void setText(const std::string &text);
 
-    void SetCharacterSize(uint32_t size);
-    uint32_t GetCharacterSize() const;
+    void setCharacterSize(uint32_t size);
+    uint32_t getCharacterSize() const;
 
-    void SetTextColor(const sf::Color &color);
-    sf::Color GetTextColor() const;
+    void setTextColor(const sf::Color &color);
+    sf::Color getTextColor() const;
 
-    void SetOrigin(float x, float y);
+    void setOrigin(float x, float y);
 
-    sf::Vector2f GetSize() const override;
+    sf::Vector2f getSize() const override;
 
    private:
     sf::Text m_text;
