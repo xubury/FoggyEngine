@@ -21,7 +21,7 @@ void Collision::AddFixture(const b2FixtureDef &fixture) {
         assert(world != nullptr);
         b2body_ref = world->CreateBody(&b2body_def);
     }
-    /* To stay consistance with the transform, we have to remove the
+    /* To stay consistency with the transform, we have to remove the
      * debug_shape's scale. Because the transform will be applied at drawing
      * stage. */
     Transform::Handle trans = Manager()->GetComponent<Transform>(OwnerID());
