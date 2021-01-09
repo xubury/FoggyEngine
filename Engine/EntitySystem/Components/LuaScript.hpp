@@ -10,16 +10,16 @@ namespace component {
 struct LuaScript : es::Component<LuaScript, es::DefaultEntity> {
    public:
     LuaScript() = default;
-    void InitScript(const std::string &filename);
+    void initScript(const std::string &filename);
     sol::state lua;
 
    private:
-    void InitComponent();
-    void InitCollision();
-    void InitSkin();
-    void PopulatePolygonFixture(sol::table &table);
+    void initComponent();
+    void initCollision();
+    void initSkin();
+    void populatePolygonFixture(sol::table &table);
 
-    void PopulateCircleFixture(sol::table &table);
+    void populateCircleFixture(sol::table &table);
 };
 
 }  // namespace component

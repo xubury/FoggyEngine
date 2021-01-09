@@ -11,43 +11,43 @@
 Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     : foggy::es::DefaultEntity(manager, id), m_facing_right(true) {
     float scale = 2;
-    Component<foggy::component::Transform>()->setScale(scale, scale);
+    component<foggy::component::Transform>()->setScale(scale, scale);
 
     auto lua_script = manager->AddComponent<foggy::component::LuaScript>(id);
-    lua_script->InitScript("res/scripts/Player.lua");
+    lua_script->initScript("res/scripts/Player.lua");
     lua_script->lua.set_function(
         "C_ApplyLinearImpulse", [this](float x, float y) {
             b2Body *b2body_ref =
-                Component<foggy::component::Collision>()->b2body_ref;
+                component<foggy::component::Collision>()->b2body_ref;
             b2body_ref->ApplyLinearImpulse(
-                b2Vec2(foggy::converter::PixelsToMeters<float>(x),
-                       foggy::converter::PixelsToMeters<float>(y)),
+                b2Vec2(foggy::converter::pixelsToMeters<float>(x),
+                       foggy::converter::pixelsToMeters<float>(y)),
                 b2body_ref->GetWorldCenter(), true);
         });
 
-    auto skin = Component<foggy::component::Skin>();
+    auto skin = component<foggy::component::Skin>();
 
     foggy::component::Controller::Handle handle =
         manager->AddComponent<foggy::component::Controller>(
             id, Configuration::player_inputs);
     handle->Bind(
         Configuration::PlayerInput::Up,
-        [s = lua_script.Get()](const sf::Event &) { s->lua["Move"](0, 20); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["Move"](0, 20); });
     handle->Bind(
         Configuration::PlayerInput::Down,
-        [s = lua_script.Get()](const sf::Event &) { s->lua["Squat"](); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["Squat"](); });
     handle->Bind(
         Configuration::PlayerInput::Down_Realeased,
-        [s = lua_script.Get()](const sf::Event &) { s->lua["Stand"](); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["Stand"](); });
     handle->Bind(
         Configuration::PlayerInput::Left,
-        [s = lua_script.Get()](const sf::Event &) { s->lua["Move"](-10, 0); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["Move"](-10, 0); });
     handle->Bind(
         Configuration::PlayerInput::Right,
-        [s = lua_script.Get()](const sf::Event &) { s->lua["Move"](10, 0); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["Move"](10, 0); });
     handle->Bind(
         Configuration::PlayerInput::Attack,
-        [s = lua_script.Get()](const sf::Event &) { s->lua["Attack"](); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["Attack"](); });
 
     skin->m_animations.emplace(
         Configuration::PlayerAnim::Idle,
@@ -76,11 +76,11 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     const sf::Transform &trans =
-        Component<foggy::component::Transform>()->getTransform();
+        component<foggy::component::Transform>()->getTransform();
     states.transform = trans;
-    if (Has<foggy::component::Skin>()) {
+    if (has<foggy::component::Skin>()) {
         foggy::component::Skin::Handle skin =
-            Component<foggy::component::Skin>();
+            component<foggy::component::Skin>();
         target.draw(skin->m_sprite, states);
     }
     DefaultEntity::draw(target, states);

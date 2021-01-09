@@ -50,7 +50,7 @@ class EntityManager {
 
     void Remove(std::size_t id);
 
-    void Update();
+    void update();
 
     void Reset();
 
@@ -75,10 +75,10 @@ class EntityManager {
     void RemoveComponent(uint32_t id);
 
     template <typename COMPONENT>
-    bool HasComponent(uint32_t id) const;
+    bool hasComponent(uint32_t id) const;
 
     template <typename COMPONENT>
-    ComponentHandle<COMPONENT, ENTITY> GetComponent(uint32_t id) const;
+    ComponentHandle<COMPONENT, ENTITY> getComponent(uint32_t id) const;
 
     template <typename... COMPONENT>
     std::tuple<ComponentHandle<COMPONENT, ENTITY>...> GetComponents(
@@ -231,7 +231,7 @@ inline void EntityManager<ENTITY>::Remove(std::size_t id) {
 }
 
 template <class ENTITY>
-inline void EntityManager<ENTITY>::Update() {
+inline void EntityManager<ENTITY>::update() {
     if (!m_entities_to_destroy.empty()) {
         Container::iterator iter = m_entities_to_destroy.begin();
         Container::iterator end = m_entities_to_destroy.end();
@@ -318,7 +318,7 @@ template <typename COMPONENT, typename... ARGS>
 inline ComponentHandle<COMPONENT, ENTITY> EntityManager<ENTITY>::AddComponent(
     uint32_t id, ARGS &&...args) {
     CheckComponent<COMPONENT>();
-    uint32_t family = COMPONENT::Family();
+    uint32_t family = COMPONENT::family();
 
     assert(!m_entites_component_masks.at(id).test(family));
     utils::memory::Pool<COMPONENT> *pool =
@@ -337,7 +337,7 @@ template <class ENTITY>
 template <typename COMPONENT>
 inline void EntityManager<ENTITY>::RemoveComponent(uint32_t id) {
     // CheckComponent<COMPONENT>();
-    uint32_t family = COMPONENT::Family();
+    uint32_t family = COMPONENT::family();
     assert(m_entites_component_masks.at(id).test(family));
 
     utils::memory::Pool<COMPONENT> *pool =
@@ -350,16 +350,16 @@ inline void EntityManager<ENTITY>::RemoveComponent(uint32_t id) {
 
 template <class ENTITY>
 template <typename COMPONENT>
-inline bool EntityManager<ENTITY>::HasComponent(uint32_t id) const {
-    uint32_t family = COMPONENT::Family();
+inline bool EntityManager<ENTITY>::hasComponent(uint32_t id) const {
+    uint32_t family = COMPONENT::family();
     return m_entites_component_masks.at(id).test(family);
 }
 
 template <class ENTITY>
 template <typename COMPONENT>
-inline ComponentHandle<COMPONENT, ENTITY> EntityManager<ENTITY>::GetComponent(
+inline ComponentHandle<COMPONENT, ENTITY> EntityManager<ENTITY>::getComponent(
     uint32_t id) const {
-    if (HasComponent<COMPONENT>(id)) {
+    if (hasComponent<COMPONENT>(id)) {
         return ComponentHandle<COMPONENT, ENTITY>(this, id);
     }
     return ComponentHandle<COMPONENT, ENTITY>();
@@ -369,13 +369,13 @@ template <class ENTITY>
 template <typename... COMPONENT>
 inline std::tuple<ComponentHandle<COMPONENT, ENTITY>...>
 EntityManager<ENTITY>::GetComponents(uint32_t id) const {
-    return std::make_tuple(GetComponent<COMPONENT>(id)...);
+    return std::make_tuple(getComponent<COMPONENT>(id)...);
 }
 
 template <class ENTITY>
 template <typename COMPONENT>
 inline COMPONENT *EntityManager<ENTITY>::GetComponentPtr(uint32_t id) const {
-    uint32_t family = COMPONENT::Family();
+    uint32_t family = COMPONENT::family();
     return &static_cast<utils::memory::Pool<COMPONENT> *>(
                 m_components_entites[family])
                 ->At(id);
@@ -383,7 +383,7 @@ inline COMPONENT *EntityManager<ENTITY>::GetComponentPtr(uint32_t id) const {
 
 template <typename COMPONENT>
 inline void GetMask(std::bitset<MAX_COMPONENTS> &mask) {
-    mask.set(COMPONENT::Family());
+    mask.set(COMPONENT::family());
 }
 
 template <typename C1, typename C2, typename... COMPONENT>
@@ -419,7 +419,7 @@ inline void EntityManager<ENTITY>::Reset(uint32_t id) {
 template <class ENTITY>
 template <typename COMPONENT>
 inline void EntityManager<ENTITY>::CheckComponent() {
-    uint32_t family = COMPONENT::Family();
+    uint32_t family = COMPONENT::family();
     if (m_components_entites.size() <= family) {
         m_components_entites.resize(family + 1, nullptr);
     }

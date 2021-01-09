@@ -8,7 +8,7 @@
 namespace foggy {
 namespace component {
 
-void LuaScript::InitScript(const std::string &filename) {
+void LuaScript::initScript(const std::string &filename) {
     lua.open_libraries();
     auto res = lua.safe_script_file(filename);
     if (!res.valid()) {
@@ -18,22 +18,22 @@ void LuaScript::InitScript(const std::string &filename) {
     }
     lua.set_function("C_GetSpeed", [this]() {
         b2Vec2 speed;
-        if (Manager()->HasComponent<foggy::component::Collision>(OwnerID())) {
+        if (manager()->hasComponent<foggy::component::Collision>(ownerID())) {
             foggy::component::Collision::Handle collision =
-                Manager()->GetComponent<foggy::component::Collision>(OwnerID());
+                manager()->getComponent<foggy::component::Collision>(ownerID());
             speed = collision->b2body_ref->GetLinearVelocity();
         }
         return std::make_tuple(speed.x, speed.y);
     });
-    InitComponent();
+    initComponent();
 }
 
-void LuaScript::InitComponent() {
-    InitCollision();
-    InitSkin();
+void LuaScript::initComponent() {
+    initCollision();
+    initSkin();
 }
 
-void LuaScript::InitCollision() {
+void LuaScript::initCollision() {
     sol::object comp = lua["CompCollision"];
     if (comp.is<sol::table>()) {
         sol::table comp_table = comp;
@@ -41,38 +41,38 @@ void LuaScript::InitCollision() {
         body_def.type = comp_table["body_type"];
         body_def.fixedRotation = comp_table["fix_angle"];
 
-        Manager()->AddComponent<component::Collision>(OwnerID(), body_def);
+        manager()->AddComponent<component::Collision>(ownerID(), body_def);
         sol::table fixture_table = comp_table["fixtures"];
         for (const auto &pair : fixture_table) {
             sol::table fixture = pair.second;
             std::string shape = fixture["shape"];
             if (shape == "Polygon") {
-                PopulatePolygonFixture(fixture);
+                populatePolygonFixture(fixture);
             } else if (shape == "Circle") {
-                PopulateCircleFixture(fixture);
+                populateCircleFixture(fixture);
             }
         }
     }
 }
 
-void LuaScript::InitSkin() {
+void LuaScript::initSkin() {
     sol::object comp = lua["CompAnimation"];
     if (comp.is<sol::table>()) {
-        auto skin = Manager()->AddComponent<component::Skin>(OwnerID());
-        skin->RegisterLuaScript();
+        auto skin = manager()->AddComponent<component::Skin>(ownerID());
+        skin->registerLuaScript();
     }
 }
 
-void LuaScript::PopulatePolygonFixture(sol::table &table) {
-    auto collision = Manager()->GetComponent<component::Collision>(OwnerID());
+void LuaScript::populatePolygonFixture(sol::table &table) {
+    auto collision = manager()->getComponent<component::Collision>(ownerID());
     sol::table vertices_table = table["vertices"];
     std::vector<b2Vec2> vertices;
     for (const auto &pair : vertices_table) {
         sol::table pos = pair.second;
         float x = pos["x"];
         float y = pos["y"];
-        vertices.emplace_back(converter::PixelsToMeters(x),
-                              converter::PixelsToMeters(y));
+        vertices.emplace_back(converter::pixelsToMeters(x),
+                              converter::pixelsToMeters(y));
     }
 
     b2PolygonShape b2shape;
@@ -82,20 +82,20 @@ void LuaScript::PopulatePolygonFixture(sol::table &table) {
     fixture_def.friction = table["friction"];
     fixture_def.restitution = table["restitution"];
     fixture_def.shape = &b2shape;
-    collision->AddFixture(fixture_def);
+    collision->addFixture(fixture_def);
 }
 
-void LuaScript::PopulateCircleFixture(sol::table &table) {
-    auto collision = Manager()->GetComponent<component::Collision>(OwnerID());
+void LuaScript::populateCircleFixture(sol::table &table) {
+    auto collision = manager()->getComponent<component::Collision>(ownerID());
     b2CircleShape b2shape;
     float radius = table["radius"];
-    b2shape.m_radius = converter::PixelsToMeters(radius);
+    b2shape.m_radius = converter::pixelsToMeters(radius);
     b2FixtureDef fixture_def;
     fixture_def.density = table["density"];
     fixture_def.friction = table["friction"];
     fixture_def.restitution = table["restitution"];
     fixture_def.shape = &b2shape;
-    collision->AddFixture(fixture_def);
+    collision->addFixture(fixture_def);
 }
 
 }  // namespace component

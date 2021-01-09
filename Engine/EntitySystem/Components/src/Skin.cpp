@@ -8,14 +8,14 @@ namespace component {
 
 Skin::Skin() {}
 
-void Skin::Update() {
-    auto lua_comp = Manager()->GetComponent<LuaScript>(OwnerID());
+void Skin::update() {
+    auto lua_comp = manager()->getComponent<LuaScript>(ownerID());
     sol::state &lua = lua_comp->lua;
-    lua["Update"]();
+    lua["update"]();
 }
 
-void Skin::RegisterLuaScript() {
-    auto lua_comp = Manager()->GetComponent<LuaScript>(OwnerID());
+void Skin::registerLuaScript() {
+    auto lua_comp = manager()->getComponent<LuaScript>(ownerID());
     sol::state &lua = lua_comp->lua;
     lua.set_function("C_SetAnimation", [this](int id) {
         m_sprite.SetAnimation(m_animations[id]);

@@ -24,7 +24,7 @@ class VSystem {
 
     virtual ~VSystem() = default;
 
-    virtual void Update(EntityManager<ENTITY>& entity_manager,
+    virtual void update(EntityManager<ENTITY>& entity_manager,
                         const sf::Time& deltaTime) = 0;
 
    protected:
@@ -41,7 +41,7 @@ class System : public VSystem<ENTITY> {
     System() = default;
     virtual ~System() = default;
 
-    static uint32_t Family();
+    static uint32_t family();
 };
 
 #define ES_INIT_VSYSTEM(ENTITY) \
@@ -58,21 +58,21 @@ class SystemManager {
     ~SystemManager() = default;
 
     template <typename SYSTEM>
-    bool Add(std::shared_ptr<SYSTEM> ptr);
+    bool add(std::shared_ptr<SYSTEM> ptr);
 
     template <typename SYSTEM, typename... Args>
-    bool Add(Args&&... args);
+    bool add(Args&&... args);
 
     template <typename SYSTEM>
     bool Remove();
 
     template <typename SYSTEM>
-    SYSTEM* System();
+    SYSTEM* system();
 
     template <typename SYSTEM>
-    void Update(const sf::Time& deltaTime);
+    void update(const sf::Time& deltaTime);
 
-    void UpdateAll(const sf::Time& deltaTime);
+    void updateAll(const sf::Time& deltaTime);
 
    private:
     EntityManager<ENTITY>& m_manager;
@@ -80,7 +80,7 @@ class SystemManager {
 };
 
 template <typename COMPONENT, typename ENTITY>
-uint32_t System<COMPONENT, ENTITY>::Family() {
+uint32_t System<COMPONENT, ENTITY>::family() {
     static uint32_t family = VSystem<ENTITY>::s_family_counter++;
     assert(family < MAX_COMPONENTS);
     return family;
@@ -91,15 +91,16 @@ SystemManager<ENTITY>::SystemManager(EntityManager<ENTITY>& manager)
     : m_manager(manager) {}
 
 template <typename ENTITY>
-void SystemManager<ENTITY>::UpdateAll(const sf::Time& deltaTime) {
-    for (auto& pair : m_systems) pair.second->Update(m_manager, deltaTime);
+void SystemManager<ENTITY>::updateAll(const sf::Time& deltaTime) {
+    for (auto& pair : m_systems)
+        pair.second->update(m_manager, deltaTime);
 }
 
 template <typename ENTITY>
 template <typename SYSTEM>
-bool SystemManager<ENTITY>::Add(std::shared_ptr<SYSTEM> ptr) {
-    if (m_systems.count(SYSTEM::Family()) == 0) {
-        m_systems.insert(std::make_pair(SYSTEM::Family(), ptr));
+bool SystemManager<ENTITY>::add(std::shared_ptr<SYSTEM> ptr) {
+    if (m_systems.count(SYSTEM::family()) == 0) {
+        m_systems.insert(std::make_pair(SYSTEM::family(), ptr));
         return true;
     }
     return false;
@@ -107,10 +108,10 @@ bool SystemManager<ENTITY>::Add(std::shared_ptr<SYSTEM> ptr) {
 
 template <typename ENTITY>
 template <typename SYSTEM, typename... Args>
-bool SystemManager<ENTITY>::Add(Args&&... args) {
-    if (m_systems.count(SYSTEM::Family()) == 0) {
+bool SystemManager<ENTITY>::add(Args&&... args) {
+    if (m_systems.count(SYSTEM::family()) == 0) {
         m_systems.emplace(
-            SYSTEM::Family(),
+            SYSTEM::family(),
             std::shared_ptr<SYSTEM>(new SYSTEM(std::forward<Args>(args)...)));
         return true;
     }
@@ -120,22 +121,22 @@ bool SystemManager<ENTITY>::Add(Args&&... args) {
 template <typename ENTITY>
 template <typename SYSTEM>
 bool SystemManager<ENTITY>::Remove() {
-    if (m_systems.count(SYSTEM::Family()) == 0) return false;
-    m_systems.erase(SYSTEM::Family());
+    if (m_systems.count(SYSTEM::family()) == 0) return false;
+    m_systems.erase(SYSTEM::family());
     return true;
 }
 
 template <typename ENTITY>
 template <typename SYSTEM>
-inline SYSTEM* SystemManager<ENTITY>::System() {
-    return std::static_pointer_cast<SYSTEM>(m_systems.at(SYSTEM::Family()))
+inline SYSTEM* SystemManager<ENTITY>::system() {
+    return std::static_pointer_cast<SYSTEM>(m_systems.at(SYSTEM::family()))
         .get();
 }
 
 template <typename ENTITY>
 template <typename SYSTEM>
-inline void SystemManager<ENTITY>::Update(const sf::Time& deltaTime) {
-    System<SYSTEM>()->Update(m_manager, deltaTime);
+inline void SystemManager<ENTITY>::update(const sf::Time& deltaTime) {
+    system<SYSTEM>()->update(m_manager, deltaTime);
 }
 
 }  // namespace es

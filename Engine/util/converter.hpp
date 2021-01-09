@@ -9,12 +9,12 @@ constexpr double PIXELS_PER_METERS = 32.0;
 constexpr double PI = 3.14159265358979323846;
 
 template <typename T>
-inline constexpr T PixelsToMeters(const T& x) {
+inline constexpr T pixelsToMeters(const T& x) {
     return x / PIXELS_PER_METERS;
 }
 
 template <typename T>
-inline constexpr T MetersToPixels(const T& x) {
+inline constexpr T metersToPixels(const T& x) {
     return x * PIXELS_PER_METERS;
 }
 

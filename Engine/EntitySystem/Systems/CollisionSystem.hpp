@@ -13,7 +13,7 @@ class CollisionSystem : public System<component::Collision, es::DefaultEntity>,
                         public b2World {
    public:
     CollisionSystem(float x, float y);
-    virtual void Update(es::EntityManager<es::DefaultEntity> &manager,
+    virtual void update(es::EntityManager<es::DefaultEntity> &manager,
                         const sf::Time &delta_time) override;
 };
 

@@ -10,7 +10,7 @@ namespace es {
 class SkinSystem : public es::System<component::Skin, es::DefaultEntity> {
    public:
     SkinSystem() {}
-    virtual void Update(es::EntityManager<es::DefaultEntity> &manager,
+    virtual void update(es::EntityManager<es::DefaultEntity> &manager,
                         const sf::Time &delta_time) override;
 };
 

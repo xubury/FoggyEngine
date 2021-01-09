@@ -8,7 +8,7 @@ namespace foggy {
 namespace es {
 CollisionSystem::CollisionSystem(float x, float y) : b2World(b2Vec2(x, y)) {}
 
-void CollisionSystem::Update(es::EntityManager<es::DefaultEntity> &manager,
+void CollisionSystem::update(es::EntityManager<es::DefaultEntity> &manager,
                              const sf::Time &delta_time) {
     Step(delta_time.asSeconds(), 8, 3);
     component::Collision::Handle collision;
@@ -18,11 +18,11 @@ void CollisionSystem::Update(es::EntityManager<es::DefaultEntity> &manager,
     for (; cur != end; ++cur) {
         b2Body *body = collision->b2body_ref;
         b2Vec2 pos(body->GetPosition());
-        pos.x = converter::MetersToPixels(pos.x);
-        pos.y = converter::MetersToPixels(pos.y);
+        pos.x = converter::metersToPixels(pos.x);
+        pos.y = converter::metersToPixels(pos.y);
         float angle = converter::RadToDeg(body->GetAngle());
-        cur->Component<component::Transform>()->setPosition(pos.x, pos.y);
-        cur->Component<component::Transform>()->setRotation(angle);
+        cur->component<component::Transform>()->setPosition(pos.x, pos.y);
+        cur->component<component::Transform>()->setRotation(angle);
     }
 }
 

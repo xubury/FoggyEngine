@@ -1,6 +1,6 @@
 #include "Systems/HealthSystem.hpp"
 
-void HealthSystem::Update(
+void HealthSystem::update(
     foggy::es::EntityManager<foggy::es::DefaultEntity> &manager,
     const sf::Time &) {
     HealthComp::Handle hp;
@@ -8,7 +8,7 @@ void HealthSystem::Update(
     auto end = view.End();
     for (auto cur = view.Begin(); cur != end; ++cur) {
         if (hp->hp <= 0) {
-            manager.Remove(cur->ID());
+            manager.Remove(cur->id());
         }
     }
 }

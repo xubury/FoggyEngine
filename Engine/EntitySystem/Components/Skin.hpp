@@ -12,9 +12,9 @@ struct Skin : es::Component<Skin, es::DefaultEntity> {
    public:
     Skin();
 
-    void Update();
+    void update();
 
-    void RegisterLuaScript();
+    void registerLuaScript();
 
     as::AnimatedSprite m_sprite;
     std::unordered_map<int, as::Animation *> m_animations;

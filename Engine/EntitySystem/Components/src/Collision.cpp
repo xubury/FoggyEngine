@@ -13,18 +13,18 @@ Collision::Collision(b2BodyDef &def, bool debug)
 
 Collision::~Collision() { b2body_ref->GetWorld()->DestroyBody(b2body_ref); }
 
-void Collision::AddFixture(const b2FixtureDef &fixture) {
+void Collision::addFixture(const b2FixtureDef &fixture) {
     if (b2body_ref == nullptr) {
-        es::SystemManager<es::DefaultEntity> *systems = Manager()->GetSystems();
+        es::SystemManager<es::DefaultEntity> *systems = manager()->GetSystems();
         assert(systems != nullptr);
-        auto *world = systems->System<es::CollisionSystem>();
+        auto *world = systems->system<es::CollisionSystem>();
         assert(world != nullptr);
         b2body_ref = world->CreateBody(&b2body_def);
     }
     /* To stay consistency with the transform, we have to remove the
      * debug_shape's scale. Because the transform will be applied at drawing
      * stage. */
-    Transform::Handle trans = Manager()->GetComponent<Transform>(OwnerID());
+    Transform::Handle trans = manager()->getComponent<Transform>(ownerID());
     sf::Vector2f scale = trans->getScale();
     b2Shape::Type type = fixture.shape->GetType();
     if (type == b2Shape::Type::e_circle) {
@@ -33,10 +33,10 @@ void Collision::AddFixture(const b2FixtureDef &fixture) {
         // FIXME: scale on  X Y should both be considered
         float radius = circle->m_radius / scale.x;
         debug_shape.emplace_back(std::make_unique<sf::CircleShape>(
-            converter::MetersToPixels(radius)));
+            converter::metersToPixels(radius)));
         debug_shape.back()->setOrigin(
-            sf::Vector2f(converter::MetersToPixels(radius),
-                         converter::MetersToPixels(radius)));
+            sf::Vector2f(converter::metersToPixels(radius),
+                         converter::metersToPixels(radius)));
     } else if (type == b2Shape::Type::e_polygon) {
         const b2PolygonShape *rect =
             static_cast<const b2PolygonShape *>(fixture.shape);
@@ -47,8 +47,8 @@ void Collision::AddFixture(const b2FixtureDef &fixture) {
         for (int i = 0; i < rect->m_count; ++i) {
             b2Vec2 pt = rect->m_vertices[i];
             convex->setPoint(
-                i, sf::Vector2f(converter::MetersToPixels(pt.x / scale.x),
-                                converter::MetersToPixels(-pt.y / scale.y)));
+                i, sf::Vector2f(converter::metersToPixels(pt.x / scale.x),
+                                converter::metersToPixels(-pt.y / scale.y)));
         }
     }
     debug_shape.back()->setFillColor(sf::Color::Transparent);

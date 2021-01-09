@@ -29,8 +29,8 @@ Application<ENTITY>::Application() : systems(entities) {
 
 template <typename ENTITY>
 void Application<ENTITY>::Update(const sf::Time &deltaTime) {
-    systems.UpdateAll(deltaTime);
-    entities.Update();
+    systems.updateAll(deltaTime);
+    entities.update();
 }
 
 }  // namespace es

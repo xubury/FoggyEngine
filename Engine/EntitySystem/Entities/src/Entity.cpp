@@ -1,4 +1,4 @@
-#include <box2d/b2_body.h>
+#include <box2d/box2d.h>
 
 #include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/Skin.hpp"
@@ -20,11 +20,11 @@ DefaultEntity::DefaultEntity(foggy::es::EntityManager<DefaultEntity> *manager,
 void DefaultEntity::draw(sf::RenderTarget &target,
                          sf::RenderStates states) const {
     const sf::Transform &trans =
-        Component<component::Transform>()->getTransform();
+        component<component::Transform>()->getTransform();
     states.transform = trans;
-    if (Has<component::Collision>()) {
+    if (has<component::Collision>()) {
         component::Collision::Handle collision =
-            Component<component::Collision>();
+            component<component::Collision>();
         if (collision->debug) {
             for (const auto &shape : collision->debug_shape)
                 target.draw(*shape, states);

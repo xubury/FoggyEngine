@@ -11,7 +11,7 @@ struct HealthComp : foggy::es::Component<HealthComp, foggy::es::DefaultEntity> {
 class HealthSystem
     : public foggy::es::System<HealthComp, foggy::es::DefaultEntity> {
    public:
-    virtual void Update(
+    virtual void update(
         foggy::es::EntityManager<foggy::es::DefaultEntity> &manager,
         const sf::Time &delta_time) override;
 };

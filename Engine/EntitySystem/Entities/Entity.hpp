@@ -27,29 +27,29 @@ class Entity {
 
     Entity(EntityManager<ENTITY> *manager, uint32_t id);
 
-    uint32_t ID() const;
+    uint32_t id() const;
 
-    EntityManager<ENTITY> &GetManager();
+    EntityManager<ENTITY> &getManager();
 
     bool operator==(const Entity &other) const;
     bool operator!=(const Entity &other) const;
 
-    void Remove();
+    void remove();
 
     template <typename COMPONENT, typename... ARGS>
     void Add(ARGS &&...args);
 
     template <typename COMPONENT>
-    void Remove();
+    void remove();
 
     template <typename COMPONENT>
-    bool Has() const;
+    bool has() const;
 
     template <typename COMPONENT>
-    ComponentHandle<COMPONENT, ENTITY> Component() const;
+    ComponentHandle<COMPONENT, ENTITY> component() const;
 
     template <typename... COMPONENT>
-    std::tuple<ComponentHandle<COMPONENT, ENTITY>...> Components() const;
+    std::tuple<ComponentHandle<COMPONENT, ENTITY>...> components() const;
 
    private:
     uint32_t m_id;
@@ -79,12 +79,12 @@ Entity<ENTITY>::Entity(EntityManager<ENTITY> *manager, uint32_t id)
     : m_id(id), m_manager(manager) {}
 
 template <typename ENTITY>
-inline uint32_t Entity<ENTITY>::ID() const {
+inline uint32_t Entity<ENTITY>::id() const {
     return m_id;
 }
 
 template <typename ENTITY>
-inline EntityManager<ENTITY> &Entity<ENTITY>::GetManager() {
+inline EntityManager<ENTITY> &Entity<ENTITY>::getManager() {
     return *m_manager;
 }
 
@@ -99,7 +99,7 @@ bool Entity<ENTITY>::operator!=(const Entity<ENTITY> &other) const {
 }
 
 template <typename ENTITY>
-inline void Entity<ENTITY>::Remove() {
+inline void Entity<ENTITY>::remove() {
     m_manager->Remove(m_id);
 }
 
@@ -112,26 +112,26 @@ inline void Entity<ENTITY>::Add(Args &&...args) {
 
 template <typename ENTITY>
 template <typename COMPONENT>
-inline void Entity<ENTITY>::Remove() {
+inline void Entity<ENTITY>::remove() {
     m_manager->template RemoveComponent<COMPONENT>(m_id);
 }
 
 template <typename ENTITY>
 template <typename COMPONENT>
-inline bool Entity<ENTITY>::Has() const {
-    return m_manager->template HasComponent<COMPONENT>(m_id);
+inline bool Entity<ENTITY>::has() const {
+    return m_manager->template hasComponent<COMPONENT>(m_id);
 }
 
 template <typename ENTITY>
 template <typename COMPONENT>
-inline ComponentHandle<COMPONENT, ENTITY> Entity<ENTITY>::Component() const {
-    return m_manager->template GetComponent<COMPONENT>(m_id);
+inline ComponentHandle<COMPONENT, ENTITY> Entity<ENTITY>::component() const {
+    return m_manager->template getComponent<COMPONENT>(m_id);
 }
 
 template <typename ENTITY>
 template <typename... COMPONENT>
 inline std::tuple<ComponentHandle<COMPONENT, ENTITY>...>
-Entity<ENTITY>::Components() const {
+Entity<ENTITY>::components() const {
     return m_manager->template GetComponents<COMPONENT...>(m_id);
 }
 
