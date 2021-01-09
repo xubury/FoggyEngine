@@ -132,6 +132,7 @@ inline void Tile<GEOMETRY>::draw(sf::RenderTarget& target,
                                  sf::RenderStates states) const {
     target.draw(m_shape, states);
 }
+
 }  // namespace foggy
 
 #endif /* TILE_H */
