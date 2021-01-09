@@ -24,7 +24,7 @@ void AnimatedSprite::setAnimation(Animation *animation) {
         m_animation = animation;
         m_time_elapsed = sf::Time::Zero;
         m_current_frame = 0;
-        SetFrame(0, true);
+        setFrame(0, true);
     }
 }
 
@@ -51,7 +51,7 @@ void AnimatedSprite::pause() { m_status = AnimatedSprite::Pasued; }
 void AnimatedSprite::stop() {
     m_status = AnimatedSprite::Stopped;
     m_current_frame = 0;
-    SetFrame(0, true);
+    setFrame(0, true);
 }
 
 AnimatedSprite::Status AnimatedSprite::getStatus() const { return m_status; }
@@ -59,7 +59,7 @@ AnimatedSprite::Status AnimatedSprite::getStatus() const { return m_status; }
 void AnimatedSprite::setFrame(std::size_t index) {
     assert(m_animation != nullptr);
     m_current_frame = index % m_animation->size();
-    SetFrame(index, true);
+    setFrame(index, true);
 }
 
 void AnimatedSprite::setColor(const sf::Color &color) {
@@ -95,11 +95,11 @@ void AnimatedSprite::update(const sf::Time &delta_time) {
                 }
             }
         }
-        SetFrame(m_current_frame, false);
+        setFrame(m_current_frame, false);
     }
 }
 
-void AnimatedSprite::SetFrame(std::size_t index, bool reset_time, bool flip_y) {
+void AnimatedSprite::setFrame(std::size_t index, bool reset_time, bool flip_y) {
     if (m_animation != nullptr) {
         sf::IntRect rect = m_animation->getRect(index);
 
