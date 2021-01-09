@@ -8,15 +8,15 @@
 namespace foggy {
 VMap::VMap(float size) : m_tile_size(size) {}
 
-bool VMap::LoadFromFile(const std::string &filename) {
+bool VMap::loadFromFile(const std::string &filename) {
     std::ifstream file(filename, std::ios::binary);
     if (file.is_open()) {
-        return LoadFromStream(file);
+        return loadFromStream(file);
     }
     return false;
 }
 
-bool VMap::LoadFromStream(std::istream &in) {
+bool VMap::loadFromStream(std::istream &in) {
     Json::Value root;
     Json::CharReaderBuilder rbuilder;
     std::string errs;
@@ -25,83 +25,84 @@ bool VMap::LoadFromStream(std::istream &in) {
         std::cout << "Failed to parse configuration\n" << errs;
         return false;
     } else {
-        LoadFromJson(root);
+        loadFromJson(root);
         return true;
     }
 }
 
-void VMap::Add(VLayer *layer, bool sort) {
+void VMap::add(VLayer *layer, bool sort) {
     m_layers.emplace_back(layer);
 
-    if (sort) SortLayers();
+    if (sort)
+        sortLayers();
 }
 
-void VMap::Remove(VLayer *layer) {
+void VMap::remove(VLayer *layer) {
     auto iter = std::find(m_layers.begin(), m_layers.end(), layer);
     if (iter != m_layers.end()) {
         m_layers.erase(iter);
     }
 }
 
-void VMap::Remove(size_t index) {
+void VMap::remove(size_t index) {
     delete m_layers.at(index);
     m_layers.erase(m_layers.begin() + index);
 }
 
-std::size_t VMap::Size() const { return m_layers.size(); }
+std::size_t VMap::size() const { return m_layers.size(); }
 
-VLayer *VMap::At(size_t index) const { return m_layers.at(index); }
+VLayer *VMap::at(size_t index) const { return m_layers.at(index); }
 
-void VMap::Clear() {
-    const std::size_t size = Size();
-    for (std::size_t i = 0; i < size; ++i) {
+void VMap::clear() {
+    const std::size_t s = size();
+    for (std::size_t i = 0; i < s; ++i) {
         delete (m_layers[i]);
     }
     m_layers.clear();
     m_textures.Clear();
 }
 
-float VMap::GetTileSize() const { return m_tile_size; }
+float VMap::getTileSize() const { return m_tile_size; }
 
-sf::Vector2i VMap::MapPixelToCoords(const sf::Vector2f &pos) const {
-    return MapPixelToCoords(pos.x, pos.y);
+sf::Vector2i VMap::mapPixelToCoords(const sf::Vector2f &pos) const {
+    return mapPixelToCoords(pos.x, pos.y);
 }
 
-sf::Vector2f VMap::MapCoordsToPixel(const sf::Vector2i &pos) const {
-    return MapCoordsToPixel(pos.x, pos.y);
+sf::Vector2f VMap::mapCoordsToPixel(const sf::Vector2i &pos) const {
+    return mapCoordsToPixel(pos.x, pos.y);
 }
 
-void VMap::SortLayers() {
+void VMap::sortLayers() {
     std::sort(m_layers.begin(), m_layers.end(),
               [](const VLayer *lhs, const VLayer *rhs) {
-                  return lhs->Z() < rhs->Z();
+                  return lhs->z() < rhs->z();
               });
     const std::size_t size = m_layers.size();
     for (std::size_t i = 0; i < size; ++i) {
-        m_layers[i]->Sort();
+        m_layers[i]->sort();
     }
 }
 
-void VMap::Draw(sf::RenderTarget &target, sf::RenderStates states,
+void VMap::draw(sf::RenderTarget &target, sf::RenderStates states,
                 const sf::FloatRect &viewport) const {
     sf::FloatRect delta_viewport(
         viewport.left - m_tile_size, viewport.top - m_tile_size,
         viewport.width + m_tile_size * 2, viewport.height + m_tile_size * 2);
     const std::size_t size = m_layers.size();
     for (std::size_t i = 0; i < size; ++i) {
-        m_layers[i]->Draw(target, states, delta_viewport);
+        m_layers[i]->draw(target, states, delta_viewport);
     }
 }
 
-VMap *VMap::CreateMapFromFile(const std::string &filename) {
+VMap *VMap::createMapFromFile(const std::string &filename) {
     std::ifstream file(filename, std::ios::binary);
     if (file.is_open()) {
-        return CreateMapFromStream(file);
+        return createMapFromStream(file);
     }
     return nullptr;
 }
 
-VMap *VMap::CreateMapFromStream(std::istream &in) {
+VMap *VMap::createMapFromStream(std::istream &in) {
     Json::Value root;
     Json::CharReaderBuilder rbuilder;
     std::string errs;
@@ -110,11 +111,11 @@ VMap *VMap::CreateMapFromStream(std::istream &in) {
         std::cout << "Failed to parse configuration\n" << errs;
         return nullptr;
     } else {
-        return CreateMapFromJson(root);
+        return createMapFromJson(root);
     }
 }
 
-VMap *VMap::CreateMapFromJson(Json::Value &root) {
+VMap *VMap::createMapFromJson(Json::Value &root) {
     VMap *res = nullptr;
 
     Json::Value &geometry = root["geometry"];
@@ -123,7 +124,7 @@ VMap *VMap::CreateMapFromJson(Json::Value &root) {
 
     if (geometry_name == "Square") {
         res = new Map<geometry::Square>(size);
-        res->LoadFromJson(root);
+        res->loadFromJson(root);
     } else {
         std::cerr << "Unknow geometry '" << geometry_name << "'" << std::endl;
     }

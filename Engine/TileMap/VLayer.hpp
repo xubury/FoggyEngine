@@ -14,12 +14,12 @@ class VLayer {
 
     VLayer(const std::string& type, int z = 0, bool is_static = false);
     virtual ~VLayer() = default;
-    virtual void Sort() = 0;
+    virtual void sort() = 0;
 
-    int Z() const;
-    const std::string& GetType() const;
+    int z() const;
+    const std::string& getType() const;
 
-    bool IsStatic() const;
+    bool isStatic() const;
 
    protected:
     const bool m_is_static;
@@ -30,7 +30,7 @@ class VLayer {
 
    private:
     friend class VMap;
-    virtual void Draw(sf::RenderTarget& target, sf::RenderStates states,
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states,
                       const sf::FloatRect& viewport) = 0;
     const int m_z;
 };

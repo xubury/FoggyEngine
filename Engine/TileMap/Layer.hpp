@@ -14,18 +14,18 @@ class Layer : public VLayer {
 
     Layer(const std::string& type, int z = 0, bool is_static = false);
 
-    CONTENT* Add(const CONTENT& content, bool resort = true);
-    CONTENT* Add(CONTENT&& content, bool resort = true);
+    CONTENT* add(const CONTENT& content, bool resort = true);
+    CONTENT* add(CONTENT&& content, bool resort = true);
 
-    std::list<CONTENT*> GetByCoords(const sf::Vector2i& coords,
+    std::list<CONTENT*> getByCoords(const sf::Vector2i& coords,
                                     const VMap& map);
 
-    bool Remove(const CONTENT* content_ptr, bool resort = true);
+    bool remove(const CONTENT* content_ptr, bool resort = true);
 
-    virtual void Sort() override;
+    virtual void sort() override;
 
    private:
-    virtual void Draw(sf::RenderTarget& target, sf::RenderStates states,
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states,
                       const sf::FloatRect& viewport) override;
 
     std::list<CONTENT> m_content;
@@ -41,15 +41,15 @@ class Layer<CONTENT*> : public VLayer {
 
     CONTENT* Add(CONTENT* content, bool resort = true);
 
-    std::list<CONTENT*> GetByCoords(const sf::Vector2i& coords,
+    std::list<CONTENT*> getByCoords(const sf::Vector2i& coords,
                                     const VMap& map);
 
-    bool Remove(const CONTENT* content_ptr, bool resort = true);
+    bool remove(const CONTENT* content_ptr, bool resort = true);
 
-    virtual void Sort() override;
+    virtual void sort() override;
 
    private:
-    virtual void Draw(sf::RenderTarget& target, sf::RenderStates states,
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states,
                       const sf::FloatRect& viewport) override;
 
     std::list<CONTENT*> m_content;
@@ -60,31 +60,33 @@ Layer<CONTENT>::Layer(const std::string& type, int z, bool is_static)
     : VLayer(type, z, is_static) {}
 
 template <typename CONTENT>
-CONTENT* Layer<CONTENT>::Add(const CONTENT& content, bool resort) {
+CONTENT* Layer<CONTENT>::add(const CONTENT& content, bool resort) {
     m_content.emplace_back(content);
     CONTENT* res = m_content.back();
-    if (resort) Sort();
+    if (resort)
+        sort();
 
     return res;
 }
 
 template <typename CONTENT>
-CONTENT* Layer<CONTENT>::Add(CONTENT&& content, bool resort) {
+CONTENT* Layer<CONTENT>::add(CONTENT&& content, bool resort) {
     m_content.emplace_back(std::move(content));
     CONTENT* res = &m_content.back();
-    if (resort) Sort();
+    if (resort)
+        sort();
 
     return res;
 }
 
 template <typename CONTENT>
-std::list<CONTENT*> Layer<CONTENT>::GetByCoords(const sf::Vector2i& coords,
+std::list<CONTENT*> Layer<CONTENT>::getByCoords(const sf::Vector2i& coords,
                                                 const VMap& map) {
     std::list<CONTENT*> res;
     const auto end = m_content.end();
     for (auto iter = m_content.begin(); iter != end; ++iter) {
         auto pos = iter->getPosition();
-        sf::Vector2i c = map.MapPixelToCoords(pos.x, pos.y);
+        sf::Vector2i c = map.mapPixelToCoords(pos.x, pos.y);
         if (c == coords) {
             res.emplace_back(&(*iter));
         }
@@ -93,7 +95,7 @@ std::list<CONTENT*> Layer<CONTENT>::GetByCoords(const sf::Vector2i& coords,
 }
 
 template <typename CONTENT>
-bool Layer<CONTENT>::Remove(const CONTENT* content_ptr, bool resort) {
+bool Layer<CONTENT>::remove(const CONTENT* content_ptr, bool resort) {
     auto iter = std::find_if(m_content.begin(), m_content.end(),
                              [content_ptr](const CONTENT& content) {
                                  return &content == content_ptr;
@@ -101,7 +103,8 @@ bool Layer<CONTENT>::Remove(const CONTENT* content_ptr, bool resort) {
     if (iter != m_content.end()) {
         m_content.erase(iter);
 
-        if (resort) Sort();
+        if (resort)
+            sort();
         return true;
     } else {
         return false;
@@ -109,7 +112,7 @@ bool Layer<CONTENT>::Remove(const CONTENT* content_ptr, bool resort) {
 }
 
 template <typename CONTENT>
-void Layer<CONTENT>::Sort() {
+void Layer<CONTENT>::sort() {
     m_content.sort([](const CONTENT& lhs, const CONTENT& rhs) {
         auto lpos = lhs.getPosition();
         auto rpos = rhs.getPosition();
@@ -118,7 +121,7 @@ void Layer<CONTENT>::Sort() {
 }
 
 template <typename CONTENT>
-void Layer<CONTENT>::Draw(sf::RenderTarget& target, sf::RenderStates states,
+void Layer<CONTENT>::draw(sf::RenderTarget& target, sf::RenderStates states,
                           const sf::FloatRect& viewport) {
     if (m_is_static) {
         if (m_last_viewport != viewport) {
@@ -162,19 +165,20 @@ template <typename CONTENT>
 CONTENT* Layer<CONTENT*>::Add(CONTENT* content, bool resort) {
     m_content.emplace_back(content);
     CONTENT* res = m_content.back();
-    if (resort) Sort();
+    if (resort)
+        sort();
 
     return res;
 }
 
 template <typename CONTENT>
-std::list<CONTENT*> Layer<CONTENT*>::GetByCoords(const sf::Vector2i& coords,
+std::list<CONTENT*> Layer<CONTENT*>::getByCoords(const sf::Vector2i& coords,
                                                  const VMap& map) {
     std::list<CONTENT*> res;
     const auto end = m_content.end();
     for (auto iter = m_content.begin(); iter != end; ++iter) {
         auto pos = (*iter)->getPosition();
-        sf::Vector2i c = map.MapPixelToCoords(pos.x, pos.y);
+        sf::Vector2i c = map.mapPixelToCoords(pos.x, pos.y);
         if (c == coords) {
             res.emplace_back(*iter);
         }
@@ -183,12 +187,13 @@ std::list<CONTENT*> Layer<CONTENT*>::GetByCoords(const sf::Vector2i& coords,
 }
 
 template <typename CONTENT>
-bool Layer<CONTENT*>::Remove(const CONTENT* content_ptr, bool resort) {
+bool Layer<CONTENT*>::remove(const CONTENT* content_ptr, bool resort) {
     auto iter = std::find_if(m_content.begin(), m_content.end(), content_ptr);
     if (iter != m_content.end()) {
         m_content.erase(iter);
 
-        if (resort) Sort();
+        if (resort)
+            sort();
         return true;
     } else {
         return false;
@@ -196,7 +201,7 @@ bool Layer<CONTENT*>::Remove(const CONTENT* content_ptr, bool resort) {
 }
 
 template <typename CONTENT>
-void Layer<CONTENT*>::Sort() {
+void Layer<CONTENT*>::sort() {
     m_content.sort([](const CONTENT* lhs, const CONTENT* rhs) {
         auto lpos = lhs->getPosition();
         auto rpos = rhs->getPosition();
@@ -205,7 +210,7 @@ void Layer<CONTENT*>::Sort() {
 }
 
 template <typename CONTENT>
-void Layer<CONTENT*>::Draw(sf::RenderTarget& target, sf::RenderStates states,
+void Layer<CONTENT*>::draw(sf::RenderTarget& target, sf::RenderStates states,
                            const sf::FloatRect& viewport) {
     if (m_is_static) {
         if (m_last_viewport != viewport) {

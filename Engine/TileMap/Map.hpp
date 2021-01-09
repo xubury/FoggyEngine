@@ -15,19 +15,19 @@ class Map : public VMap {
 
     Map(float size);
 
-    void LoadFromJson(const Json::Value& root) override;
+    void loadFromJson(const Json::Value& root) override;
 
-    virtual sf::Vector2i MapPixelToCoords(float x, float y) const override;
+    virtual sf::Vector2i mapPixelToCoords(float x, float y) const override;
 
-    virtual sf::Vector2f MapCoordsToPixel(int x, int y) const override;
+    virtual sf::Vector2f mapCoordsToPixel(int x, int y) const override;
 
-    virtual const sf::ConvexShape GetShape() const override;
+    virtual const sf::ConvexShape getShape() const override;
 
-    virtual std::list<sf::Vector2i> GetPath(
+    virtual std::list<sf::Vector2i> getPath(
         const sf::Vector2i& origin, const sf::Vector2i& dest) const override;
-    virtual sf::Vector2i GetPath1(const sf::Vector2i& origin,
+    virtual sf::Vector2i getPath1(const sf::Vector2i& origin,
                                   const sf::Vector2i& dest) const override;
-    virtual int GetDistance(const sf::Vector2i& origin,
+    virtual int getDistance(const sf::Vector2i& origin,
                             const sf::Vector2i& dest) const override;
 };
 
@@ -35,7 +35,7 @@ template <typename GEOMETRY>
 Map<GEOMETRY>::Map(float size) : VMap(size) {}
 
 template <typename GEOMETRY>
-void Map<GEOMETRY>::LoadFromJson(const Json::Value& root) {
+void Map<GEOMETRY>::loadFromJson(const Json::Value& root) {
     auto iter = root["layers"].begin();
     auto end = root["layers"].begin();
     for (; iter != end; ++iter) {
@@ -73,10 +73,10 @@ void Map<GEOMETRY>::LoadFromJson(const Json::Value& root) {
                         tile.setTexture(&tex);
                         tile.setTextureRect(
                             GEOMETRY::getTextureRect(x, y, m_tile_size));
-                        current_layer->Add(std::move(tile), false);
+                        current_layer->add(std::move(tile), false);
                     }
                 }
-                Add(current_layer, false);
+                add(current_layer, false);
             }
         } else if (content == "sprite") {
             auto current_layer = new Layer<sf::Sprite>(content, z, isStatic);
@@ -106,33 +106,33 @@ void Map<GEOMETRY>::LoadFromJson(const Json::Value& root) {
                 sf::FloatRect rec = spr.getLocalBounds();
                 spr.setOrigin(rec.width * ox, rec.height * oy);
 
-                current_layer->Add(std::move(spr), false);
+                current_layer->add(std::move(spr), false);
             }
-            Add(current_layer, false);
+            add(current_layer, false);
         }
     }
-    SortLayers();
+    sortLayers();
 }
 
 template <typename GEOMETRY>
-sf::Vector2i Map<GEOMETRY>::MapPixelToCoords(float x, float y) const {
+sf::Vector2i Map<GEOMETRY>::mapPixelToCoords(float x, float y) const {
     return GEOMETRY::mapPixelToCoords(x, y, m_tile_size);
 }
 
 template <typename GEOMETRY>
-sf::Vector2f Map<GEOMETRY>::MapCoordsToPixel(int x, int y) const {
+sf::Vector2f Map<GEOMETRY>::mapCoordsToPixel(int x, int y) const {
     return GEOMETRY::mapCoordsToPixel(x, y, m_tile_size);
 }
 
 template <typename GEOMETRY>
-const sf::ConvexShape Map<GEOMETRY>::GetShape() const {
+const sf::ConvexShape Map<GEOMETRY>::getShape() const {
     sf::ConvexShape shape = GEOMETRY::getShape();
     shape.setScale(m_tile_size, m_tile_size);
     return shape;
 }
 
 template <typename GEOMETRY>
-std::list<sf::Vector2i> Map<GEOMETRY>::GetPath(const sf::Vector2i& origin,
+std::list<sf::Vector2i> Map<GEOMETRY>::getPath(const sf::Vector2i& origin,
                                                const sf::Vector2i& dest) const {
     int distance = GEOMETRY::distance(origin.x, origin.y, dest.x, dest.y);
     std::list<sf::Vector2i> res;
@@ -151,7 +151,7 @@ std::list<sf::Vector2i> Map<GEOMETRY>::GetPath(const sf::Vector2i& origin,
 }
 
 template <typename GEOMETRY>
-sf::Vector2i Map<GEOMETRY>::GetPath1(const sf::Vector2i& origin,
+sf::Vector2i Map<GEOMETRY>::getPath1(const sf::Vector2i& origin,
                                      const sf::Vector2i& dest) const {
     int distance = GEOMETRY::distance(origin.x, origin.y, dest.x, dest.y);
     sf::Vector2i res = origin;
@@ -171,7 +171,7 @@ sf::Vector2i Map<GEOMETRY>::GetPath1(const sf::Vector2i& origin,
 }
 
 template <typename GEOMETRY>
-int Map<GEOMETRY>::GetDistance(const sf::Vector2i& origin,
+int Map<GEOMETRY>::getDistance(const sf::Vector2i& origin,
                                const sf::Vector2i& dest) const {
     return GEOMETRY::distance(origin.x, origin.y, dest.x, dest.y);
 }
