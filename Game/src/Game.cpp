@@ -28,12 +28,12 @@ Game::Game(int width, int height, const std::string &title)
     m_app.systems.add<foggy::es::SkinSystem>();
 }
 
-void Game::Run(int min_fps) {
+void Game::run(int min_fps) {
     Configuration::Initialize();
-    InitGui();
+    initGui();
     // m_window.setFramerateLimit(120);
 
-    m_fps = sf::Text("FPS: " + std::to_string(GetFps()),
+    m_fps = sf::Text("FPS: " + std::to_string(getFps()),
                      Configuration::fonts.get(Configuration::FontType::GUI));
 
     sf::Clock clock;
@@ -41,21 +41,21 @@ void Game::Run(int min_fps) {
     sf::Time time_per_frame = sf::seconds(1.f / min_fps);
 
     while (m_window.isOpen()) {
-        ProcessEvent();
+        processEvent();
 
         m_time_since_last_update = clock.restart();
         while (m_time_since_last_update > time_per_frame) {
             m_time_since_last_update -= time_per_frame;
-            Update(time_per_frame);
+            update(time_per_frame);
         }
-        Update(m_time_since_last_update);
-        Render();
+        update(m_time_since_last_update);
+        render();
     }
 }
 
 Game::~Game() {}
 
-void Game::ProcessEvent() {
+void Game::processEvent() {
     sf::Event event;
     while (m_window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
@@ -128,7 +128,7 @@ void Game::ProcessEvent() {
                     auto view = m_app.entities.getByComponents(controller);
                     auto end = view.end();
                     for (auto cur = view.begin(); cur != end; ++cur) {
-                        controller->ProcessEvent(event);
+                        controller->processEvent(event);
                     }
                 }
                 break;
@@ -145,7 +145,7 @@ void Game::ProcessEvent() {
             auto view = m_app.entities.getByComponents(controller);
             auto end = view.end();
             for (auto cur = view.begin(); cur != end; ++cur) {
-                controller->ProcessEvents();
+                controller->processEvents();
             }
             break;
         }
@@ -156,7 +156,7 @@ void Game::ProcessEvent() {
     }
 }
 
-void Game::Update(sf::Time &delta_time) {
+void Game::update(sf::Time &delta_time) {
     if (m_player_id >= 0) {
         auto *player =
             dynamic_cast<Player *>(m_app.entities.getPtr(m_player_id));
@@ -169,7 +169,7 @@ void Game::Update(sf::Time &delta_time) {
     m_app.Update(delta_time);
 }
 
-void Game::Render() {
+void Game::render() {
     m_window.clear();
 
     m_window.setView(m_cam);
@@ -178,7 +178,7 @@ void Game::Render() {
     for (; iter != end; ++iter) {
         m_window.draw(m_app.entities.get(*iter));
     }
-    m_fps.setString("FPS: " + std::to_string(GetFps()));
+    m_fps.setString("FPS: " + std::to_string(getFps()));
     m_window.setView(m_hud_camera);
     m_window.draw(m_fps);
 
@@ -190,18 +190,18 @@ void Game::Render() {
     m_window.display();
 }
 
-void Game::InitGui() {
+void Game::initGui() {
     auto *layout = new foggy::VLayout();
     layout->setSpace(25);
     auto *btn = new foggy::TextButton(
         "New", sf::Color::Green, sf::Color::White, 5,
         Configuration::fonts.get(Configuration::GUI), sf::Color::White);
-    btn->onClick = [this](const sf::Event &, foggy::Button &) { InitWorld(); };
+    btn->onClick = [this](const sf::Event &, foggy::Button &) { initWorld(); };
     layout->add(btn);
     m_main_menu.setLayout(layout);
 }
 
-void Game::InitWorld() {
+void Game::initWorld() {
     b2BodyDef body_def;
     body_def.position.Set(0, foggy::converter::pixelsToMeters(-80));
     body_def.type = b2_staticBody;

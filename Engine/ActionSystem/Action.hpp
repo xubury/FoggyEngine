@@ -15,7 +15,7 @@ class Action {
     Action(const sf::Mouse::Button &button,
            int type = Type::RealTime | Type::Pressed);
 
-    bool Test() const;
+    bool test() const;
 
     bool operator==(const sf::Event &event) const;
     bool operator==(const Action &other) const;

@@ -22,22 +22,22 @@ class Game {
 
     virtual ~Game();
 
-    void Run(int min_fps);
+    void run(int min_fps);
 
-    float GetFps();
+    float getFps();
 
     enum Status { MainMenu, Normal };
 
    private:
-    void InitGui();
+    void initGui();
 
-    void InitWorld();
+    void initWorld();
 
-    void Render();
+    void render();
 
-    void Update(sf::Time &delta_time);
+    void update(sf::Time &delta_time);
 
-    void ProcessEvent();
+    void processEvent();
 
     sf::RenderWindow m_window;
 
@@ -62,7 +62,7 @@ class Game {
     Status m_status;
 };
 
-inline float Game::GetFps() {
+inline float Game::getFps() {
     return 1.f / m_fps_clock.getElapsedTime().asSeconds();
 }
 

@@ -21,11 +21,11 @@ class ActionTarget {
 
     ActionTarget(const ActionMap<T> &map);
 
-    bool ProcessEvent(const sf::Event &event) const;
-    void ProcessEvents() const;
+    bool processEvent(const sf::Event &event) const;
+    void processEvents() const;
 
-    void Bind(const T &key, const FuncType &callback);
-    void Unbind(const T &key);
+    void bind(const T &key, const FuncType &callback);
+    void unbind(const T &key);
 
    private:
     std::list<ActionPair> m_event_realtime;
@@ -38,10 +38,10 @@ template <typename T>
 ActionTarget<T>::ActionTarget(const ActionMap<T> &map) : m_action_map(map) {}
 
 template <typename T>
-bool ActionTarget<T>::ProcessEvent(const sf::Event &event) const {
+bool ActionTarget<T>::processEvent(const sf::Event &event) const {
     bool res = false;
     for (const ActionPair &pair : m_event_poll) {
-        if (m_action_map.Get(pair.first) == event) {
+        if (m_action_map.get(pair.first) == event) {
             pair.second(event);  // invoke callback
             res = true;
             break;
@@ -51,18 +51,18 @@ bool ActionTarget<T>::ProcessEvent(const sf::Event &event) const {
 }
 
 template <typename T>
-void ActionTarget<T>::ProcessEvents() const {
+void ActionTarget<T>::processEvents() const {
     for (const ActionPair &pair : m_event_realtime) {
-        const Action &action = m_action_map.Get(pair.first);
-        if (action.Test()) {
+        const Action &action = m_action_map.get(pair.first);
+        if (action.test()) {
             pair.second(action.m_event);  // invoke callback
         }
     }
 }
 
 template <typename T>
-void ActionTarget<T>::Bind(const T &key, const FuncType &callback) {
-    const Action &action = m_action_map.Get(key);
+void ActionTarget<T>::bind(const T &key, const FuncType &callback) {
+    const Action &action = m_action_map.get(key);
     if (action.m_type & Action::Type::RealTime) {
         m_event_realtime.emplace_back(key, callback);
     } else {
@@ -71,8 +71,8 @@ void ActionTarget<T>::Bind(const T &key, const FuncType &callback) {
 }
 
 template <typename T>
-void ActionTarget<T>::Unbind(const T &key) {
-    const Action &action = m_action_map.Get(key);
+void ActionTarget<T>::unbind(const T &key) {
+    const Action &action = m_action_map.get(key);
     auto removeFunc = [&key](const ActionPair &pair) -> bool {
         return pair.first == key;
     };

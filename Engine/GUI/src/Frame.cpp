@@ -10,10 +10,10 @@ Frame::Frame(sf::RenderWindow &window)
 void Frame::draw() { m_window.draw(*this); }
 
 void Frame::bind(int key, FuncType &callback) {
-    ActionTarget::Bind(key, callback);
+    ActionTarget::bind(key, callback);
 }
 
-void Frame::unbind(int key) { ActionTarget::Unbind(key); }
+void Frame::unbind(int key) { ActionTarget::unbind(key); }
 
 sf::Vector2f Frame::getSize() const {
     sf::Vector2u size = m_window.getSize();
@@ -32,7 +32,7 @@ void Frame::processEvents() {
 
 bool Frame::processEvent(const sf::Event &event,
                          const sf::Vector2f &parent_pos) {
-    bool res = ActionTarget::ProcessEvent(event);
+    bool res = ActionTarget::processEvent(event);
     if (!res) {
         res = Container::processEvent(event, parent_pos);
     }
@@ -40,7 +40,7 @@ bool Frame::processEvent(const sf::Event &event,
 }
 
 void Frame::processEvents(const sf::Vector2f &parent_pos) {
-    ActionTarget::ProcessEvents();
+    ActionTarget::processEvents();
     Container::processEvents(parent_pos);
     sf::Event event;
     while (m_window.pollEvent(event)) {

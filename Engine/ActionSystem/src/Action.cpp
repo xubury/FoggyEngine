@@ -52,7 +52,7 @@ bool Action::operator==(const Action &other) const {
     return m_type == other.m_type && other == m_event;
 }
 
-bool Action::Test() const {
+bool Action::test() const {
     bool res = false;
     if (m_event.type == sf::Event::EventType::KeyPressed) {
         if (m_type & Type::Pressed) {

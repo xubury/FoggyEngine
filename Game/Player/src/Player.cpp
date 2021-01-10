@@ -30,22 +30,22 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     foggy::component::Controller::Handle handle =
         manager->addComponent<foggy::component::Controller>(
             id, Configuration::player_inputs);
-    handle->Bind(
+    handle->bind(
         Configuration::PlayerInput::Up,
         [s = lua_script.get()](const sf::Event &) { s->lua["Move"](0, 20); });
-    handle->Bind(
+    handle->bind(
         Configuration::PlayerInput::Down,
         [s = lua_script.get()](const sf::Event &) { s->lua["Squat"](); });
-    handle->Bind(
+    handle->bind(
         Configuration::PlayerInput::Down_Realeased,
         [s = lua_script.get()](const sf::Event &) { s->lua["Stand"](); });
-    handle->Bind(
+    handle->bind(
         Configuration::PlayerInput::Left,
         [s = lua_script.get()](const sf::Event &) { s->lua["Move"](-10, 0); });
-    handle->Bind(
+    handle->bind(
         Configuration::PlayerInput::Right,
         [s = lua_script.get()](const sf::Event &) { s->lua["Move"](10, 0); });
-    handle->Bind(
+    handle->bind(
         Configuration::PlayerInput::Attack,
         [s = lua_script.get()](const sf::Event &) { s->lua["Attack"](); });
 

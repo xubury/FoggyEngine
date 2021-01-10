@@ -29,13 +29,13 @@ void Configuration::Initialize() {
 }
 
 void Configuration::InitializePlayerInputs() {
-    player_inputs.Map(PlayerInput::Up, foggy::Action(sf::Keyboard::W));
-    player_inputs.Map(PlayerInput::Down, foggy::Action(sf::Keyboard::S));
-    player_inputs.Map(PlayerInput::Down_Realeased,
+    player_inputs.map(PlayerInput::Up, foggy::Action(sf::Keyboard::W));
+    player_inputs.map(PlayerInput::Down, foggy::Action(sf::Keyboard::S));
+    player_inputs.map(PlayerInput::Down_Realeased,
                       foggy::Action(sf::Keyboard::S, foggy::Action::Released));
-    player_inputs.Map(PlayerInput::Right, foggy::Action(sf::Keyboard::D));
-    player_inputs.Map(PlayerInput::Left, foggy::Action(sf::Keyboard::A));
-    player_inputs.Map(PlayerInput::Attack, foggy::Action(sf::Keyboard::J));
+    player_inputs.map(PlayerInput::Right, foggy::Action(sf::Keyboard::D));
+    player_inputs.map(PlayerInput::Left, foggy::Action(sf::Keyboard::A));
+    player_inputs.map(PlayerInput::Attack, foggy::Action(sf::Keyboard::J));
 }
 
 void Configuration::LoadTexture(int id, const std::string &filename) {
