@@ -68,64 +68,11 @@ void Game::processEvent() {
         }
         switch (m_status) {
             case Normal: {
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                    sf::Vector2f pos = m_window.mapPixelToCoords(
-                        sf::Mouse::getPosition(m_window));
-                    int id = m_app.entities.create();
-                    b2BodyDef body_def;
-                    body_def.position.Set(
-                        foggy::converter::pixelsToMeters<float>(pos.x),
-                        foggy::converter::pixelsToMeters<float>(pos.y));
-                    body_def.type = b2_dynamicBody;
-                    foggy::component::Collision::Handle collsion =
-                        m_app.entities
-                            .addComponent<foggy::component::Collision>(
-                                id, body_def);
-
-                    b2CircleShape b2shape;
-                    b2shape.m_radius = foggy::converter::pixelsToMeters(15.f);
-                    b2FixtureDef fixture_def;
-                    fixture_def.density = 1.0;
-                    fixture_def.friction = 0.4;
-                    fixture_def.restitution = 0.5;
-                    fixture_def.shape = &b2shape;
-                    collsion->addFixture(fixture_def);
-                    m_timer.addTimer(sf::seconds(3), [id, this]() {
-                        m_app.entities.remove(id);
-                    });
-                } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-                    sf::Vector2f pos = m_window.mapPixelToCoords(
-                        sf::Mouse::getPosition(m_window));
-                    int id = m_app.entities.create();
-                    b2BodyDef body_def;
-                    body_def.position.Set(
-                        foggy::converter::pixelsToMeters<float>(pos.x),
-                        foggy::converter::pixelsToMeters<float>(pos.y));
-                    body_def.type = b2_dynamicBody;
-                    foggy::component::Collision::Handle collsion =
-                        m_app.entities
-                            .addComponent<foggy::component::Collision>(
-                                id, body_def);
-
-                    b2PolygonShape b2shape;
-                    b2shape.SetAsBox(foggy::converter::pixelsToMeters(15.f),
-                                     foggy::converter::pixelsToMeters(10.f));
-                    b2FixtureDef fixture_def;
-                    fixture_def.density = 1.0;
-                    fixture_def.friction = 0.4;
-                    fixture_def.restitution = 0.5;
-                    fixture_def.shape = &b2shape;
-                    collsion->addFixture(fixture_def);
-                    m_timer.addTimer(sf::seconds(3), [id, this]() {
-                        m_app.entities.remove(id);
-                    });
-                } else {
-                    foggy::component::Controller::Handle controller;
-                    auto view = m_app.entities.getByComponents(controller);
-                    auto end = view.end();
-                    for (auto cur = view.begin(); cur != end; ++cur) {
-                        controller->processEvent(event);
-                    }
+                foggy::component::Controller::Handle controller;
+                auto view = m_app.entities.getByComponents(controller);
+                auto end = view.end();
+                for (auto cur = view.begin(); cur != end; ++cur) {
+                    controller->processEvent(event);
                 }
                 break;
             }
@@ -134,6 +81,52 @@ void Game::processEvent() {
                 break;
             }
         }
+    }
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        sf::Vector2f pos =
+            m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
+        int id = m_app.entities.create();
+        b2BodyDef body_def;
+        body_def.position.Set(foggy::converter::pixelsToMeters<float>(pos.x),
+                              foggy::converter::pixelsToMeters<float>(pos.y));
+        body_def.type = b2_dynamicBody;
+        foggy::component::Collision::Handle collsion =
+            m_app.entities.addComponent<foggy::component::Collision>(id,
+                                                                     body_def);
+
+        b2CircleShape b2shape;
+        b2shape.m_radius = foggy::converter::pixelsToMeters(15.f);
+        b2FixtureDef fixture_def;
+        fixture_def.density = 1.0;
+        fixture_def.friction = 0.4;
+        fixture_def.restitution = 0.5;
+        fixture_def.shape = &b2shape;
+        collsion->addFixture(fixture_def);
+        m_timer.addTimer(sf::seconds(3),
+                         [id, this]() { m_app.entities.remove(id); });
+    } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+        sf::Vector2f pos =
+            m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
+        int id = m_app.entities.create();
+        b2BodyDef body_def;
+        body_def.position.Set(foggy::converter::pixelsToMeters<float>(pos.x),
+                              foggy::converter::pixelsToMeters<float>(pos.y));
+        body_def.type = b2_dynamicBody;
+        foggy::component::Collision::Handle collsion =
+            m_app.entities.addComponent<foggy::component::Collision>(id,
+                                                                     body_def);
+
+        b2PolygonShape b2shape;
+        b2shape.SetAsBox(foggy::converter::pixelsToMeters(15.f),
+                         foggy::converter::pixelsToMeters(10.f));
+        b2FixtureDef fixture_def;
+        fixture_def.density = 1.0;
+        fixture_def.friction = 0.4;
+        fixture_def.restitution = 0.5;
+        fixture_def.shape = &b2shape;
+        collsion->addFixture(fixture_def);
+        m_timer.addTimer(sf::seconds(3),
+                         [id, this]() { m_app.entities.remove(id); });
     }
     switch (m_status) {
         case Normal: {
