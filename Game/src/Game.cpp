@@ -70,7 +70,7 @@ void Game::processEvent() {
             case Normal: {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                     sf::Vector2f pos = m_window.mapPixelToCoords(
-                        sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                        sf::Mouse::getPosition(m_window));
                     int id = m_app.entities.create();
                     b2BodyDef body_def;
                     body_def.position.Set(
@@ -95,7 +95,7 @@ void Game::processEvent() {
                     });
                 } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
                     sf::Vector2f pos = m_window.mapPixelToCoords(
-                        sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                        sf::Mouse::getPosition(m_window));
                     int id = m_app.entities.create();
                     b2BodyDef body_def;
                     body_def.position.Set(
