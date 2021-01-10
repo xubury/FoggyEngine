@@ -40,6 +40,10 @@ class Game {
 
     void processEvent();
 
+    void processEvents();
+
+    void processMouseEvents();
+
     sf::RenderWindow m_window;
 
     sf::Time m_time_since_last_update;

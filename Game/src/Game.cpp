@@ -40,6 +40,7 @@ void Game::run(int min_fps) {
 
     while (m_window.isOpen()) {
         processEvent();
+        processEvents();
 
         m_time_since_last_update = clock.restart();
         while (m_time_since_last_update > time_per_frame) {
@@ -82,6 +83,29 @@ void Game::processEvent() {
             }
         }
     }
+}
+
+void Game::processEvents() {
+    processMouseEvents();
+    switch (m_status) {
+        case Normal: {
+            foggy::component::Controller::Handle controller;
+            auto view = m_app.entities.getByComponents(controller);
+            auto end = view.end();
+            for (auto cur = view.begin(); cur != end; ++cur) {
+                controller->processEvents();
+            }
+            m_viewer.processEvents();
+            break;
+        }
+        case MainMenu: {
+            m_main_menu.processEvents();
+            break;
+        }
+    }
+}
+
+void Game::processMouseEvents() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         sf::Vector2f pos =
             m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
@@ -127,22 +151,6 @@ void Game::processEvent() {
         collsion->addFixture(fixture_def);
         m_timer.addTimer(sf::seconds(3),
                          [id, this]() { m_app.entities.remove(id); });
-    }
-    switch (m_status) {
-        case Normal: {
-            foggy::component::Controller::Handle controller;
-            auto view = m_app.entities.getByComponents(controller);
-            auto end = view.end();
-            for (auto cur = view.begin(); cur != end; ++cur) {
-                controller->processEvents();
-            }
-            m_viewer.processEvents();
-            break;
-        }
-        case MainMenu: {
-            m_main_menu.processEvents();
-            break;
-        }
     }
 }
 
