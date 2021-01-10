@@ -41,10 +41,10 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
         [s = lua_script.get()](const sf::Event &) { s->lua["stand"](); });
     handle->bind(
         Configuration::PlayerInput::Left,
-        [s = lua_script.get()](const sf::Event &) { s->lua["move"](-10, 0); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["move"](-20, 0); });
     handle->bind(
         Configuration::PlayerInput::Right,
-        [s = lua_script.get()](const sf::Event &) { s->lua["move"](10, 0); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["move"](20, 0); });
     handle->bind(
         Configuration::PlayerInput::Attack,
         [s = lua_script.get()](const sf::Event &) { s->lua["attack"](); });

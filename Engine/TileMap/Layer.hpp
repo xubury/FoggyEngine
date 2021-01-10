@@ -149,7 +149,9 @@ void Layer<CONTENT>::draw(sf::RenderTarget& target, sf::RenderStates states,
         for (auto it = m_content.begin(); it != end; ++it) {
             const CONTENT& content = *it;
             auto pos = content.getPosition();
-            if (viewport.contains(pos.x, pos.y)) target.draw(content, states);
+            if (viewport.contains(pos.x, pos.y)) {
+                target.draw(content, states);
+            }
         }
     }
 }
