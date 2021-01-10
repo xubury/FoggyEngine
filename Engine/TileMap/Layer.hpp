@@ -63,8 +63,7 @@ template <typename CONTENT>
 CONTENT* Layer<CONTENT>::add(const CONTENT& content, bool resort) {
     m_content.emplace_back(content);
     CONTENT* res = m_content.back();
-    if (resort)
-        sort();
+    if (resort) sort();
 
     return res;
 }
@@ -73,8 +72,7 @@ template <typename CONTENT>
 CONTENT* Layer<CONTENT>::add(CONTENT&& content, bool resort) {
     m_content.emplace_back(std::move(content));
     CONTENT* res = &m_content.back();
-    if (resort)
-        sort();
+    if (resort) sort();
 
     return res;
 }
@@ -103,8 +101,7 @@ bool Layer<CONTENT>::remove(const CONTENT* content_ptr, bool resort) {
     if (iter != m_content.end()) {
         m_content.erase(iter);
 
-        if (resort)
-            sort();
+        if (resort) sort();
         return true;
     } else {
         return false;
@@ -165,8 +162,7 @@ template <typename CONTENT>
 CONTENT* Layer<CONTENT*>::Add(CONTENT* content, bool resort) {
     m_content.emplace_back(content);
     CONTENT* res = m_content.back();
-    if (resort)
-        sort();
+    if (resort) sort();
 
     return res;
 }
@@ -192,8 +188,7 @@ bool Layer<CONTENT*>::remove(const CONTENT* content_ptr, bool resort) {
     if (iter != m_content.end()) {
         m_content.erase(iter);
 
-        if (resort)
-            sort();
+        if (resort) sort();
         return true;
     } else {
         return false;

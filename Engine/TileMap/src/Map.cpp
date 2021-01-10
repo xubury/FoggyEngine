@@ -123,7 +123,6 @@ VMap *VMap::createMapFromJson(Json::Value &root) {
 
     if (geometry_name == "Square") {
         res = new Map<geometry::Square>(size);
-        std::cout << "building geometry" << std::endl;
         res->loadFromJson(root);
     } else {
         std::cerr << "Unknow geometry '" << geometry_name << "'" << std::endl;

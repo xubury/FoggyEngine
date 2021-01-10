@@ -65,7 +65,7 @@ void Game::processEvent() {
             }
         } else if (event.type == sf::Event::Resized) {
             // update the view to the new size of the window
-            m_viewer.setSize(event.size.width, -event.size.height);
+            m_viewer.setSize(event.size.width, event.size.height);
         }
         switch (m_status) {
             case Normal: {
