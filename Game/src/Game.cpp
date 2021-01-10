@@ -13,17 +13,16 @@
 #include "GUI/Layout.hpp"
 #include "Game.hpp"
 #include "Player/Player.hpp"
+#include "TileMap/VMap.hpp"
 
 Game::Game(int width, int height, const std::string &title)
     : m_window(sf::VideoMode(width, height), title),
       // m_world(sf::Vector2f(0, -9.8f)),
-      m_hud_camera(m_window.getDefaultView()),
       m_player_id(-1),
       m_main_menu(m_window),
+      m_viewer(m_window, *foggy::VMap::createMapFromFile("res/map.json"),
+               Configuration::map_inputs),
       m_status(MainMenu) {
-    m_cam = m_window.getDefaultView();
-    m_cam.setSize(width, -height);
-
     m_app.systems.add<foggy::es::CollisionSystem>(0, -9.8);
     m_app.systems.add<foggy::es::SkinSystem>();
 }
@@ -66,15 +65,13 @@ void Game::processEvent() {
             }
         } else if (event.type == sf::Event::Resized) {
             // update the view to the new size of the window
-            m_cam.setSize(event.size.width, -(int)event.size.height);
-            m_hud_camera.reset(
-                sf::FloatRect(0, 0, event.size.width, event.size.height));
+            m_viewer.setSize(event.size.width, event.size.height);
         }
         switch (m_status) {
             case Normal: {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                    sf::Vector2f pos = m_window.mapPixelToCoords(
-                        sf::Mouse::getPosition(m_window), m_cam);
+                    sf::Vector2i pos = m_viewer.mapScreenToCoords(
+                        sf::Mouse::getPosition(m_window));
                     int id = m_app.entities.create();
                     b2BodyDef body_def;
                     body_def.position.Set(
@@ -95,11 +92,11 @@ void Game::processEvent() {
                     fixture_def.shape = &b2shape;
                     collsion->addFixture(fixture_def);
                     m_timer.addTimer(sf::seconds(3), [id, this]() {
-                      m_app.entities.remove(id);
+                        m_app.entities.remove(id);
                     });
                 } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-                    sf::Vector2f pos = m_window.mapPixelToCoords(
-                        sf::Mouse::getPosition(m_window), m_cam);
+                    sf::Vector2i pos = m_viewer.mapScreenToCoords(
+                        sf::Mouse::getPosition(m_window));
                     int id = m_app.entities.create();
                     b2BodyDef body_def;
                     body_def.position.Set(
@@ -121,7 +118,7 @@ void Game::processEvent() {
                     fixture_def.shape = &b2shape;
                     collsion->addFixture(fixture_def);
                     m_timer.addTimer(sf::seconds(3), [id, this]() {
-                      m_app.entities.remove(id);
+                        m_app.entities.remove(id);
                     });
                 } else {
                     foggy::component::Controller::Handle controller;
@@ -162,29 +159,28 @@ void Game::update(sf::Time &delta_time) {
             dynamic_cast<Player *>(m_app.entities.getPtr(m_player_id));
         sf::Vector2f pos =
             player->component<foggy::component::Transform>()->getPosition() -
-            m_cam.getCenter();
-        m_cam.move(pos.x, pos.y);
+            m_viewer.getPosition();
+        m_viewer.move(pos.x, pos.y);
     }
+    m_viewer.update(delta_time);
     m_timer.update();
-    m_app.Update(delta_time);
+    m_app.update(delta_time);
 }
 
 void Game::render() {
     m_window.clear();
 
-    m_window.setView(m_cam);
     auto iter = m_app.entities.begin();
     auto end = m_app.entities.end();
     for (; iter != end; ++iter) {
         m_window.draw(m_app.entities.get(*iter));
     }
-    m_fps.setString("FPS: " + std::to_string(getFps()));
-    m_window.setView(m_hud_camera);
-    m_window.draw(m_fps);
 
     if (m_status == MainMenu) {
         m_window.draw(m_main_menu);
     }
+
+    m_viewer.draw();
 
     m_fps_clock.restart();
     m_window.display();

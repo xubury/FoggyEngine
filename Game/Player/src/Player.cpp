@@ -16,7 +16,7 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     auto lua_script = manager->addComponent<foggy::component::LuaScript>(id);
     lua_script->initScript("res/scripts/Player.lua");
     lua_script->lua.set_function(
-        "C_ApplyLinearImpulse", [this](float x, float y) {
+        "C_applyLinearImpulse", [this](float x, float y) {
             b2Body *b2body_ref =
                 component<foggy::component::Collision>()->b2body_ref;
             b2body_ref->ApplyLinearImpulse(
@@ -32,22 +32,22 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
             id, Configuration::player_inputs);
     handle->bind(
         Configuration::PlayerInput::Up,
-        [s = lua_script.get()](const sf::Event &) { s->lua["Move"](0, 20); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["move"](0, 20); });
     handle->bind(
         Configuration::PlayerInput::Down,
-        [s = lua_script.get()](const sf::Event &) { s->lua["Squat"](); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["squat"](); });
     handle->bind(
         Configuration::PlayerInput::Down_Realeased,
-        [s = lua_script.get()](const sf::Event &) { s->lua["Stand"](); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["stand"](); });
     handle->bind(
         Configuration::PlayerInput::Left,
-        [s = lua_script.get()](const sf::Event &) { s->lua["Move"](-10, 0); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["move"](-10, 0); });
     handle->bind(
         Configuration::PlayerInput::Right,
-        [s = lua_script.get()](const sf::Event &) { s->lua["Move"](10, 0); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["move"](10, 0); });
     handle->bind(
         Configuration::PlayerInput::Attack,
-        [s = lua_script.get()](const sf::Event &) { s->lua["Attack"](); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["attack"](); });
 
     skin->m_animations.emplace(
         Configuration::PlayerAnim::Idle,

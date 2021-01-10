@@ -11,6 +11,7 @@
 #include "EntitySystem/Application.hpp"
 #include "GUI/Frame.hpp"
 #include "Systems/HealthSystem.hpp"
+#include "TileMap/MapViewer.hpp"
 #include "TimerSystem/TimerSystem.hpp"
 
 class Game {
@@ -47,10 +48,6 @@ class Game {
 
     sf::Text m_fps;
 
-    sf::View m_hud_camera;
-
-    foggy::Camera m_cam;
-
     foggy::es::Application<foggy::es::DefaultEntity> m_app;
 
     int32_t m_player_id;
@@ -58,6 +55,8 @@ class Game {
     foggy::ts::TimerSystem m_timer;
 
     foggy::Frame m_main_menu;
+
+    foggy::MapViewer m_viewer;
 
     Status m_status;
 };

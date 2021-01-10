@@ -16,7 +16,7 @@ void LuaScript::initScript(const std::string &filename) {
         std::cout << err.what() << std::endl;
         return;
     }
-    lua.set_function("C_GetSpeed", [this]() {
+    lua.set_function("C_getSpeed", [this]() {
         b2Vec2 speed;
         if (manager()->hasComponent<foggy::component::Collision>(ownerID())) {
             foggy::component::Collision::Handle collision =

@@ -85,13 +85,13 @@ Animation = {
 }
 
 function LoadAnimation(t)
-    C_LoadAnimation(t.id, t.texture, t.start_frame, t.end_frame, t.cols, t.rows)
+    C_loadAnimation(t.id, t.texture, t.start_frame, t.end_frame, t.cols, t.rows)
 end
 
 function LoadResources()
-    C_LoadTexture(Textures.PlayerAnim_Sheet, "res/player/adventurer-v1.5-Sheet.png");
-    C_LoadFont(FontType.GUI, "res/font/arial.ttf");
-    C_LoadFont(FontType.Fira, "res/font/fira.ttf");
+    C_loadTexture(Textures.PlayerAnim_Sheet, "res/player/adventurer-v1.5-Sheet.png");
+    C_loadFont(FontType.GUI, "res/font/arial.ttf");
+    C_loadFont(FontType.Fira, "res/font/fira.ttf");
 
     LoadAnimation(Animation.player.idle)
     LoadAnimation(Animation.player.run)

@@ -16,7 +16,7 @@ class Application {
     Application(const Application &) = delete;
     Application &operator=(const Application &) = delete;
 
-    void Update(const sf::Time &deltaTime);
+    void update(const sf::Time &deltaTime);
 
     SystemManager<ENTITY> systems;
     EntityManager<ENTITY> entities;
@@ -24,11 +24,11 @@ class Application {
 
 template <typename ENTITY>
 Application<ENTITY>::Application() : systems(entities) {
-    entities.SetSystems(&systems);
+    entities.setSystems(&systems);
 }
 
 template <typename ENTITY>
-void Application<ENTITY>::Update(const sf::Time &deltaTime) {
+void Application<ENTITY>::update(const sf::Time &deltaTime) {
     systems.updateAll(deltaTime);
     entities.update();
 }

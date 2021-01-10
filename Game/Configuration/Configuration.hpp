@@ -18,6 +18,16 @@ class Configuration {
 
     static foggy::ActionMap<int> player_inputs;
 
+    enum MapInputs {
+        MoveUp,
+        MoveDown,
+        MoveLeft,
+        MoveRight,
+        TakeScreen,
+    };
+
+    static foggy::ActionMap<int> map_inputs;
+
     enum FontType : int { GUI, Fira };
     static foggy::ResourceManager<sf::Font, FontType> fonts;
 

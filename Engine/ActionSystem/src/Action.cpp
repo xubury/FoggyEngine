@@ -1,6 +1,10 @@
 #include "ActionSystem/Action.hpp"
 
 namespace foggy {
+Action::Action(const sf::Event::EventType &event) : m_type(Type::Pressed) {
+    m_event.type = event;
+}
+
 Action::Action(const sf::Keyboard::Key &key, int type) : m_type(type) {
     m_event.key.code = key;
     m_event.type = sf::Event::EventType::KeyPressed;

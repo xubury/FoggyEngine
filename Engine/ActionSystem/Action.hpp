@@ -9,6 +9,8 @@ class Action {
    public:
     enum Type { RealTime = 1, Pressed = 1 << 1, Released = 1 << 2 };
 
+    Action(const sf::Event::EventType &event);
+
     Action(const sf::Keyboard::Key &key,
            int type = Type::RealTime | Type::Pressed);
 

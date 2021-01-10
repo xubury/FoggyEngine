@@ -39,7 +39,7 @@ class EntityManager {
     EntityManager() : m_systems(nullptr){};
     ~EntityManager();
 
-    void SetSystems(SystemManager<ENTITY> *systems) { m_systems = systems; }
+    void setSystems(SystemManager<ENTITY> *systems) { m_systems = systems; }
     SystemManager<ENTITY> *getSystems() const { return m_systems; }
 
     template <typename T = ENTITY, typename... ARGS>
@@ -377,8 +377,8 @@ template <typename COMPONENT>
 inline COMPONENT *EntityManager<ENTITY>::getComponentPtr(uint32_t id) const {
     uint32_t family = COMPONENT::family();
     return &static_cast<utils::memory::Pool<COMPONENT> *>(
-        m_components_entities[family])
-        ->at(id);
+                m_components_entities[family])
+                ->at(id);
 }
 
 template <typename COMPONENT>

@@ -10,12 +10,14 @@ foggy::ActionMap<int> Configuration::player_inputs;
 foggy::ResourceManager<foggy::as::Animation, Configuration::PlayerAnim>
     Configuration::player_anims;
 
+foggy::ActionMap<int> Configuration::map_inputs;
+
 void Configuration::Initialize() {
     sol::state lua;
 
-    lua.set_function("C_LoadFont", LoadFont);
-    lua.set_function("C_LoadTexture", LoadTexture);
-    lua.set_function("C_LoadAnimation", LoadPlayerAnimation);
+    lua.set_function("C_loadFont", LoadFont);
+    lua.set_function("C_loadTexture", LoadTexture);
+    lua.set_function("C_loadAnimation", LoadPlayerAnimation);
 
     auto res = lua.safe_script_file("res/scripts/Resources.lua");
     if (!res.valid()) {
@@ -39,16 +41,16 @@ void Configuration::InitializePlayerInputs() {
 }
 
 void Configuration::LoadTexture(int id, const std::string &filename) {
-    textures.load((Textures) id, filename);
+    textures.load((Textures)id, filename);
 }
 
 void Configuration::LoadFont(int id, const std::string &filename) {
-    fonts.load((FontType) id, filename);
+    fonts.load((FontType)id, filename);
 }
 
 void Configuration::LoadPlayerAnimation(int id, int texture_id, int start_frame,
                                         int end_frame, int cols, int rows) {
-    player_anims.load((PlayerAnim) id, &textures.get((Textures) texture_id))
+    player_anims.load((PlayerAnim)id, &textures.get((Textures)texture_id))
         .addFrameSheet(start_frame, end_frame, cols, rows, 35,
                        0);  // TODO: remove the offset by editing the sheet?
 }

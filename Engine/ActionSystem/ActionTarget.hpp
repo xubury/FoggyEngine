@@ -25,6 +25,8 @@ class ActionTarget {
     void processEvents() const;
 
     void bind(const T &key, const FuncType &callback);
+    void bind(const Action &action, const FuncType &callback);
+    void bind(Action &&action, const FuncType &callback);
     void unbind(const T &key);
 
    private:
@@ -68,6 +70,22 @@ void ActionTarget<T>::bind(const T &key, const FuncType &callback) {
     } else {
         m_event_poll.emplace_back(key, callback);
     }
+}
+
+template <typename T>
+void ActionTarget<T>::bind(const Action &action, const FuncType &callback) {
+    if (action.m_type & Action::Type::RealTime)
+        m_event_realtime.emplace_back(action, callback);
+    else
+        m_event_poll.emplace_back(action, callback);
+}
+
+template <typename T>
+void ActionTarget<T>::bind(Action &&action, const FuncType &callback) {
+    if (action.m_type & Action::Type::RealTime)
+        m_event_realtime.emplace_back(std::move(action), callback);
+    else
+        m_event_poll.emplace_back(std::move(action), callback);
 }
 
 template <typename T>
