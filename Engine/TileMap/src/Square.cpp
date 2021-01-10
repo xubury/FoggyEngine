@@ -10,12 +10,12 @@ const float height = 2;
 
 const sf::ConvexShape& Square::getShape() { return m_shape; }
 
-sf::Vector2f Square::mapCoordsToPixel(int X, int Y, float scale) {
+sf::Vector2f Square::mapCoordsToPixel(float X, float Y, float scale) {
     return sf::Vector2f(X * scale * height, Y * scale * height);
 }
 
-sf::Vector2i Square::mapPixelToCoords(float X, float Y, float scale) {
-    return round(X / scale / height, Y / scale / height);
+sf::Vector2f Square::mapPixelToCoords(float X, float Y, float scale) {
+    return sf::Vector2f(X / scale / height, Y / scale / height);
 }
 
 sf::Vector2i Square::round(float x, float y) {

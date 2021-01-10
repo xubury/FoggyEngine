@@ -18,9 +18,9 @@ class Map : public VMap {
 
     void loadFromJson(const Json::Value& root) override;
 
-    virtual sf::Vector2i mapPixelToCoords(float x, float y) const override;
+    virtual sf::Vector2f mapPixelToCoords(float x, float y) const override;
 
-    virtual sf::Vector2f mapCoordsToPixel(int x, int y) const override;
+    virtual sf::Vector2f mapCoordsToPixel(float x, float y) const override;
 
     virtual const sf::ConvexShape getShape() const override;
 
@@ -116,12 +116,12 @@ void Map<GEOMETRY>::loadFromJson(const Json::Value& root) {
 }
 
 template <typename GEOMETRY>
-sf::Vector2i Map<GEOMETRY>::mapPixelToCoords(float x, float y) const {
+sf::Vector2f Map<GEOMETRY>::mapPixelToCoords(float x, float y) const {
     return GEOMETRY::mapPixelToCoords(x, y, m_tile_size);
 }
 
 template <typename GEOMETRY>
-sf::Vector2f Map<GEOMETRY>::mapCoordsToPixel(int x, int y) const {
+sf::Vector2f Map<GEOMETRY>::mapCoordsToPixel(float x, float y) const {
     return GEOMETRY::mapCoordsToPixel(x, y, m_tile_size);
 }
 

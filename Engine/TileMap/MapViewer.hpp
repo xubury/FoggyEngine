@@ -41,17 +41,17 @@ class MapViewer : public sf::Drawable, protected ActionTarget<int> {
 
     void draw(sf::RenderStates states = sf::RenderStates::Default) const;
 
-    sf::Vector2i mapScreenToCoords(int x, int y) const;
-    sf::Vector2i mapScreenToCoords(const sf::Vector2i& pos) const;
+    sf::Vector2f mapScreenToCoords(int x, int y) const;
+    sf::Vector2f mapScreenToCoords(const sf::Vector2i& pos) const;
 
-    sf::Vector2i mapCoordsToScreen(int x, int y) const;
-    sf::Vector2i mapCoordsToScreen(const sf::Vector2i& pos) const;
+    sf::Vector2i mapCoordsToScreen(float x, float y) const;
+    sf::Vector2i mapCoordsToScreen(const sf::Vector2f& pos) const;
 
-    sf::Vector2i mapPixelToCoords(float x, float y) const;
-    sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos) const;
+    sf::Vector2f mapPixelToCoords(float x, float y) const;
+    sf::Vector2f mapPixelToCoords(const sf::Vector2f& pos) const;
 
-    sf::Vector2f mapCoordsToPixel(int x, int y) const;
-    sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos) const;
+    sf::Vector2f mapCoordsToPixel(float x, float y) const;
+    sf::Vector2f mapCoordsToPixel(const sf::Vector2f& pos) const;
 
    private:
     const VMap& m_map;

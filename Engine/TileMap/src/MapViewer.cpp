@@ -56,37 +56,37 @@ void MapViewer::setSpeed(float speed) { m_movement_speed = speed; }
 
 void MapViewer::draw(sf::RenderStates states) const { draw(m_window, states); }
 
-sf::Vector2i MapViewer::mapScreenToCoords(int x, int y) const {
+sf::Vector2f MapViewer::mapScreenToCoords(int x, int y) const {
     sf::Vector2f pos = m_window.mapPixelToCoords(sf::Vector2i(x, y), m_view);
     return m_map.mapPixelToCoords(pos.x, pos.y);
 }
 
-sf::Vector2i MapViewer::mapScreenToCoords(const sf::Vector2i& pos) const {
+sf::Vector2f MapViewer::mapScreenToCoords(const sf::Vector2i& pos) const {
     return mapScreenToCoords(pos.x, pos.y);
 }
 
-sf::Vector2i MapViewer::mapCoordsToScreen(int x, int y) const {
+sf::Vector2i MapViewer::mapCoordsToScreen(float x, float y) const {
     sf::Vector2f pos = m_map.mapCoordsToPixel(x, y);
     return m_window.mapCoordsToPixel(pos, m_view);
 }
 
-sf::Vector2i MapViewer::mapCoordsToScreen(const sf::Vector2i& pos) const {
+sf::Vector2i MapViewer::mapCoordsToScreen(const sf::Vector2f& pos) const {
     return mapCoordsToScreen(pos.x, pos.y);
 }
 
-sf::Vector2i MapViewer::mapPixelToCoords(float x, float y) const {
+sf::Vector2f MapViewer::mapPixelToCoords(float x, float y) const {
     return m_map.mapPixelToCoords(x, y);
 }
 
-sf::Vector2i MapViewer::mapPixelToCoords(const sf::Vector2f& pos) const {
+sf::Vector2f MapViewer::mapPixelToCoords(const sf::Vector2f& pos) const {
     return mapPixelToCoords(pos.x, pos.y);
 }
 
-sf::Vector2f MapViewer::mapCoordsToPixel(int x, int y) const {
+sf::Vector2f MapViewer::mapCoordsToPixel(float x, float y) const {
     return m_map.mapCoordsToPixel(x, y);
 }
 
-sf::Vector2f MapViewer::mapCoordsToPixel(const sf::Vector2i& pos) const {
+sf::Vector2f MapViewer::mapCoordsToPixel(const sf::Vector2f& pos) const {
     return mapCoordsToPixel(pos.x, pos.y);
 }
 

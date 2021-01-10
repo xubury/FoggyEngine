@@ -17,7 +17,6 @@
 
 Game::Game(int width, int height, const std::string &title)
     : m_window(sf::VideoMode(width, height), title),
-      // m_world(sf::Vector2f(0, -9.8f)),
       m_player_id(-1),
       m_main_menu(m_window),
       m_viewer(m_window, *foggy::VMap::createMapFromFile("res/map.json"),
@@ -70,8 +69,8 @@ void Game::processEvent() {
         switch (m_status) {
             case Normal: {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                    sf::Vector2i pos = m_viewer.mapScreenToCoords(
-                        event.mouseButton.x, event.mouseButton.y);
+                    sf::Vector2f pos = m_window.mapPixelToCoords(
+                        sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
                     int id = m_app.entities.create();
                     b2BodyDef body_def;
                     body_def.position.Set(
@@ -95,8 +94,8 @@ void Game::processEvent() {
                         m_app.entities.remove(id);
                     });
                 } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-                    sf::Vector2i pos = m_viewer.mapScreenToCoords(
-                        event.mouseButton.x, event.mouseButton.y);
+                    sf::Vector2f pos = m_window.mapPixelToCoords(
+                        sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
                     int id = m_app.entities.create();
                     b2BodyDef body_def;
                     body_def.position.Set(
@@ -174,13 +173,12 @@ void Game::render() {
     if (m_status == MainMenu) {
         m_window.draw(m_main_menu);
     } else {
+        m_viewer.draw();
         auto iter = m_app.entities.begin();
         auto end = m_app.entities.end();
         for (; iter != end; ++iter) {
             m_window.draw(m_app.entities.get(*iter));
         }
-
-        m_viewer.draw();
     }
 
     m_fps_clock.restart();
