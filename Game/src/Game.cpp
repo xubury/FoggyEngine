@@ -65,13 +65,13 @@ void Game::processEvent() {
             }
         } else if (event.type == sf::Event::Resized) {
             // update the view to the new size of the window
-            m_viewer.setSize(event.size.width, event.size.height);
+            m_viewer.setSize(event.size.width, -event.size.height);
         }
         switch (m_status) {
             case Normal: {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                     sf::Vector2i pos = m_viewer.mapScreenToCoords(
-                        sf::Mouse::getPosition(m_window));
+                        event.mouseButton.x, event.mouseButton.y);
                     int id = m_app.entities.create();
                     b2BodyDef body_def;
                     body_def.position.Set(
@@ -96,7 +96,7 @@ void Game::processEvent() {
                     });
                 } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
                     sf::Vector2i pos = m_viewer.mapScreenToCoords(
-                        sf::Mouse::getPosition(m_window));
+                        event.mouseButton.x, event.mouseButton.y);
                     int id = m_app.entities.create();
                     b2BodyDef body_def;
                     body_def.position.Set(
@@ -144,6 +144,7 @@ void Game::processEvent() {
             for (auto cur = view.begin(); cur != end; ++cur) {
                 controller->processEvents();
             }
+            m_viewer.processEvents();
             break;
         }
         case MainMenu: {
@@ -170,17 +171,17 @@ void Game::update(sf::Time &delta_time) {
 void Game::render() {
     m_window.clear();
 
-    auto iter = m_app.entities.begin();
-    auto end = m_app.entities.end();
-    for (; iter != end; ++iter) {
-        m_window.draw(m_app.entities.get(*iter));
-    }
-
     if (m_status == MainMenu) {
         m_window.draw(m_main_menu);
-    }
+    } else {
+        auto iter = m_app.entities.begin();
+        auto end = m_app.entities.end();
+        for (; iter != end; ++iter) {
+            m_window.draw(m_app.entities.get(*iter));
+        }
 
-    m_viewer.draw();
+        m_viewer.draw();
+    }
 
     m_fps_clock.restart();
     m_window.display();

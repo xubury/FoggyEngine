@@ -33,8 +33,7 @@ bool VMap::loadFromStream(std::istream &in) {
 void VMap::add(VLayer *layer, bool sort) {
     m_layers.emplace_back(layer);
 
-    if (sort)
-        sortLayers();
+    if (sort) sortLayers();
 }
 
 void VMap::remove(VLayer *layer) {
@@ -124,6 +123,7 @@ VMap *VMap::createMapFromJson(Json::Value &root) {
 
     if (geometry_name == "Square") {
         res = new Map<geometry::Square>(size);
+        std::cout << "building geometry" << std::endl;
         res->loadFromJson(root);
     } else {
         std::cerr << "Unknow geometry '" << geometry_name << "'" << std::endl;

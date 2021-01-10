@@ -4,6 +4,7 @@
 #include "TileMap/Layer.hpp"
 #include "TileMap/Tile.hpp"
 #include "TileMap/VMap.hpp"
+#include "iostream"
 
 namespace foggy {
 
@@ -37,7 +38,7 @@ Map<GEOMETRY>::Map(float size) : VMap(size) {}
 template <typename GEOMETRY>
 void Map<GEOMETRY>::loadFromJson(const Json::Value& root) {
     auto iter = root["layers"].begin();
-    auto end = root["layers"].begin();
+    auto end = root["layers"].end();
     for (; iter != end; ++iter) {
         const Json::Value& layer = *iter;
         std::string content = layer["content"].asString();
@@ -69,10 +70,10 @@ void Map<GEOMETRY>::loadFromJson(const Json::Value& root) {
                 tex.setRepeated(true);
                 for (int y = tex_y; y < tex_y + height; ++y) {
                     for (int x = tex_x; x < tex_x + width; ++x) {
-                        Tile<GEOMETRY> tile(x, y, m_tile_size);
+                        Tile<GEOMETRY> tile(x, y, getTileSize());
                         tile.setTexture(&tex);
                         tile.setTextureRect(
-                            GEOMETRY::getTextureRect(x, y, m_tile_size));
+                            GEOMETRY::getTextureRect(x, y, getTileSize()));
                         current_layer->add(std::move(tile), false);
                     }
                 }
