@@ -14,14 +14,14 @@ class Tile : public sf::Drawable {
     Tile(Tile&&) = default;
     Tile& operator=(Tile&&) = default;
 
-    // convert pixel to word coord
-    static sf::Vector2i mapPixelToCoords(float x, float y, float scale);
-    static sf::Vector2i mapPixelToCoords(const sf::Vector2f& pos, float scale);
+    // convert pixel to world coord
+    static sf::Vector2i mapCoordsToTile(float x, float y, float scale);
+    static sf::Vector2i mapCoordsToTile(const sf::Vector2f& pos, float scale);
 
     // return the center of the tile position in pixel relative to the openGL
     // world
-    static sf::Vector2f mapCoordsToPixel(int x, int y, float scale);
-    static sf::Vector2f mapCoordsToPixel(const sf::Vector2i& pos, float scale);
+    static sf::Vector2f mapTileToCoords(int x, int y, float scale);
+    static sf::Vector2f mapTileToCoords(const sf::Vector2i& pos, float scale);
 
     Tile(int pos_x, int pos_y, float scale);
 
@@ -50,27 +50,26 @@ class Tile : public sf::Drawable {
 };
 
 template <typename GEOMETRY>
-inline sf::Vector2i Tile<GEOMETRY>::mapPixelToCoords(float x, float y,
-                                                     float scale) {
-    return GEOMETRY::MapPixelToCoords(x, y, scale);
+inline sf::Vector2i Tile<GEOMETRY>::mapCoordsToTile(float x, float y,
+                                                    float scale) {
+    return GEOMETRY::MapCoordsToTile(x, y, scale);
 }
 
 template <typename GEOMETRY>
-inline sf::Vector2i Tile<GEOMETRY>::mapPixelToCoords(const sf::Vector2f& pos,
-                                                     float scale) {
-    return mapPixelToCoords(pos.x, pos.y, scale);
+inline sf::Vector2i Tile<GEOMETRY>::mapCoordsToTile(const sf::Vector2f& pos,
+                                                    float scale) {
+    return mapCoordsToTile(pos.x, pos.y, scale);
 }
 
 template <typename GEOMETRY>
-inline sf::Vector2f Tile<GEOMETRY>::mapCoordsToPixel(int x, int y,
-                                                     float scale) {
-    return GEOMETRY::mapCoordsToPixel(x, y, scale);
+inline sf::Vector2f Tile<GEOMETRY>::mapTileToCoords(int x, int y, float scale) {
+    return GEOMETRY::mapTileToCoords(x, y, scale);
 }
 
 template <typename GEOMETRY>
-inline sf::Vector2f Tile<GEOMETRY>::mapCoordsToPixel(const sf::Vector2i& pos,
-                                                     float scale) {
-    return mapCoordsToPixel(pos.x, pos.y, scale);
+inline sf::Vector2f Tile<GEOMETRY>::mapTileToCoords(const sf::Vector2i& pos,
+                                                    float scale) {
+    return mapTileToCoords(pos.x, pos.y, scale);
 }
 
 template <typename GEOMETRY>
@@ -97,7 +96,7 @@ inline void Tile<GEOMETRY>::setPosition(Args&&... args) {
 template <typename GEOMETRY>
 template <typename... Args>
 inline void Tile<GEOMETRY>::setCoords(Args&&... args) {
-    sf::Vector2f pos = mapCoordsToPixel(args..., m_shape.getScale().x);
+    sf::Vector2f pos = mapTileToCoords(args..., m_shape.getScale().x);
     m_shape.setPosition(pos);
 }
 

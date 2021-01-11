@@ -35,11 +35,11 @@ class VMap {
 
     float getTileSize() const;
 
-    virtual sf::Vector2f mapPixelToCoords(float x, float y) const = 0;
-    sf::Vector2f mapPixelToCoords(const sf::Vector2f& pos) const;
+    virtual sf::Vector2i mapCoordsToTile(float x, float y) const = 0;
+    sf::Vector2i mapCoordsToTile(const sf::Vector2f& pos) const;
 
-    virtual sf::Vector2f mapCoordsToPixel(float x, float y) const = 0;
-    sf::Vector2f mapCoordsToPixel(const sf::Vector2f& pos) const;
+    virtual sf::Vector2f mapTileToCoords(int x, int y) const = 0;
+    sf::Vector2f mapTileToCoords(const sf::Vector2i& pos) const;
 
     virtual const sf::ConvexShape getShape() const = 0;
 

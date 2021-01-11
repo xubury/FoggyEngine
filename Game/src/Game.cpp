@@ -110,7 +110,7 @@ void Game::processEvents() {
 void Game::processMouseEvents() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         sf::Vector2f pos =
-            m_viewer.mapScreenToCoords(sf::Mouse::getPosition(m_window));
+            m_viewer.mapPixelToCoords(sf::Mouse::getPosition(m_window));
         int id = m_app.entities.create();
         m_layer->Add(m_app.entities.getPtr(id));
         b2BodyDef body_def;
@@ -135,8 +135,7 @@ void Game::processMouseEvents() {
         });
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
         sf::Vector2f pos =
-            m_viewer.mapScreenToCoords(sf::Mouse::getPosition(m_window));
-        std::cout << pos.x << " " << pos.y << std::endl;
+            m_viewer.mapPixelToCoords(sf::Mouse::getPosition(m_window));
         int id = m_app.entities.create();
         m_layer->Add(m_app.entities.getPtr(id));
         b2BodyDef body_def;
@@ -170,9 +169,9 @@ void Game::update(sf::Time &delta_time) {
         sf::Vector2f pos = player->getPosition() - m_viewer.getPosition();
         m_viewer.move(pos.x, pos.y);
     }
+    m_app.update(delta_time);
     m_viewer.update(delta_time);
     m_timer.update();
-    m_app.update(delta_time);
 }
 
 void Game::render() {

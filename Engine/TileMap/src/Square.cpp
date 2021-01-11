@@ -10,12 +10,12 @@ const float height = 2;
 
 const sf::ConvexShape& Square::getShape() { return m_shape; }
 
-sf::Vector2f Square::mapCoordsToPixel(float X, float Y, float scale) {
-    return sf::Vector2f(X * scale * height, Y * scale * height);
+sf::Vector2f Square::mapTileToCoords(int x, int y, float scale) {
+    return sf::Vector2f(x * scale * height, y * scale * height);
 }
 
-sf::Vector2f Square::mapPixelToCoords(float X, float Y, float scale) {
-    return sf::Vector2f(X / scale / height, Y / scale / height);
+sf::Vector2i Square::mapCoordsToTile(float x, float y, float scale) {
+    return round(x / scale / height, y / scale / height);
 }
 
 sf::Vector2i Square::round(float x, float y) {
@@ -23,7 +23,7 @@ sf::Vector2i Square::round(float x, float y) {
 }
 
 sf::IntRect Square::getTextureRect(int x, int y, float scale) {
-    sf::Vector2f pos = mapCoordsToPixel(x, y, scale);
+    sf::Vector2f pos = mapTileToCoords(x, y, scale);
     sf::IntRect res(pos.x, pos.y, height * scale, height * scale);
     return res;
 }

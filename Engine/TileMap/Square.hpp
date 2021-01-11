@@ -7,8 +7,8 @@ namespace geometry {
 
 struct Square {
     static const sf::ConvexShape& getShape();
-    static sf::Vector2f mapCoordsToPixel(float x, float y, float scale);
-    static sf::Vector2f mapPixelToCoords(float x, float y, float scale);
+    static sf::Vector2f mapTileToCoords(int x, int y, float scale);
+    static sf::Vector2i mapCoordsToTile(float x, float y, float scale);
     static sf::IntRect getTextureRect(int x, int y, float scale);
     static sf::Vector2i round(float x, float y);
     static int distance(int x1, int y1, int x2, int y2);

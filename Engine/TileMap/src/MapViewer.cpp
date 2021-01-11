@@ -56,38 +56,54 @@ void MapViewer::setSpeed(float speed) { m_movement_speed = speed; }
 
 void MapViewer::draw(sf::RenderStates states) const { draw(m_window, states); }
 
-sf::Vector2f MapViewer::mapScreenToCoords(int x, int y) const {
-    sf::Vector2f pos = m_window.mapPixelToCoords(sf::Vector2i(x, y), m_view);
-    return m_map.mapPixelToCoords(pos.x, pos.y);
+sf::Vector2i MapViewer::mapPixelToTile(int x, int y) const {
+    sf::Vector2f pos = mapPixelToCoords(x, y);
+    return m_map.mapCoordsToTile(pos.x, pos.y);
 }
 
-sf::Vector2f MapViewer::mapScreenToCoords(const sf::Vector2i& pos) const {
-    return mapScreenToCoords(pos.x, pos.y);
+sf::Vector2i MapViewer::mapPixelToTile(const sf::Vector2i& pos) const {
+    return mapPixelToTile(pos.x, pos.y);
 }
 
-sf::Vector2i MapViewer::mapCoordsToScreen(float x, float y) const {
-    sf::Vector2f pos = m_map.mapCoordsToPixel(x, y);
+sf::Vector2i MapViewer::mapTileToPixel(int x, int y) const {
+    sf::Vector2f pos = m_map.mapTileToCoords(x, y);
     return m_window.mapCoordsToPixel(pos, m_view);
 }
 
-sf::Vector2i MapViewer::mapCoordsToScreen(const sf::Vector2f& pos) const {
-    return mapCoordsToScreen(pos.x, pos.y);
+sf::Vector2i MapViewer::mapTileToPixel(const sf::Vector2i& pos) const {
+    return mapTileToPixel(pos.x, pos.y);
 }
 
-sf::Vector2f MapViewer::mapPixelToCoords(float x, float y) const {
-    return m_map.mapPixelToCoords(x, y);
+sf::Vector2f MapViewer::mapPixelToCoords(int x, int y) const {
+    return m_window.mapPixelToCoords(sf::Vector2i(x, y), m_view);
 }
 
-sf::Vector2f MapViewer::mapPixelToCoords(const sf::Vector2f& pos) const {
-    return mapPixelToCoords(pos.x, pos.y);
+sf::Vector2f MapViewer::mapPixelToCoords(const sf::Vector2i& pos) const {
+    return m_window.mapPixelToCoords(pos, m_view);
 }
 
-sf::Vector2f MapViewer::mapCoordsToPixel(float x, float y) const {
-    return m_map.mapCoordsToPixel(x, y);
+sf::Vector2i MapViewer::mapCoordsToPixel(float x, float y) const {
+    return m_window.mapCoordsToPixel(sf::Vector2f(x, y), m_view);
 }
 
-sf::Vector2f MapViewer::mapCoordsToPixel(const sf::Vector2f& pos) const {
-    return mapCoordsToPixel(pos.x, pos.y);
+sf::Vector2i MapViewer::mapCoordsToPixel(const sf::Vector2f& pos) const {
+    return m_window.mapCoordsToPixel(pos, m_view);
+}
+
+sf::Vector2i MapViewer::mapCoordsToTile(float x, float y) const {
+    return m_map.mapCoordsToTile(x, y);
+}
+
+sf::Vector2i MapViewer::mapCoordsToTile(const sf::Vector2f& pos) const {
+    return mapCoordsToTile(pos.x, pos.y);
+}
+
+sf::Vector2f MapViewer::mapTileToCoords(int x, int y) const {
+    return m_map.mapTileToCoords(x, y);
+}
+
+sf::Vector2f MapViewer::mapTileToCoords(const sf::Vector2i& pos) const {
+    return mapTileToCoords(pos.x, pos.y);
 }
 
 void MapViewer::draw(sf::RenderTarget& target, sf::RenderStates states) const {

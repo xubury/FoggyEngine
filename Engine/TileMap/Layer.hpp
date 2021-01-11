@@ -84,7 +84,7 @@ std::list<CONTENT*> Layer<CONTENT>::getByCoords(const sf::Vector2i& coords,
     const auto end = m_content.end();
     for (auto iter = m_content.begin(); iter != end; ++iter) {
         auto pos = iter->getPosition();
-        sf::Vector2i c = map.mapPixelToCoords(pos.x, pos.y);
+        sf::Vector2i c = map.mapCoordsToTile(pos.x, pos.y);
         if (c == coords) {
             res.emplace_back(&(*iter));
         }
@@ -176,7 +176,7 @@ std::list<CONTENT*> Layer<CONTENT*>::getByCoords(const sf::Vector2i& coords,
     const auto end = m_content.end();
     for (auto iter = m_content.begin(); iter != end; ++iter) {
         auto pos = (*iter)->getPosition();
-        sf::Vector2i c = map.mapPixelToCoords(pos.x, pos.y);
+        sf::Vector2i c = map.mapCoordsToTile(pos.x, pos.y);
         if (c == coords) {
             res.emplace_back(*iter);
         }
@@ -238,7 +238,9 @@ void Layer<CONTENT*>::draw(sf::RenderTarget& target, sf::RenderStates states,
         for (auto it = m_content.begin(); it != end; ++it) {
             const CONTENT& content = *(*it);
             auto pos = content.getPosition();
-            if (viewport.contains(pos.x, pos.y)) target.draw(content, states);
+            if (viewport.contains(pos.x, pos.y)) {
+                target.draw(content, states);
+            }
         }
     }
 }

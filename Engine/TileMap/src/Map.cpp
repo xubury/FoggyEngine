@@ -63,12 +63,12 @@ void VMap::clear() {
 
 float VMap::getTileSize() const { return m_tile_size; }
 
-sf::Vector2f VMap::mapPixelToCoords(const sf::Vector2f &pos) const {
-    return mapPixelToCoords(pos.x, pos.y);
+sf::Vector2i VMap::mapCoordsToTile(const sf::Vector2f &pos) const {
+    return mapCoordsToTile(pos.x, pos.y);
 }
 
-sf::Vector2f VMap::mapCoordsToPixel(const sf::Vector2f &pos) const {
-    return mapCoordsToPixel(pos.x, pos.y);
+sf::Vector2f VMap::mapTileToCoords(const sf::Vector2i &pos) const {
+    return mapTileToCoords(pos.x, pos.y);
 }
 
 void VMap::sortLayers() {
