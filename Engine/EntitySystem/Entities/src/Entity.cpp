@@ -17,6 +17,14 @@ DefaultEntity::DefaultEntity(foggy::es::EntityManager<DefaultEntity> *manager,
     m_name = "???";
 }
 
+void DefaultEntity::setPosition(const sf::Vector2f &pos) {
+    component<component::Transform>()->setPosition(pos);
+}
+
+sf::Vector2f DefaultEntity::getPosition() const {
+    return component<component::Transform>()->getPosition();
+}
+
 void DefaultEntity::draw(sf::RenderTarget &target,
                          sf::RenderStates states) const {
     const sf::Transform &trans =

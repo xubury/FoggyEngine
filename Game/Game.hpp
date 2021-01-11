@@ -11,7 +11,9 @@
 #include "EntitySystem/Application.hpp"
 #include "GUI/Frame.hpp"
 #include "Systems/HealthSystem.hpp"
+#include "TileMap/Layer.hpp"
 #include "TileMap/MapViewer.hpp"
+#include "TileMap/VMap.hpp"
 #include "TimerSystem/TimerSystem.hpp"
 
 class Game {
@@ -59,6 +61,10 @@ class Game {
     foggy::ts::TimerSystem m_timer;
 
     foggy::Frame m_main_menu;
+
+    foggy::Layer<foggy::es::DefaultEntity *> *m_layer;
+
+    foggy::VMap *m_map;
 
     foggy::MapViewer m_viewer;
 

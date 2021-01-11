@@ -67,6 +67,10 @@ class DefaultEntity : public Entity<DefaultEntity>, public sf::Drawable {
 
     DefaultEntity(EntityManager<DefaultEntity> *manager, uint32_t id);
 
+    sf::Vector2f getPosition() const;
+
+    void setPosition(const sf::Vector2f &pos);
+
     virtual void draw(
         sf::RenderTarget &target,
         sf::RenderStates states = sf::RenderStates::Default) const override;

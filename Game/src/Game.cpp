@@ -19,11 +19,13 @@ Game::Game(int width, int height, const std::string &title)
     : m_window(sf::VideoMode(width, height), title),
       m_player_id(-1),
       m_main_menu(m_window),
-      m_viewer(m_window, *foggy::VMap::createMapFromFile("res/map.json"),
-               Configuration::map_inputs),
+      m_layer(new foggy::Layer<foggy::es::DefaultEntity *>("Entity", 2)),
+      m_map(foggy::VMap::createMapFromFile("res/map.json")),
+      m_viewer(m_window, *m_map, Configuration::map_inputs),
       m_status(MainMenu) {
     m_app.systems.add<foggy::es::CollisionSystem>(0, -9.8);
     m_app.systems.add<foggy::es::SkinSystem>();
+    m_map->add(m_layer);
 }
 
 void Game::run(int min_fps) {
@@ -108,8 +110,9 @@ void Game::processEvents() {
 void Game::processMouseEvents() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         sf::Vector2f pos =
-            m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
+            m_viewer.mapScreenToCoords(sf::Mouse::getPosition(m_window));
         int id = m_app.entities.create();
+        m_layer->Add(m_app.entities.getPtr(id));
         b2BodyDef body_def;
         body_def.position.Set(foggy::converter::pixelsToMeters<float>(pos.x),
                               foggy::converter::pixelsToMeters<float>(pos.y));
@@ -126,12 +129,16 @@ void Game::processMouseEvents() {
         fixture_def.restitution = 0.5;
         fixture_def.shape = &b2shape;
         collsion->addFixture(fixture_def);
-        m_timer.addTimer(sf::seconds(3),
-                         [id, this]() { m_app.entities.remove(id); });
+        m_timer.addTimer(sf::seconds(3), [id, this]() {
+            m_app.entities.remove(id);
+            m_layer->remove(m_app.entities.getPtr(id));
+        });
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
         sf::Vector2f pos =
-            m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window));
+            m_viewer.mapScreenToCoords(sf::Mouse::getPosition(m_window));
+        std::cout << pos.x << " " << pos.y << std::endl;
         int id = m_app.entities.create();
+        m_layer->Add(m_app.entities.getPtr(id));
         b2BodyDef body_def;
         body_def.position.Set(foggy::converter::pixelsToMeters<float>(pos.x),
                               foggy::converter::pixelsToMeters<float>(pos.y));
@@ -149,8 +156,10 @@ void Game::processMouseEvents() {
         fixture_def.restitution = 0.5;
         fixture_def.shape = &b2shape;
         collsion->addFixture(fixture_def);
-        m_timer.addTimer(sf::seconds(3),
-                         [id, this]() { m_app.entities.remove(id); });
+        m_timer.addTimer(sf::seconds(3), [id, this]() {
+            m_app.entities.remove(id);
+            m_layer->remove(m_app.entities.getPtr(id));
+        });
     }
 }
 
@@ -158,9 +167,7 @@ void Game::update(sf::Time &delta_time) {
     if (m_player_id >= 0) {
         auto *player =
             dynamic_cast<Player *>(m_app.entities.getPtr(m_player_id));
-        sf::Vector2f pos =
-            player->component<foggy::component::Transform>()->getPosition() -
-            m_viewer.getPosition();
+        sf::Vector2f pos = player->getPosition() - m_viewer.getPosition();
         m_viewer.move(pos.x, pos.y);
     }
     m_viewer.update(delta_time);
@@ -175,11 +182,6 @@ void Game::render() {
         m_window.draw(m_main_menu);
     } else {
         m_viewer.draw();
-        auto iter = m_app.entities.begin();
-        auto end = m_app.entities.end();
-        for (; iter != end; ++iter) {
-            m_window.draw(m_app.entities.get(*iter));
-        }
     }
 
     m_fps_clock.restart();
@@ -202,6 +204,7 @@ void Game::initWorld() {
     body_def.position.Set(0, foggy::converter::pixelsToMeters(-80));
     body_def.type = b2_staticBody;
     uint32_t id = m_app.entities.create();
+    m_layer->Add(m_app.entities.getPtr(id));
     foggy::component::Collision::Handle collsion =
         m_app.entities.addComponent<foggy::component::Collision>(id, body_def);
 
@@ -218,5 +221,6 @@ void Game::initWorld() {
     collsion->addFixture(fixture);
 
     m_player_id = m_app.entities.create<Player>();
+    m_layer->Add(m_app.entities.getPtr(m_player_id));
     m_status = Normal;
 }

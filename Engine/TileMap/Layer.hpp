@@ -186,7 +186,7 @@ std::list<CONTENT*> Layer<CONTENT*>::getByCoords(const sf::Vector2i& coords,
 
 template <typename CONTENT>
 bool Layer<CONTENT*>::remove(const CONTENT* content_ptr, bool resort) {
-    auto iter = std::find_if(m_content.begin(), m_content.end(), content_ptr);
+    auto iter = std::find(m_content.begin(), m_content.end(), content_ptr);
     if (iter != m_content.end()) {
         m_content.erase(iter);
 
