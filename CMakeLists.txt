@@ -33,8 +33,8 @@ set(GUI_Src
     Engine/GUI/src/Layout.cpp)
 
 set(TileMap_Src
-    Engine/TileMap/src/Layer.cpp
-    Engine/TileMap/src/Map.cpp
+    Engine/TileMap/src/VLayer.cpp
+    Engine/TileMap/src/VMap.cpp
     Engine/TileMap/src/Square.cpp
     Engine/TileMap/src/MapViewer.cpp)
 
