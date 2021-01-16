@@ -18,34 +18,62 @@ Action::Action(const sf::Mouse::Button &button, int type) : m_type(type) {
 bool Action::operator==(const sf::Event &event) const {
     bool res = false;
     switch (event.type) {
+        case sf::Event::Closed:
+        case sf::Event::Resized:
+        case sf::Event::LostFocus:
+        case sf::Event::GainedFocus:
+        case sf::Event::TextEntered:
+        case sf::Event::MouseWheelMoved:
+        case sf::Event::MouseEntered:
+        case sf::Event::MouseLeft: {
+            res = event.type == m_event.type;
+        } break;
+        /*case sf::Event::EventType::TextEntered:
+        {
+            if(_event.type == sf::Event::EventType::TextEntered)
+                res = event.text.unicode == _event.text.unicode;
+        }break;
+        case sf::Event::EventType::MouseWheelMoved:
+        {
+            if(_event.type == sf::Event::EventType::MouseWheelMoved)
+                res = event.mouseWheel.delta == _event.mouseWheel.delta;
+        }break;*/
         case sf::Event::EventType::KeyPressed: {
-            if (m_type & Type::Pressed &&
-                event.type == sf::Event::EventType::KeyPressed) {
+            if (m_type & Type::Pressed and
+                m_event.type == sf::Event::EventType::KeyPressed)
                 res = event.key.code == m_event.key.code;
-            }
-            break;
-        }
+        } break;
         case sf::Event::EventType::KeyReleased: {
-            if (m_type & Type::Released &&
-                m_event.type == sf::Event::EventType::KeyPressed) {
+            if (m_type & Type::Released and
+                m_event.type == sf::Event::EventType::KeyPressed)
                 res = event.key.code == m_event.key.code;
-            }
-            break;
-        }
+        } break;
         case sf::Event::EventType::MouseButtonPressed: {
-            if (m_type & Type::Pressed &&
-                m_event.type == sf::Event::EventType::MouseButtonPressed) {
+            if (m_type & Type::Pressed and
+                m_event.type == sf::Event::EventType::MouseButtonPressed)
                 res = event.mouseButton.button == m_event.mouseButton.button;
-            }
-            break;
-        }
+        } break;
         case sf::Event::EventType::MouseButtonReleased: {
-            if (m_type & Type::Released &&
-                m_event.type == sf::Event::EventType::MouseButtonPressed) {
+            if (m_type & Type::Released and
+                m_event.type == sf::Event::EventType::MouseButtonPressed)
                 res = event.mouseButton.button == m_event.mouseButton.button;
-            }
-            break;
-        }
+        } break;
+        case sf::Event::EventType::JoystickButtonPressed: {
+            if (m_type & Type::Pressed and
+                m_event.type == sf::Event::EventType::JoystickButtonPressed)
+                res = (event.joystickButton.joystickId ==
+                       m_event.joystickButton.joystickId) and
+                      (event.joystickButton.button ==
+                       m_event.joystickButton.button);
+        } break;
+        case sf::Event::EventType::JoystickButtonReleased: {
+            if (m_type & Type::Released and
+                m_event.type == sf::Event::EventType::JoystickButtonPressed)
+                res = (event.joystickButton.joystickId ==
+                       m_event.joystickButton.joystickId) and
+                      (event.joystickButton.button ==
+                       m_event.joystickButton.button);
+        } break;
         default:
             break;
     }

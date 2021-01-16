@@ -32,6 +32,8 @@ class ActionTarget {
    private:
     std::list<ActionPair> m_event_realtime;
     std::list<ActionPair> m_event_poll;
+    std::list<std::pair<Action, FuncType>> m_event_realtime_action;
+    std::list<std::pair<Action, FuncType>> m_event_poll_action;
 
     const ActionMap<T> &m_action_map;
 };
@@ -41,19 +43,28 @@ ActionTarget<T>::ActionTarget(const ActionMap<T> &map) : m_action_map(map) {}
 
 template <typename T>
 bool ActionTarget<T>::processEvent(const sf::Event &event) const {
-    bool res = false;
-    for (const ActionPair &pair : m_event_poll) {
-        if (m_action_map.get(pair.first) == event) {
+    for (const auto &pair : m_event_poll_action) {
+        if (pair.first == event) {
             pair.second(event);  // invoke callback
-            res = true;
-            break;
+            return true;
         }
     }
-    return res;
+    for (const auto &pair : m_event_poll) {
+        if (m_action_map.get(pair.first) == event) {
+            pair.second(event);  // invoke callback
+            return true;
+        }
+    }
+    return false;
 }
 
 template <typename T>
 void ActionTarget<T>::processEvents() const {
+    for (const auto &pair : m_event_realtime_action) {
+        if (pair.first.test()) {
+            pair.second(pair.first.m_event);  // invoke callback
+        }
+    }
     for (const ActionPair &pair : m_event_realtime) {
         const Action &action = m_action_map.get(pair.first);
         if (action.test()) {
@@ -75,17 +86,17 @@ void ActionTarget<T>::bind(const T &key, const FuncType &callback) {
 template <typename T>
 void ActionTarget<T>::bind(const Action &action, const FuncType &callback) {
     if (action.m_type & Action::Type::RealTime)
-        m_event_realtime.emplace_back(action, callback);
+        m_event_realtime_action.emplace_back(action, callback);
     else
-        m_event_poll.emplace_back(action, callback);
+        m_event_poll_action.emplace_back(action, callback);
 }
 
 template <typename T>
 void ActionTarget<T>::bind(Action &&action, const FuncType &callback) {
     if (action.m_type & Action::Type::RealTime)
-        m_event_realtime.emplace_back(std::move(action), callback);
+        m_event_realtime_action.emplace_back(std::move(action), callback);
     else
-        m_event_poll.emplace_back(std::move(action), callback);
+        m_event_poll_action.emplace_back(std::move(action), callback);
 }
 
 template <typename T>
