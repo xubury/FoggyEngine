@@ -28,10 +28,14 @@ class Frame : public Container, protected ActionTarget<int> {
                               const sf::Vector2f& parent_pos) override;
     virtual void processEvents(const sf::Vector2f& parent_pos) override;
 
+    virtual void draw(sf::RenderTarget& target,
+                      sf::RenderStates states) const override;
+
    private:
     static ActionMap<int> gui_inputs;
 
     sf::RenderWindow& m_window;
+    sf::View m_view;
 };
 
 }  // namespace foggy

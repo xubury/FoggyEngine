@@ -1,11 +1,23 @@
 #include "GUI/Frame.hpp"
+#include "GUI/Layout.hpp"
 
 namespace foggy {
 
 ActionMap<int> Frame::gui_inputs;
 
 Frame::Frame(sf::RenderWindow &window)
-    : Container(nullptr), ActionTarget(gui_inputs), m_window(window) {}
+    : Container(nullptr),
+      ActionTarget(gui_inputs),
+      m_window(window),
+      m_view(m_window.getDefaultView()) {
+    ActionTarget::bind(Action(sf::Event::Resized), [this](
+                                                       const sf::Event &event) {
+        sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+        this->m_view = sf::View(visibleArea);
+
+        if (Layout *layout = getLayout()) layout->updateShape();
+    });
+}
 
 void Frame::draw() { m_window.draw(*this); }
 
@@ -46,6 +58,13 @@ void Frame::processEvents(const sf::Vector2f &parent_pos) {
     while (m_window.pollEvent(event)) {
         Container::processEvent(event, parent_pos);
     }
+}
+
+void Frame::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+    sf::View view = target.getView();
+    target.setView(m_view);
+    Container::draw(target, states);
+    target.setView(view);
 }
 
 }  // namespace foggy

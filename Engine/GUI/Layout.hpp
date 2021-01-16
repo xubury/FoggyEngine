@@ -16,6 +16,7 @@ class Layout : protected Widget {
 
    protected:
     friend class Container;
+    friend class Frame;
     float m_space;
 };
 
