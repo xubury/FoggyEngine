@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "TileMap/MapViewer.hpp"
 #include "TileMap/VMap.hpp"
 
@@ -6,9 +8,9 @@ namespace foggy {
 MapViewer::MapViewer(sf::RenderWindow& window, const VMap& map,
                      const ActionMap<int>& action_map)
     : ActionTarget<int>(action_map), m_map(map), m_window(window) {
-    // bind(Action(sf::Event::MouseWheelMoved), [this](const sf::Event& event) {
-    //     zoom(1 - (event.mouseWheel.delta / 5.0f));
-    // });
+    bind(Action(sf::Event::MouseWheelMoved), [this](const sf::Event& event) {
+        zoom(1 - (event.mouseWheel.delta / 5.0f));
+    });
     auto size = m_window.getSize();
     setSize(size.x, size.y);
 }

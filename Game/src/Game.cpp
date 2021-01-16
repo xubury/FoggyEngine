@@ -23,7 +23,7 @@ Game::Game(int width, int height, const std::string &title)
       m_map(foggy::VMap::createMapFromFile("res/map.json")),
       m_viewer(m_window, *m_map, Configuration::map_inputs),
       m_status(MainMenu) {
-    m_app.systems.add<foggy::es::CollisionSystem>(0, -9.8);
+    m_app.systems.add<foggy::es::CollisionSystem>(0, 9.8);
     m_app.systems.add<foggy::es::SkinSystem>();
     m_map->add(m_layer);
 }
@@ -77,6 +77,7 @@ void Game::processEvent() {
                 for (auto cur = view.begin(); cur != end; ++cur) {
                     controller->processEvent(event);
                 }
+                m_viewer.processEvent(event);
                 break;
             }
             case MainMenu: {
@@ -200,7 +201,7 @@ void Game::initGui() {
 
 void Game::initWorld() {
     b2BodyDef body_def;
-    body_def.position.Set(0, foggy::converter::pixelsToMeters(-80));
+    body_def.position.Set(0, foggy::converter::pixelsToMeters(80));
     body_def.type = b2_staticBody;
     uint32_t id = m_app.entities.create();
     m_layer->Add(m_app.entities.getPtr(id));

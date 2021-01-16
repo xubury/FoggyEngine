@@ -10,9 +10,6 @@
 
 Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     : foggy::es::DefaultEntity(manager, id), m_facing_right(true) {
-    float scale = 2;
-    component<foggy::component::Transform>()->setScale(scale, scale);
-
     auto lua_script = manager->addComponent<foggy::component::LuaScript>(id);
     lua_script->initScript("res/scripts/Player.lua");
     lua_script->lua.set_function(
