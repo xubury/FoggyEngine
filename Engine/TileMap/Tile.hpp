@@ -14,12 +14,11 @@ class Tile : public sf::Drawable {
     Tile(Tile&&) = default;
     Tile& operator=(Tile&&) = default;
 
-    // convert pixel to world coord
+    // convert world coordinate to tile coordinate
     static sf::Vector2i mapCoordsToTile(float x, float y, float scale);
     static sf::Vector2i mapCoordsToTile(const sf::Vector2f& pos, float scale);
 
-    // return the center of the tile position in pixel relative to the openGL
-    // world
+    // convert tile coordinate to world coordinate
     static sf::Vector2f mapTileToCoords(int x, int y, float scale);
     static sf::Vector2f mapTileToCoords(const sf::Vector2i& pos, float scale);
 
