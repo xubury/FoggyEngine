@@ -4,7 +4,7 @@
     "geometry" :
     {
         "name" :"Square",
-        "size" : 8.0
+        "size" : 50.0
     },
     "layers" :
     [
@@ -12,6 +12,7 @@
             "content" : "tile",
             "z" : 1,
             "static" : true,
+            "size" : 16.0,
             "datas" :
             [
                 {
