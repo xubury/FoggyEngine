@@ -9,7 +9,7 @@ local PlayAttackAnim = function (id)
     C_play()
 end
 
-local front_x
+local front_x = 1
 
 CompAnimation = {
     anim_queue = deque.new(),
@@ -81,8 +81,8 @@ CompCollision = {
         body = {
             shape = "Polygon",
             center = {0.5, 0.5},
-            vertices = {{x = -15, y = 35}, {x = -15, y = -35}, {x = 15, y = -35}, {x = 15, y = 35}},
-            density = 0.5 / (30 /32 * 65 /32),
+            vertices = {{x = -7.5, y = 17.5}, {x = -7.5, y = -17.5}, {x = 7.5, y = -17.5}, {x = 7.5, y = 17.5}},
+            density = 0.5 / (15 /32 * 32.5 /32),
             friction = 1,
             restitution = 0
         }
