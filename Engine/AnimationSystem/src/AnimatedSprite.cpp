@@ -56,7 +56,7 @@ void AnimatedSprite::stop() {
 
 AnimatedSprite::Status AnimatedSprite::getStatus() const { return m_status; }
 
-void AnimatedSprite::setFrame(std::size_t index) {
+void AnimatedSprite::setCurrentFrame(std::size_t index) {
     assert(m_animation != nullptr);
     m_current_frame = index % m_animation->size();
     setFrame(index, true);

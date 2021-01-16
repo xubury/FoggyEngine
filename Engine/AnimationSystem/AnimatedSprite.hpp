@@ -47,7 +47,7 @@ class AnimatedSprite : public sf::Drawable, public sf::Transformable {
     void stop();
     Status getStatus() const;
 
-    void setFrame(std::size_t index);
+    void setCurrentFrame(std::size_t index);
     void setColor(const sf::Color &color);
     void update(const sf::Time &delta_time);
 
@@ -62,7 +62,7 @@ class AnimatedSprite : public sf::Drawable, public sf::Transformable {
     std::size_t m_current_frame;
     sf::Vertex m_vertices[4];
 
-    void setFrame(std::size_t index, bool reset_time, bool flip_y = true);
+    void setFrame(std::size_t index, bool reset_time, bool flip_y = false);
     virtual void draw(sf::RenderTarget &target,
                       sf::RenderStates states) const override;
 };
