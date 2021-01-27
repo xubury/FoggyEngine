@@ -89,7 +89,7 @@ void Game::processEvent() {
 }
 
 void Game::processEvents() {
-    processMouseEvents();
+    // processMouseEvents();
     switch (m_status) {
         case Normal: {
             foggy::component::Controller::Handle controller;
