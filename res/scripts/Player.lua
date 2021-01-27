@@ -92,7 +92,7 @@ CompCollision = {
 function update()
     local x, y = C_getSpeed()
     local current = CompAnimation.states.current
-    if current == 'run' and math.sqrt(x * x + y * y) < 100 / 32 then
+    if current == 'run' and math.sqrt(x * x + y * y) < 50 / 32 then
         CompAnimation.states:reset()
     end
 end
