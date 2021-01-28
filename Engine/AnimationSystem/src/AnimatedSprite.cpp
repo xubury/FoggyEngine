@@ -99,35 +99,24 @@ void AnimatedSprite::update(const sf::Time &delta_time) {
     }
 }
 
-void AnimatedSprite::setFrame(std::size_t index, bool reset_time, bool flip_y) {
+void AnimatedSprite::setFrame(std::size_t index, bool reset_time) {
     if (m_animation != nullptr) {
-        sf::IntRect rect = m_animation->getRect(index);
-
+        m_texture = m_animation->getFrame(index);
+        float width = m_texture->getSize().x;
+        float height = m_texture->getSize().y;
         m_vertices[0].position =
-            sf::Vector2f(-(float)rect.width / 2, -(float)rect.height / 2);
+            sf::Vector2f(-width / 2, -height / 2);
         m_vertices[1].position =
-            sf::Vector2f(-(float)rect.width / 2, (float)rect.height / 2);
+            sf::Vector2f(-width / 2, height / 2);
         m_vertices[2].position =
-            sf::Vector2f((float)rect.width / 2, (float)rect.height / 2);
+            sf::Vector2f(width / 2, height / 2);
         m_vertices[3].position =
-            sf::Vector2f((float)rect.width / 2, -(float)rect.height / 2);
+            sf::Vector2f(width / 2, -height / 2);
 
-        float left = (float)rect.left;
-        float right = left + (float)rect.width;
-        float top = (float)rect.top;
-        float bottom = top + (float)rect.height;
-
-        if (flip_y) {
-            m_vertices[0].texCoords = sf::Vector2f(left, bottom);
-            m_vertices[1].texCoords = sf::Vector2f(left, top);
-            m_vertices[2].texCoords = sf::Vector2f(right, top);
-            m_vertices[3].texCoords = sf::Vector2f(right, bottom);
-        } else {
-            m_vertices[0].texCoords = sf::Vector2f(left, top);
-            m_vertices[1].texCoords = sf::Vector2f(left, bottom);
-            m_vertices[2].texCoords = sf::Vector2f(right, bottom);
-            m_vertices[3].texCoords = sf::Vector2f(right, top);
-        }
+        m_vertices[0].texCoords = sf::Vector2f(0, 0);
+        m_vertices[1].texCoords = sf::Vector2f(0, height);
+        m_vertices[2].texCoords = sf::Vector2f(width, height);
+        m_vertices[3].texCoords = sf::Vector2f(width, 0);
     }
     if (reset_time) {
         m_time_elapsed = sf::Time::Zero;
@@ -136,9 +125,9 @@ void AnimatedSprite::setFrame(std::size_t index, bool reset_time, bool flip_y) {
 
 void AnimatedSprite::draw(sf::RenderTarget &target,
                           sf::RenderStates states) const {
-    if (m_animation != nullptr && m_animation->m_texture != nullptr) {
+    if (m_animation != nullptr && m_texture != nullptr) {
         states.transform *= getTransform();
-        states.texture = m_animation->m_texture;
+        states.texture = m_texture;
         target.draw(m_vertices, 4, sf::Quads, states);
     }
 }

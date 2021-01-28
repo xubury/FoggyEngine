@@ -34,7 +34,6 @@ class Configuration {
     enum PlayerAnim : int {
         Idle,
         Run,
-        Stand,
         Squat,
         Sword_Attack_0,
         Sword_Attack_1,
@@ -55,8 +54,7 @@ class Configuration {
 
     static void LoadTexture(int id, const std::string &name);
     static void LoadFont(int id, const std::string &name);
-    static void LoadPlayerAnimation(int id, int texture_id, int start_frame,
-                                    int end_frame, int cols, int rows);
+    static void LoadPlayerAnimation(int id, int texture_id);
 };
 
 #endif /* CONFIGURATION_H */

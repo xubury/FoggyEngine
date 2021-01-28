@@ -62,7 +62,8 @@ class AnimatedSprite : public sf::Drawable, public sf::Transformable {
     std::size_t m_current_frame;
     sf::Vertex m_vertices[4];
 
-    void setFrame(std::size_t index, bool reset_time, bool flip_y = false);
+    const sf::Texture *m_texture;
+    void setFrame(std::size_t index, bool reset_time);
     virtual void draw(sf::RenderTarget &target,
                       sf::RenderStates states) const override;
 };

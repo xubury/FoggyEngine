@@ -48,9 +48,10 @@ void Configuration::LoadFont(int id, const std::string &filename) {
     fonts.load((FontType)id, filename);
 }
 
-void Configuration::LoadPlayerAnimation(int id, int texture_id, int start_frame,
-                                        int end_frame, int cols, int rows) {
-    player_anims.load((PlayerAnim)id, &textures.get((Textures)texture_id))
-        .addFrameSheet(start_frame, end_frame, cols, rows, 35,
-                       0);  // TODO: remove the offset by editing the sheet?
+void Configuration::LoadPlayerAnimation(int id, int texture_id) {
+    if (player_anims.count((PlayerAnim)id) == 0) {
+        player_anims.load((PlayerAnim)id);
+    }
+    foggy::as::Animation& anim = player_anims.get((PlayerAnim)id);
+    anim.addFrame(&textures.get((Textures)texture_id));
 }
