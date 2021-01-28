@@ -40,6 +40,7 @@ void LuaScript::initCollision() {
         b2BodyDef body_def;
         body_def.type = comp_table["body_type"];
         body_def.fixedRotation = comp_table["fix_angle"];
+        body_def.linearDamping = comp_table["linear_damping"];
 
         manager()->addComponent<component::Collision>(ownerID(), body_def);
         sol::table fixture_table = comp_table["fixtures"];

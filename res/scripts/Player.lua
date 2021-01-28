@@ -77,6 +77,7 @@ CompAnimation = {
 CompCollision = {
     body_type = 2,
     fix_angle = true,
+    linear_damping = 10,
     fixtures = {
         body = {
             shape = "Polygon",

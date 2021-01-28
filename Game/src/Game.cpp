@@ -23,7 +23,7 @@ Game::Game(int width, int height, const std::string &title)
       m_map(foggy::VMap::createMapFromFile("res/map.json")),
       m_viewer(m_window, *m_map, Configuration::map_inputs),
       m_status(MainMenu) {
-    m_app.systems.add<foggy::es::CollisionSystem>(0, 9.8);
+    m_app.systems.add<foggy::es::CollisionSystem>(0.0, 0.0);
     m_app.systems.add<foggy::es::SkinSystem>();
     m_map->add(m_layer);
 }

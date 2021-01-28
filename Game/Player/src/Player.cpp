@@ -29,7 +29,7 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
             id, Configuration::player_inputs);
     handle->bind(
         Configuration::PlayerInput::Up,
-        [s = lua_script.get()](const sf::Event &) { s->lua["move"](0, 20); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["move"](0, -20); });
     handle->bind(
         Configuration::PlayerInput::Down,
         [s = lua_script.get()](const sf::Event &) { s->lua["squat"](); });
