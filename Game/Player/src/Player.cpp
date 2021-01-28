@@ -55,15 +55,15 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     skin->m_animations.emplace(
         Configuration::PlayerAnim::Squat,
         &Configuration::player_anims.get(Configuration::PlayerAnim::Squat));
-    skin->m_animations.emplace(Configuration::PlayerAnim::Sword_Attack_0,
-                               &Configuration::player_anims.get(
-                                   Configuration::PlayerAnim::Sword_Attack_0));
     skin->m_animations.emplace(Configuration::PlayerAnim::Sword_Attack_1,
                                &Configuration::player_anims.get(
                                    Configuration::PlayerAnim::Sword_Attack_1));
     skin->m_animations.emplace(Configuration::PlayerAnim::Sword_Attack_2,
                                &Configuration::player_anims.get(
                                    Configuration::PlayerAnim::Sword_Attack_2));
+    skin->m_animations.emplace(Configuration::PlayerAnim::Sword_Attack_3,
+                               &Configuration::player_anims.get(
+                                   Configuration::PlayerAnim::Sword_Attack_3));
     skin->m_sprite.setAnimation(
         skin->m_animations.at(Configuration::PlayerAnim::Idle));
 }

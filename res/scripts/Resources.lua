@@ -2,9 +2,9 @@ PlayerAnim = {
     Idle           = 0,
     Run            = 1,
     Squat          = 2,
-    Sword_Attack_0 = 3,
-    Sword_Attack_1 = 4,
-    Sword_Attack_2 = 5
+    Sword_Attack_1 = 3,
+    Sword_Attack_2 = 4,
+    Sword_Attack_3 = 5
 }
 
 Textures = {
@@ -74,14 +74,14 @@ Animation = {
                        Textures.SwordMan_crouch_3,}
         },
         attack1 = {
-            id = PlayerAnim.Sword_Attack_0,
+            id = PlayerAnim.Sword_Attack_1,
             texture = {Textures.SwordMan_attack1_0,
                        Textures.SwordMan_attack1_1,
                        Textures.SwordMan_attack1_2,
                        Textures.SwordMan_attack1_3,}
         },
         attack2 = {
-            id = PlayerAnim.Sword_Attack_1,
+            id = PlayerAnim.Sword_Attack_2,
             texture = {Textures.SwordMan_attack2_0,
                        Textures.SwordMan_attack2_1,
                        Textures.SwordMan_attack2_2,
@@ -90,7 +90,7 @@ Animation = {
                        Textures.SwordMan_attack2_5, }
         },
         attack3 = {
-            id = PlayerAnim.Sword_Attack_2,
+            id = PlayerAnim.Sword_Attack_3,
             texture = {Textures.SwordMan_attack3_0,
                        Textures.SwordMan_attack3_1,
                        Textures.SwordMan_attack3_2,

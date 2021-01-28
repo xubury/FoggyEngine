@@ -35,9 +35,9 @@ class Configuration {
         Idle,
         Run,
         Squat,
-        Sword_Attack_0,
         Sword_Attack_1,
-        Sword_Attack_2
+        Sword_Attack_2,
+        Sword_Attack_3
     };
 
     static foggy::ResourceManager<foggy::as::Animation, PlayerAnim>
