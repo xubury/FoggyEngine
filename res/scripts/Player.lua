@@ -30,26 +30,26 @@ CompAnimation = {
         },
         callbacks = {
             onmove = function(self, event, from, to)
-                C_setAnimation(PlayerAnim.Run)
+                C_setAnimation(SwordsmanAnim.Run)
                 C_setLoop(true)
                 C_play()
             end,
             onreset = function(self, event, from, to)
-                C_setAnimation(PlayerAnim.Idle)
+                C_setAnimation(SwordsmanAnim.Idle)
                 C_setLoop(true)
                 C_play()
             end,
             onattack = function(self, event, from, to)
                 print(to)
                 if to == 'attack0' then
-                    PlayAttackAnim(PlayerAnim.Sword_Attack_1)
+                    PlayAttackAnim(SwordsmanAnim.Sword_Attack_1)
                     CompAnimation.anim_queue:push_right(function ()
                         CompAnimation.states:reset()
                     end)
                 elseif to == 'attack1' then
                     CompAnimation.anim_queue:pop_right()
                     CompAnimation.anim_queue:push_right(function ()
-                        PlayAttackAnim(PlayerAnim.Sword_Attack_2)
+                        PlayAttackAnim(SwordsmanAnim.Sword_Attack_2)
                     end)
                     CompAnimation.anim_queue:push_right(function ()
                         CompAnimation.states:reset()
@@ -58,7 +58,7 @@ CompAnimation = {
                     CompAnimation.anim_queue:pop_right()
                     CompAnimation.anim_queue:push_right(function ()
                         C_applyLinearImpulse(100 * front_x, 0)
-                        PlayAttackAnim(PlayerAnim.Sword_Attack_3)
+                        PlayAttackAnim(SwordsmanAnim.Sword_Attack_3)
                     end)
                     CompAnimation.anim_queue:push_right(function ()
                         CompAnimation.states:reset()
@@ -66,7 +66,7 @@ CompAnimation = {
                 end
             end,
             onsquat = function (self, event, from, to)
-                C_setAnimation(PlayerAnim.Squat)
+                C_setAnimation(SwordsmanAnim.Squat)
                 C_setLoop(true)
                 C_play()
             end
