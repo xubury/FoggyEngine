@@ -101,13 +101,13 @@ Animation = {
     }
 }
 
-function LoadAnimation(t)
+function loadAnimation(t)
     for i = 1, #t.texture do
         C_loadAnimation(t.id, t.texture[i])
     end
 end
 
-function LoadResources()
+function loadResources()
     C_loadTexture(Textures.Swordsman_idle_0, "res/player/Individual Sprites/adventurer-idle-00.png");
     C_loadTexture(Textures.Swordsman_idle_1, "res/player/Individual Sprites/adventurer-idle-01.png");
     C_loadTexture(Textures.Swordsman_idle_2, "res/player/Individual Sprites/adventurer-idle-02.png");
@@ -145,10 +145,10 @@ function LoadResources()
 
     C_loadFont(FontType.Fira, "res/font/fira.ttf");
 
-    LoadAnimation(Animation.swordsman.idle)
-    LoadAnimation(Animation.swordsman.run)
-    LoadAnimation(Animation.swordsman.squat)
-    LoadAnimation(Animation.swordsman.attack1)
-    LoadAnimation(Animation.swordsman.attack2)
-    LoadAnimation(Animation.swordsman.attack3)
+    loadAnimation(Animation.swordsman.idle)
+    loadAnimation(Animation.swordsman.run)
+    loadAnimation(Animation.swordsman.squat)
+    loadAnimation(Animation.swordsman.attack1)
+    loadAnimation(Animation.swordsman.attack2)
+    loadAnimation(Animation.swordsman.attack3)
 end

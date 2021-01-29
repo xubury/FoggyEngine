@@ -25,7 +25,7 @@ void Configuration::initialize() {
         std::cout << err.what() << std::endl;
         return;
     }
-    lua["LoadResources"]();
+    lua["loadResources"]();
 
     initializePlayerInputs();
 }
