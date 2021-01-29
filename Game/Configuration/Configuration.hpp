@@ -12,7 +12,7 @@ class Configuration {
     Configuration(const Configuration &) = delete;
     Configuration &operator=(const Configuration &) = delete;
 
-    static void Initialize();
+    static void initialize();
 
     enum PlayerInput : int { Up, Down, Down_Realeased, Left, Right, Attack };
 
@@ -50,11 +50,11 @@ class Configuration {
     static foggy::ResourceManager<sf::Texture, Textures> textures;
 
    private:
-    static void InitializePlayerInputs();
+    static void initializePlayerInputs();
 
-    static void LoadTexture(int id, const std::string &name);
-    static void LoadFont(int id, const std::string &name);
-    static void LoadPlayerAnimation(int id, int texture_id);
+    static void loadTexture(int id, const std::string &name);
+    static void loadFont(int id, const std::string &name);
+    static void loadPlayerAnimation(int id, int texture_id);
 };
 
 #endif /* CONFIGURATION_H */

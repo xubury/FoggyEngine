@@ -12,12 +12,12 @@ foggy::ResourceManager<foggy::as::Animation, Configuration::PlayerAnim>
 
 foggy::ActionMap<int> Configuration::map_inputs;
 
-void Configuration::Initialize() {
+void Configuration::initialize() {
     sol::state lua;
 
-    lua.set_function("C_loadFont", LoadFont);
-    lua.set_function("C_loadTexture", LoadTexture);
-    lua.set_function("C_loadAnimation", LoadPlayerAnimation);
+    lua.set_function("C_loadFont", loadFont);
+    lua.set_function("C_loadTexture", loadTexture);
+    lua.set_function("C_loadAnimation", loadPlayerAnimation);
 
     auto res = lua.safe_script_file("res/scripts/Resources.lua");
     if (!res.valid()) {
@@ -27,10 +27,10 @@ void Configuration::Initialize() {
     }
     lua["LoadResources"]();
 
-    InitializePlayerInputs();
+    initializePlayerInputs();
 }
 
-void Configuration::InitializePlayerInputs() {
+void Configuration::initializePlayerInputs() {
     player_inputs.map(PlayerInput::Up, foggy::Action(sf::Keyboard::W));
     player_inputs.map(PlayerInput::Down, foggy::Action(sf::Keyboard::S));
     player_inputs.map(PlayerInput::Down_Realeased,
@@ -40,15 +40,15 @@ void Configuration::InitializePlayerInputs() {
     player_inputs.map(PlayerInput::Attack, foggy::Action(sf::Keyboard::J));
 }
 
-void Configuration::LoadTexture(int id, const std::string &filename) {
+void Configuration::loadTexture(int id, const std::string &filename) {
     textures.load((Textures)id, filename);
 }
 
-void Configuration::LoadFont(int id, const std::string &filename) {
+void Configuration::loadFont(int id, const std::string &filename) {
     fonts.load((FontType)id, filename);
 }
 
-void Configuration::LoadPlayerAnimation(int id, int texture_id) {
+void Configuration::loadPlayerAnimation(int id, int texture_id) {
     if (player_anims.count((PlayerAnim)id) == 0) {
         player_anims.load((PlayerAnim)id);
     }

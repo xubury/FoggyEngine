@@ -30,7 +30,7 @@ Game::Game(int width, int height, const std::string &title)
 }
 
 void Game::run(int min_fps) {
-    Configuration::Initialize();
+    Configuration::initialize();
     initGui();
     // m_window.setFramerateLimit(120);
 
