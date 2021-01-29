@@ -1,6 +1,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "GUI/Button.hpp"
+#include "GUI/Configuration.hpp"
 
 namespace foggy {
 namespace gui {
@@ -101,13 +102,14 @@ void TextButton::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 }
 
 void TextButton::onMouseEntered() {
-    const float light = 1.4f;
-    m_shape.setOutlineColor(sf::Color(m_outline_color.r * light,
-                                      m_outline_color.g * light,
-                                      m_outline_color.b * light));
-    m_shape.setFillColor(sf::Color(m_fill_color.r * light,
-                                   m_fill_color.g * light,
-                                   m_fill_color.b * light));
+    m_shape.setOutlineColor(
+        sf::Color(m_outline_color.r * Configuration::Colors::lighting,
+                  m_outline_color.g * Configuration::Colors::lighting,
+                  m_outline_color.b * Configuration::Colors::lighting));
+    m_shape.setFillColor(
+        sf::Color(m_fill_color.r * Configuration::Colors::lighting,
+                  m_fill_color.g * Configuration::Colors::lighting,
+                  m_fill_color.b * Configuration::Colors::lighting));
 }
 
 void TextButton::onMouseLeft() {

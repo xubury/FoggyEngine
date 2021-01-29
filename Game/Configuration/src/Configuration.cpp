@@ -52,6 +52,6 @@ void Configuration::LoadPlayerAnimation(int id, int texture_id) {
     if (player_anims.count((PlayerAnim)id) == 0) {
         player_anims.load((PlayerAnim)id);
     }
-    foggy::as::Animation& anim = player_anims.get((PlayerAnim)id);
+    foggy::as::Animation &anim = player_anims.get((PlayerAnim)id);
     anim.addFrame(&textures.get((Textures)texture_id));
 }

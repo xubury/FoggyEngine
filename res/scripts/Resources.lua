@@ -143,7 +143,6 @@ function LoadResources()
     C_loadTexture(Textures.Swordsman_crouch_2, "res/player/Individual Sprites/adventurer-crouch-02.png");
     C_loadTexture(Textures.Swordsman_crouch_3, "res/player/Individual Sprites/adventurer-crouch-03.png");
 
-    C_loadFont(FontType.GUI, "res/font/arial.ttf");
     C_loadFont(FontType.Fira, "res/font/fira.ttf");
 
     LoadAnimation(Animation.swordsman.idle)

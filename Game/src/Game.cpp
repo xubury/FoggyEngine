@@ -10,6 +10,7 @@
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 #include "EntitySystem/Systems/SkinSystem.hpp"
 #include "GUI/Button.hpp"
+#include "GUI/Configuration.hpp"
 #include "GUI/Layout.hpp"
 #include "Game.hpp"
 #include "Player/Player.hpp"
@@ -32,9 +33,6 @@ void Game::run(int min_fps) {
     Configuration::Initialize();
     initGui();
     // m_window.setFramerateLimit(120);
-
-    m_fps = sf::Text("FPS: " + std::to_string(getFps()),
-                     Configuration::fonts.get(Configuration::FontType::GUI));
 
     sf::Clock clock;
     m_time_since_last_update = sf::Time::Zero;
@@ -184,16 +182,17 @@ void Game::render() {
         m_viewer.draw();
     }
 
-    m_fps_clock.restart();
     m_window.display();
 }
 
 void Game::initGui() {
     auto *layout = new foggy::gui::VLayout();
     layout->setSpace(25);
-    auto *btn = new foggy::gui::TextButton(
-        "New", sf::Color::Green, sf::Color::White, 5,
-        Configuration::fonts.get(Configuration::GUI), sf::Color::White);
+    auto *btn =
+        new foggy::gui::TextButton("New", sf::Color::Green, sf::Color::White, 5,
+                                   foggy::gui::Configuration::default_fonts.get(
+                                       foggy::gui::Configuration::Fonts::GUI),
+                                   sf::Color::White);
     btn->onClick = [this](const sf::Event &, foggy::gui::Button &) {
         initWorld();
     };

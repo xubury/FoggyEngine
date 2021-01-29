@@ -27,8 +27,6 @@ class Game {
 
     void run(int min_fps);
 
-    float getFps();
-
     enum Status { MainMenu, Normal };
 
    private:
@@ -50,10 +48,6 @@ class Game {
 
     sf::Time m_time_since_last_update;
 
-    sf::Clock m_fps_clock;
-
-    sf::Text m_fps;
-
     foggy::es::Application<foggy::es::DefaultEntity> m_app;
 
     int32_t m_player_id;
@@ -70,9 +64,5 @@ class Game {
 
     Status m_status;
 };
-
-inline float Game::getFps() {
-    return 1.f / m_fps_clock.getElapsedTime().asSeconds();
-}
 
 #endif /* GAME_H */

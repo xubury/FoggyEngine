@@ -13,7 +13,7 @@ class Configuration {
     Configuration(const Configuration&) = delete;
     Configuration& operator=(const Configuration&) = delete;
 
-    enum Fonts { Gui };
+    enum Fonts { GUI };
     static ResourceManager<sf::Font, int> default_fonts;
 
     enum GuiInputs { Escape };

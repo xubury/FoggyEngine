@@ -16,7 +16,7 @@ unsigned int Configuration::Sizes::button_outline_thickness = 5;
 unsigned int Configuration::Sizes::layout_spacing = 10;
 
 void Configuration::initFont() {
-    default_fonts.load(Fonts::Gui, "res/font/arial.ttf");
+    default_fonts.load(Fonts::GUI, "res/font/arial.ttf");
 }
 
 void Configuration::initEvents() {
