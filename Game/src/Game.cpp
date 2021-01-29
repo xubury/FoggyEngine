@@ -1,3 +1,5 @@
+#include "Game.hpp"
+
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Window/Event.hpp>
 #include <iostream>
@@ -12,8 +14,8 @@
 #include "GUI/Button.hpp"
 #include "GUI/Configuration.hpp"
 #include "GUI/Layout.hpp"
-#include "Game.hpp"
 #include "Player/Player.hpp"
+#include "ResourceManager/Resource.hpp"
 #include "TileMap/VMap.hpp"
 
 Game::Game(int width, int height, const std::string &title)
@@ -188,11 +190,11 @@ void Game::render() {
 void Game::initGui() {
     auto *layout = new foggy::gui::VLayout();
     layout->setSpace(25);
-    auto *btn =
-        new foggy::gui::TextButton("New", sf::Color::Green, sf::Color::White, 5,
-                                   foggy::gui::Configuration::default_fonts.get(
-                                       foggy::gui::Configuration::Fonts::GUI),
-                                   sf::Color::White);
+    auto *btn = new foggy::gui::TextButton(
+        "New", sf::Color::Green, sf::Color::White, 5,
+        foggy::Resource::fonts.get(
+            foggy::Resource::getResourceID("Font", "GUI")),
+        sf::Color::White);
     btn->onClick = [this](const sf::Event &, foggy::gui::Button &) {
         initWorld();
     };

@@ -1,8 +1,8 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
 
-#include <string>
 #include <sol/sol.hpp>
+#include <string>
 
 #include "ResourceManager/ResourceManager.hpp"
 
@@ -21,6 +21,9 @@ class Resource {
     static sol::state lua;
 
     static void runSrcipt(const std::string &filename);
+
+    static int getResourceID(const std::string &table, const std::string &name);
+
    private:
     static void init();
     static void loadTexture(int id, const std::string &name);

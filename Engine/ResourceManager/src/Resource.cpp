@@ -27,6 +27,23 @@ void Resource::runSrcipt(const std::string &filename) {
     }
 }
 
+int Resource::getResourceID(const std::string &table_name,
+                            const std::string &name) {
+    sol::table table = lua[table_name];
+    if (!table.valid()) {
+        std::cout << "table name:" << table_name << " is invalid!" << std::endl;
+        return -1;
+    }
+    sol::object id = table[name];
+    if (id.is<int>()) {
+        return id.as<int>();
+    } else {
+        std::cout << "field name:" << name << " in table:" << table_name
+                  << " is invalid!" << std::endl;
+        return -1;
+    }
+}
+
 void Resource::loadTexture(int id, const std::string &filename) {
     textures.load(id, filename);
 }

@@ -3,7 +3,6 @@
 namespace foggy {
 namespace gui {
 
-ResourceManager<sf::Font, int> Configuration::default_fonts;
 ActionMap<int> Configuration::default_gui_inputs;
 Configuration::__Initializer Configuration::__initializer__;
 
@@ -15,19 +14,12 @@ float Configuration::Colors::lighting = 1.4;
 unsigned int Configuration::Sizes::button_outline_thickness = 5;
 unsigned int Configuration::Sizes::layout_spacing = 10;
 
-void Configuration::initFont() {
-    default_fonts.load(Fonts::GUI, "res/font/arial.ttf");
-}
-
 void Configuration::initEvents() {
     default_gui_inputs.map(GuiInputs::Escape,
                            Action(sf::Keyboard::Escape, Action::Type::Pressed));
 }
 
-void Configuration::init() {
-    initFont();
-    initEvents();
-}
+void Configuration::init() { initEvents(); }
 
 }  // namespace gui
 }  // namespace foggy

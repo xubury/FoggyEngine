@@ -35,7 +35,7 @@ Textures = {
     Swordsman_crouch_3 = 28,
 }
 
-FontType = {
+Font = {
     GUI = 0,
     Fira = 1
 }
@@ -77,6 +77,7 @@ function loadResources()
     C_loadTexture(Textures.Swordsman_crouch_2, "res/player/Individual Sprites/adventurer-crouch-02.png");
     C_loadTexture(Textures.Swordsman_crouch_3, "res/player/Individual Sprites/adventurer-crouch-03.png");
 
-    C_loadFont(FontType.Fira, "res/font/fira.ttf");
+    C_loadFont(Font.GUI, "res/font/arial.ttf");
+    C_loadFont(Font.Fira, "res/font/fira.ttf");
 
 end
