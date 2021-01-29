@@ -1,10 +1,7 @@
 #include <sol/sol.hpp>
 
 #include "Configuration/Configuration.hpp"
-
-foggy::ResourceManager<sf::Texture, Configuration::Textures>
-    Configuration::textures;
-foggy::ResourceManager<sf::Font, Configuration::FontType> Configuration::fonts;
+#include "ResourceManager/Resource.hpp"
 
 foggy::ActionMap<int> Configuration::player_inputs;
 foggy::ResourceManager<foggy::as::Animation, Configuration::PlayerAnim>
@@ -12,21 +9,10 @@ foggy::ResourceManager<foggy::as::Animation, Configuration::PlayerAnim>
 
 foggy::ActionMap<int> Configuration::map_inputs;
 
-void Configuration::initialize() {
-    sol::state lua;
-
-    lua.set_function("C_loadFont", loadFont);
-    lua.set_function("C_loadTexture", loadTexture);
-    lua.set_function("C_loadAnimation", loadPlayerAnimation);
-
-    auto res = lua.safe_script_file("res/scripts/Resources.lua");
-    if (!res.valid()) {
-        sol::error err = res;
-        std::cout << err.what() << std::endl;
-        return;
-    }
-    lua["loadResources"]();
-
+void Configuration::init() {
+    foggy::Resource::lua.set_function("C_loadAnimation", loadPlayerAnimation);
+    foggy::Resource::runSrcipt("res/scripts/Animation.lua");
+    foggy::Resource::lua["initAnimation"]();
     initializePlayerInputs();
 }
 
@@ -40,18 +26,10 @@ void Configuration::initializePlayerInputs() {
     player_inputs.map(PlayerInput::Attack, foggy::Action(sf::Keyboard::J));
 }
 
-void Configuration::loadTexture(int id, const std::string &filename) {
-    textures.load((Textures)id, filename);
-}
-
-void Configuration::loadFont(int id, const std::string &filename) {
-    fonts.load((FontType)id, filename);
-}
-
 void Configuration::loadPlayerAnimation(int id, int texture_id) {
     if (player_anims.count((PlayerAnim)id) == 0) {
         player_anims.load((PlayerAnim)id);
     }
     foggy::as::Animation &anim = player_anims.get((PlayerAnim)id);
-    anim.addFrame(&textures.get((Textures)texture_id));
+    anim.addFrame(&foggy::Resource::textures.get(texture_id));
 }

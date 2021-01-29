@@ -1,5 +1,5 @@
 local machine = require 'res/scripts/statemachine'
-require 'res/scripts/Resources'
+require 'res/scripts/Animation'
 local deque = require 'res/scripts/deque'
 
 local PlayAttackAnim = function (id)

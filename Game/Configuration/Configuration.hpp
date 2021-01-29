@@ -6,13 +6,11 @@
 #include "ActionSystem/ActionMap.hpp"
 #include "ResourceManager/ResourceManager.hpp"
 
-class Configuration {
+class Configuration  {
    public:
     Configuration() = delete;
     Configuration(const Configuration &) = delete;
     Configuration &operator=(const Configuration &) = delete;
-
-    static void initialize();
 
     enum PlayerInput : int { Up, Down, Down_Realeased, Left, Right, Attack };
 
@@ -28,9 +26,6 @@ class Configuration {
 
     static foggy::ActionMap<int> map_inputs;
 
-    enum FontType : int { GUI, Fira };
-    static foggy::ResourceManager<sf::Font, FontType> fonts;
-
     enum PlayerAnim : int {
         Idle,
         Run,
@@ -43,17 +38,10 @@ class Configuration {
     static foggy::ResourceManager<foggy::as::Animation, PlayerAnim>
         player_anims;
 
-    enum Textures : int {
-        PlayerAnim_Sheet,
-    };
-
-    static foggy::ResourceManager<sf::Texture, Textures> textures;
-
+   static void init();
    private:
     static void initializePlayerInputs();
 
-    static void loadTexture(int id, const std::string &name);
-    static void loadFont(int id, const std::string &name);
     static void loadPlayerAnimation(int id, int texture_id);
 };
 

@@ -10,6 +10,8 @@ pkg_check_modules(JSONCPP jsoncpp)
 
 set(Utils_Src Engine/util/src/Memory.cpp)
 
+set(Resource_Src Engine/ResourceManager/src/Resource.cpp)
+
 set(Animation_Src Engine/AnimationSystem/src/Animation.cpp
                   Engine/AnimationSystem/src/AnimatedSprite.cpp)
 
@@ -37,6 +39,7 @@ set(TileMap_Src Engine/TileMap/src/VLayer.cpp Engine/TileMap/src/VMap.cpp
                 Engine/TileMap/src/Square.cpp Engine/TileMap/src/MapViewer.cpp)
 
 set(Engine_Src
+    ${Resource_Src}
     ${Utils_Src}
     ${ES_Src}
     ${Animation_Src}
