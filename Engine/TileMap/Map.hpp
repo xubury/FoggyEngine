@@ -59,7 +59,6 @@ void Map<GEOMETRY>::loadFromJson(const Json::Value& root) {
                 new Layer<Tile<GEOMETRY>>(content, z, isStatic);
             auto data_iter = layer["datas"].begin();
             auto data_end = layer["datas"].end();
-            float size = std::max<float>(1.0, layer["size"].asFloat());
             for (; data_iter != data_end; ++data_iter) {
                 const Json::Value& texture = *data_iter;
                 int tex_x = texture["x"].asInt();
@@ -74,7 +73,7 @@ void Map<GEOMETRY>::loadFromJson(const Json::Value& root) {
                         Tile<GEOMETRY> tile(x, y, getTileSize());
                         tile.setTexture(&tex);
                         tile.setTextureRect(
-                            GEOMETRY::getTextureRect(x, y, size));
+                            GEOMETRY::getTextureRect(x, y, tex.getSize().x));
                         current_layer->add(std::move(tile), false);
                     }
                 }
