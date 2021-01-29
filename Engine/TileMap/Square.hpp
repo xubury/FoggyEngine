@@ -17,9 +17,9 @@ struct Square {
     static sf::ConvexShape m_shape;
     static void init();
 
-    static struct __Initiatiser {
-        __Initiatiser() { Square::init(); };
-    } __initiatiser__;
+    static struct __Initializer {
+        __Initializer() { Square::init(); };
+    } __initializer__;
 };
 
 }  // namespace geometry

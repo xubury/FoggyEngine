@@ -4,7 +4,7 @@
 namespace geometry {
 
 sf::ConvexShape Square::m_shape;
-Square::__Initiatiser Square::__initiatiser__;
+Square::__Initializer Square::__initializer__;
 
 const float height = 1;
 

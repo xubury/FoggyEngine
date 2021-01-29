@@ -38,9 +38,9 @@ class Configuration {
 
     static void init();
 
-    static struct __Initiatiser {
-        __Initiatiser() { Configuration::init(); };
-    } __initiatiser__;
+    static struct __Initializer {
+        __Initializer() { Configuration::init(); };
+    } __initializer__;
 };
 
 }  // namespace gui
