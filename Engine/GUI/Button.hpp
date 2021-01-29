@@ -9,8 +9,9 @@
 #include "GUI/Widget.hpp"
 
 namespace foggy {
+namespace gui {
 
-class Button : public Widget {
+class Button : virtual public Widget {
    public:
     using FuncType = std::function<void(const sf::Event& event, Button& self)>;
     static FuncType defaultFunc;
@@ -57,6 +58,7 @@ class TextButton : public Button {
     virtual void onMouseLeft() override;
 };
 
+}  // namespace gui
 }  // namespace foggy
 
 #endif /* BUTTON_H */

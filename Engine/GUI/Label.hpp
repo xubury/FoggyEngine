@@ -7,6 +7,7 @@
 #include "GUI/Widget.hpp"
 
 namespace foggy {
+namespace gui {
 
 class Label : public Widget {
    public:
@@ -32,6 +33,7 @@ class Label : public Widget {
                       sf::RenderStates states) const override;
 };
 
+}  // namespace gui
 }  // namespace foggy
 
 #endif /* LABEL_H */

@@ -1,6 +1,7 @@
 #include "GUI/Widget.hpp"
 
 namespace foggy {
+namespace gui {
 
 Widget::Widget(Widget *parent) : m_parent(parent) {}
 
@@ -24,5 +25,7 @@ void Widget::updateShape() {
         m_parent->updateShape();
     }
 }
+
+}  // namespace gui
 
 }  // namespace foggy

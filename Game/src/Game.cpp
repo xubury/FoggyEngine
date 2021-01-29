@@ -189,12 +189,14 @@ void Game::render() {
 }
 
 void Game::initGui() {
-    auto *layout = new foggy::VLayout();
+    auto *layout = new foggy::gui::VLayout();
     layout->setSpace(25);
-    auto *btn = new foggy::TextButton(
+    auto *btn = new foggy::gui::TextButton(
         "New", sf::Color::Green, sf::Color::White, 5,
         Configuration::fonts.get(Configuration::GUI), sf::Color::White);
-    btn->onClick = [this](const sf::Event &, foggy::Button &) { initWorld(); };
+    btn->onClick = [this](const sf::Event &, foggy::gui::Button &) {
+        initWorld();
+    };
     layout->add(btn);
     m_main_menu.setLayout(layout);
 }

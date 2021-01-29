@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Window/Event.hpp>
 namespace foggy {
+namespace gui {
 
 class Widget : public sf::Drawable {
    public:
@@ -27,6 +28,8 @@ class Widget : public sf::Drawable {
     Widget *m_parent;
     sf::Vector2f m_pos;
 };
+
+}  // namespace gui
 }  // namespace foggy
 
 #endif /* WIDGET_H */

@@ -3,6 +3,7 @@
 #include "GUI/Button.hpp"
 
 namespace foggy {
+namespace gui {
 
 Button::FuncType Button::defaultFunc = [](const sf::Event &, Button &) {};
 
@@ -114,4 +115,5 @@ void TextButton::onMouseLeft() {
     m_shape.setFillColor(m_fill_color);
 }
 
+}  // namespace gui
 }  // namespace foggy

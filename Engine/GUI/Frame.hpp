@@ -7,6 +7,7 @@
 #include "GUI/Container.hpp"
 
 namespace foggy {
+namespace gui {
 
 class Frame : public Container, protected ActionTarget<int> {
    public:
@@ -32,12 +33,11 @@ class Frame : public Container, protected ActionTarget<int> {
                       sf::RenderStates states) const override;
 
    private:
-    static ActionMap<int> gui_inputs;
-
     sf::RenderWindow& m_window;
     sf::View m_view;
 };
 
+}  // namespace gui
 }  // namespace foggy
 
 #endif /* FRAME_H */

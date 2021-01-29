@@ -2,6 +2,7 @@
 #include "GUI/Layout.hpp"
 
 namespace foggy {
+namespace gui {
 
 Layout::Layout(Widget *parent) : Widget(parent), m_space(5) {}
 
@@ -94,4 +95,5 @@ void VLayout::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     }
 }
 
+}  // namespace gui
 }  // namespace foggy

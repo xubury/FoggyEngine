@@ -4,6 +4,8 @@
 #include "GUI/Layout.hpp"
 
 namespace foggy {
+namespace gui {
+
 Container::Container(Widget *parent) : Widget(parent), m_layout(nullptr) {}
 
 Container::~Container() {
@@ -55,4 +57,5 @@ void Container::processEvents(const sf::Vector2f &parent_pos) {
     }
 }
 
+}  // namespace gui
 }  // namespace foggy

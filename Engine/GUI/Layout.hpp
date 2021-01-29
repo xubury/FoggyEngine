@@ -6,6 +6,7 @@
 #include "GUI/Widget.hpp"
 
 namespace foggy {
+namespace gui {
 
 class Layout : protected Widget {
    public:
@@ -43,6 +44,7 @@ class VLayout : public Layout {
                       sf::RenderStates states) const override;
 };
 
+}  // namespace gui
 }  // namespace foggy
 
 #endif /* LAYOUT_H */

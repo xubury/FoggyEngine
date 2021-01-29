@@ -1,13 +1,13 @@
+#include "GUI/Configuration.hpp"
 #include "GUI/Frame.hpp"
 #include "GUI/Layout.hpp"
 
 namespace foggy {
-
-ActionMap<int> Frame::gui_inputs;
+namespace gui {
 
 Frame::Frame(sf::RenderWindow &window)
     : Container(nullptr),
-      ActionTarget(gui_inputs),
+      ActionTarget(Configuration::default_gui_inputs),
       m_window(window),
       m_view(m_window.getDefaultView()) {
     ActionTarget::bind(Action(sf::Event::Resized), [this](
@@ -67,4 +67,5 @@ void Frame::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.setView(view);
 }
 
+}  // namespace gui
 }  // namespace foggy

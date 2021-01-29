@@ -4,6 +4,7 @@
 #include "GUI/Widget.hpp"
 
 namespace foggy {
+namespace gui {
 
 class Layout;
 class Container : public Widget {
@@ -28,6 +29,7 @@ class Container : public Widget {
     Layout* m_layout;
 };
 
+}  // namespace gui
 }  // namespace foggy
 
 #endif /* CONTAINER_H */

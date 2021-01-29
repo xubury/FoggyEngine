@@ -3,6 +3,7 @@
 #include "GUI/Label.hpp"
 
 namespace foggy {
+namespace gui {
 
 Label::Label(const std::string &text, const sf::Font &font,
              const sf::Color &color, Widget *parent)
@@ -24,9 +25,7 @@ void Label::setCharacterSize(uint32_t size) {
 
 uint32_t Label::getCharacterSize() const { return m_text.getCharacterSize(); }
 
-void Label::setOrigin(float x, float y) {
-    m_text.setOrigin(x, y);
-}
+void Label::setOrigin(float x, float y) { m_text.setOrigin(x, y); }
 
 sf::Vector2f Label::getSize() const {
     sf::FloatRect rect = m_text.getGlobalBounds();
@@ -35,13 +34,12 @@ sf::Vector2f Label::getSize() const {
 
 void Label::setTextColor(const sf::Color &color) { m_text.setFillColor(color); }
 
-sf::Color Label::getTextColor() const {
-    return m_text.getFillColor();
-}
+sf::Color Label::getTextColor() const { return m_text.getFillColor(); }
 
 void Label::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     states.transform.translate(m_pos);
     target.draw(m_text, states);
 }
 
+}  // namespace gui
 }  // namespace foggy

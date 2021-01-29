@@ -60,7 +60,7 @@ class Game {
 
     foggy::ts::TimerSystem m_timer;
 
-    foggy::Frame m_main_menu;
+    foggy::gui::Frame m_main_menu;
 
     foggy::Layer<foggy::es::DefaultEntity *> *m_layer;
 
