@@ -197,6 +197,11 @@ void Game::initGui() {
     };
     layout->add(btn);
     layout->add(btn2);
+    auto *layout2 = new foggy::gui::VLayout();
+    auto *btn3 = new foggy::gui::TextButton(
+        "test", sf::Color::Green, sf::Color::White, 5, font, sf::Color::White);
+    layout2->add(btn3);
+    layout->add(layout2);
     m_main_menu.setPosition(60, 50);
     m_main_menu.setSize(sf::Vector2f(500, 400));
     m_main_menu.setLayout(layout);

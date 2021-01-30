@@ -80,7 +80,10 @@ void VLayout::updateShape() {
     for (Widget *widget : m_widgets) {
         if (widget->isVisible()) {
             sf::Vector2f size = widget->getSize();
-            widget->setPosition((layout_size.x - size.x) / 2.f, pos_y);
+            widget->setPosition((layout_size.x - size.x) / 2.f,
+                                pos_y);  // center alignment
+            // layout_size.x - size.x (right alignment)
+            // 0 (left alignment)
             pos_y += size.y + m_space;
         }
     }

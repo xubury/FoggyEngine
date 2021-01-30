@@ -9,7 +9,7 @@
 namespace foggy {
 namespace gui {
 
-class Layout : virtual protected Widget {
+class Layout : virtual public Widget {
    public:
     Layout(Widget *parent = nullptr);
     virtual ~Layout() = default;
