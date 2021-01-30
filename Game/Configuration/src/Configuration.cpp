@@ -1,6 +1,7 @@
+#include "Configuration/Configuration.hpp"
+
 #include <sol/sol.hpp>
 
-#include "Configuration/Configuration.hpp"
 #include "ResourceManager/Resource.hpp"
 
 foggy::ActionMap<int> Configuration::player_inputs;
@@ -9,10 +10,12 @@ foggy::ResourceManager<foggy::as::Animation, Configuration::PlayerAnim>
 
 foggy::ActionMap<int> Configuration::map_inputs;
 
+Configuration::__Initializer Configuration::__initializer__;
+
 void Configuration::init() {
-    foggy::Resource::lua.set_function("C_loadAnimation", loadPlayerAnimation);
-    foggy::Resource::runSrcipt("res/scripts/Animation.lua");
-    foggy::Resource::lua["initAnimation"]();
+    foggy::Resource::lua().set_function("C_loadAnimation", loadPlayerAnimation);
+    foggy::Resource::instance().runSrcipt("res/scripts/Animation.lua");
+    foggy::Resource::lua()["initAnimation"]();
     initializePlayerInputs();
 }
 
@@ -31,5 +34,5 @@ void Configuration::loadPlayerAnimation(int id, int texture_id) {
         player_anims.load((PlayerAnim)id);
     }
     foggy::as::Animation &anim = player_anims.get((PlayerAnim)id);
-    anim.addFrame(&foggy::Resource::textures.get(texture_id));
+    anim.addFrame(&foggy::Resource::instance().textures.get(texture_id));
 }

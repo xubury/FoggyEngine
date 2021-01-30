@@ -4,11 +4,11 @@
 #include <SFML/Graphics/Font.hpp>
 
 #include "ActionSystem/ActionMap.hpp"
+#include "ResourceManager/Resource.hpp"
 #include "ResourceManager/ResourceManager.hpp"
 
-class Configuration  {
+class Configuration {
    public:
-    Configuration() = delete;
     Configuration(const Configuration &) = delete;
     Configuration &operator=(const Configuration &) = delete;
 
@@ -38,11 +38,15 @@ class Configuration  {
     static foggy::ResourceManager<foggy::as::Animation, PlayerAnim>
         player_anims;
 
-   static void init();
+    static void init();
+
    private:
     static void initializePlayerInputs();
 
     static void loadPlayerAnimation(int id, int texture_id);
+    static struct __Initializer {
+        __Initializer() { Configuration::init(); };
+    } __initializer__;
 };
 
 #endif /* CONFIGURATION_H */

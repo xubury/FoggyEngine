@@ -2,24 +2,21 @@
 
 namespace foggy {
 
-ResourceManager<sf::Texture, int> Resource::textures;
-
-ResourceManager<sf::Font, int> Resource::fonts;
-
-sol::state Resource::lua;
-
-Resource::__Initializer Resource::__initializer__;
-
-void Resource::init() {
-    lua.open_libraries();
-    lua.set_function("C_loadFont", loadFont);
-    lua.set_function("C_loadTexture", loadTexture);
+void Resource::initLua() {
+    m_lua.open_libraries();
+    m_lua.set_function("C_loadFont", [this](int id, const std::string &name) {
+        this->loadFont(id, name);
+    });
+    m_lua.set_function("C_loadTexture",
+                       [this](int id, const std::string &name) {
+                           this->loadTexture(id, name);
+                       });
     runSrcipt("res/scripts/Resources.lua");
-    lua["loadResources"]();
+    m_lua["loadResources"]();
 }
 
 void Resource::runSrcipt(const std::string &filename) {
-    auto res = lua.safe_script_file(filename);
+    auto res = m_lua.safe_script_file(filename);
     if (!res.valid()) {
         sol::error err = res;
         std::cout << err.what() << std::endl;
@@ -29,7 +26,7 @@ void Resource::runSrcipt(const std::string &filename) {
 
 int Resource::getResourceID(const std::string &table_name,
                             const std::string &name) {
-    sol::table table = lua[table_name];
+    sol::table table = lua()[table_name];
     if (!table.valid()) {
         std::cout << "table name:" << table_name << " is invalid!" << std::endl;
         return -1;

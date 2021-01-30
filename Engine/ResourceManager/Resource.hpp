@@ -10,28 +10,33 @@ namespace foggy {
 
 class Resource {
    public:
-    Resource() = delete;
     Resource(const Resource &) = delete;
     Resource &operator=(const Resource &) = delete;
 
-    static foggy::ResourceManager<sf::Texture, int> textures;
+    foggy::ResourceManager<sf::Texture, int> textures;
 
-    static foggy::ResourceManager<sf::Font, int> fonts;
+    foggy::ResourceManager<sf::Font, int> fonts;
 
-    static sol::state lua;
+    void runSrcipt(const std::string &filename);
 
-    static void runSrcipt(const std::string &filename);
+    int getResourceID(const std::string &table, const std::string &name);
 
-    static int getResourceID(const std::string &table, const std::string &name);
+    static Resource &instance() {
+        static Resource s;
+        return s;
+    }
+
+    static sol::state &lua() { return instance().m_lua; }
 
    private:
-    static void init();
-    static void loadTexture(int id, const std::string &name);
-    static void loadFont(int id, const std::string &name);
-    static void loadAnimation(int id, int texture_id);
-    static struct __Initializer {
-        __Initializer() { Resource::init(); };
-    } __initializer__;
+    sol::state m_lua;
+
+    Resource() { initLua(); }
+
+    void initLua();
+    void loadTexture(int id, const std::string &name);
+    void loadFont(int id, const std::string &name);
+    void loadAnimation(int id, int texture_id);
 };
 
 }  // namespace foggy

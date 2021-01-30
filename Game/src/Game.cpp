@@ -32,7 +32,6 @@ Game::Game(int width, int height, const std::string &title)
 }
 
 void Game::run(int min_fps) {
-    Configuration::init();
     initGui();
     // m_window.setFramerateLimit(120);
 
@@ -192,8 +191,8 @@ void Game::initGui() {
     layout->setSpace(25);
     auto *btn = new foggy::gui::TextButton(
         "New", sf::Color::Green, sf::Color::White, 5,
-        foggy::Resource::fonts.get(
-            foggy::Resource::getResourceID("Font", "GUI")),
+        foggy::Resource::instance().fonts.get(
+            foggy::Resource::instance().getResourceID("Font", "GUI")),
         sf::Color::White);
     btn->onClick = [this](const sf::Event &, foggy::gui::Button &) {
         initWorld();
