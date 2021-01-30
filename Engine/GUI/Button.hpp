@@ -54,6 +54,7 @@ class TextButton : public Button {
                       sf::RenderStates states) const override;
     sf::Color m_fill_color;
     sf::Color m_outline_color;
+    float m_outline_thickness;
     virtual void onMouseEntered() override;
     virtual void onMouseLeft() override;
 };

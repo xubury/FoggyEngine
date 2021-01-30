@@ -1,6 +1,7 @@
+#include "GUI/Button.hpp"
+
 #include <SFML/Graphics/RenderTarget.hpp>
 
-#include "GUI/Button.hpp"
 #include "GUI/Configuration.hpp"
 
 namespace foggy {
@@ -78,6 +79,7 @@ void TextButton::setOutlineColor(const sf::Color &color) {
 }
 
 void TextButton::setOutlineThickness(float thickness) {
+    m_outline_thickness = thickness;
     m_shape.setOutlineThickness(thickness);
 }
 
@@ -96,7 +98,8 @@ void TextButton::updateShape() {
 }
 
 void TextButton::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    states.transform.translate(m_pos);
+    sf::Vector2f outline(m_outline_thickness, m_outline_thickness);
+    states.transform.translate(m_pos + outline);
     target.draw(m_shape, states);
     target.draw(m_label, states);
 }

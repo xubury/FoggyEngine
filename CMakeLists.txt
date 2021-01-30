@@ -31,6 +31,7 @@ set(GUI_Src
     Engine/GUI/src/Frame.cpp
     Engine/GUI/src/Container.cpp
     Engine/GUI/src/Layout.cpp
+    Engine/GUI/src/VLayout.cpp
     Engine/GUI/src/Sprite.cpp
     Engine/GUI/src/SpriteButton.cpp
     Engine/GUI/src/Configuration.cpp)

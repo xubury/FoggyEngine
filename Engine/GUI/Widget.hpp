@@ -17,6 +17,12 @@ class Widget : public sf::Drawable {
     sf::Vector2f getPosition() const;
     virtual sf::Vector2f getSize() const = 0;
 
+    void hide();
+    bool isHidden() const;
+    void show();
+    bool isVisible() const;
+    void toggle();
+
    protected:
     friend class Container;
     friend class VLayout;
@@ -27,6 +33,7 @@ class Widget : public sf::Drawable {
 
     Widget *m_parent;
     sf::Vector2f m_pos;
+    bool m_is_visible;
 };
 
 }  // namespace gui

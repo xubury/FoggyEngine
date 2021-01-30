@@ -1,5 +1,6 @@
-#include "GUI/Configuration.hpp"
 #include "GUI/Frame.hpp"
+
+#include "GUI/Configuration.hpp"
 #include "GUI/Layout.hpp"
 
 namespace foggy {
@@ -27,44 +28,42 @@ void Frame::bind(int key, FuncType &callback) {
 
 void Frame::unbind(int key) { ActionTarget::unbind(key); }
 
-sf::Vector2f Frame::getSize() const {
-    sf::Vector2u size = m_window.getSize();
-    return sf::Vector2f(size.x, size.y);
-}
+void Frame::setSize(const sf::Vector2f &size) { m_size = size; }
+
+sf::Vector2f Frame::getSize() const { return m_size; }
 
 bool Frame::processEvent(const sf::Event &event) {
-    sf::Vector2f parent_pos(0, 0);
-    return processEvent(event, parent_pos);
+    return processEvent(event, getPosition());
 }
 
-void Frame::processEvents() {
-    sf::Vector2f parent_pos(0, 0);
-    processEvents(parent_pos);
-}
+void Frame::processEvents() { processEvents(getPosition()); }
 
 bool Frame::processEvent(const sf::Event &event,
                          const sf::Vector2f &parent_pos) {
-    bool res = ActionTarget::processEvent(event);
-    if (!res) {
-        res = Container::processEvent(event, parent_pos);
+    bool res = false;
+    if (isVisible()) {
+        res = ActionTarget::processEvent(event);
+        if (!res) {
+            res = Container::processEvent(event, parent_pos);
+        }
     }
     return res;
 }
 
 void Frame::processEvents(const sf::Vector2f &parent_pos) {
-    ActionTarget::processEvents();
-    Container::processEvents(parent_pos);
-    sf::Event event;
-    while (m_window.pollEvent(event)) {
-        Container::processEvent(event, parent_pos);
+    if (isVisible()) {
+        ActionTarget::processEvents();
+        Container::processEvents(parent_pos);
     }
 }
 
 void Frame::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    sf::View view = target.getView();
-    target.setView(m_view);
-    Container::draw(target, states);
-    target.setView(view);
+    if (isVisible()) {
+        sf::View view = target.getView();
+        target.setView(m_view);
+        Container::draw(target, states);
+        target.setView(view);
+    }
 }
 
 }  // namespace gui

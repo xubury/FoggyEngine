@@ -22,6 +22,7 @@ class Frame : public Container, protected ActionTarget<int> {
     void unbind(int key);
     void draw();
 
+    void setSize(const sf::Vector2f& size);
     virtual sf::Vector2f getSize() const override;
 
    private:
@@ -34,6 +35,7 @@ class Frame : public Container, protected ActionTarget<int> {
 
    private:
     sf::RenderWindow& m_window;
+    sf::Vector2f m_size;
     sf::View m_view;
 };
 

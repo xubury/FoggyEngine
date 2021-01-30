@@ -13,7 +13,7 @@
 #include "EntitySystem/Systems/SkinSystem.hpp"
 #include "GUI/Button.hpp"
 #include "GUI/Configuration.hpp"
-#include "GUI/Layout.hpp"
+#include "GUI/VLayout.hpp"
 #include "Player/Player.hpp"
 #include "ResourceManager/Resource.hpp"
 #include "TileMap/VMap.hpp"
@@ -177,11 +177,8 @@ void Game::update(sf::Time &delta_time) {
 void Game::render() {
     m_window.clear();
 
-    if (m_status == MainMenu) {
-        m_window.draw(m_main_menu);
-    } else {
-        m_viewer.draw();
-    }
+    if (m_status == Normal) m_viewer.draw();
+    m_main_menu.draw();
 
     m_window.display();
 }
@@ -189,15 +186,19 @@ void Game::render() {
 void Game::initGui() {
     auto *layout = new foggy::gui::VLayout();
     layout->setSpace(25);
+    sf::Font &font = foggy::Resource::instance().fonts.get(
+        foggy::Resource::instance().getResourceID("Font", "GUI"));
     auto *btn = new foggy::gui::TextButton(
-        "New", sf::Color::Green, sf::Color::White, 5,
-        foggy::Resource::instance().fonts.get(
-            foggy::Resource::instance().getResourceID("Font", "GUI")),
-        sf::Color::White);
+        "New", sf::Color::Green, sf::Color::White, 0, font, sf::Color::White);
+    auto *btn2 = new foggy::gui::TextButton(
+        "About", sf::Color::Green, sf::Color::White, 5, font, sf::Color::White);
     btn->onClick = [this](const sf::Event &, foggy::gui::Button &) {
         initWorld();
     };
     layout->add(btn);
+    layout->add(btn2);
+    m_main_menu.setPosition(60, 50);
+    m_main_menu.setSize(sf::Vector2f(500, 400));
     m_main_menu.setLayout(layout);
 }
 
@@ -224,5 +225,6 @@ void Game::initWorld() {
 
     m_player_id = m_app.entities.create<Player>();
     m_layer->Add(m_app.entities.getPtr(m_player_id));
+    m_main_menu.hide();
     m_status = Normal;
 }
