@@ -33,7 +33,7 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
         [s = lua_script.get()](const sf::Event &) { s->lua["move"](0, -20); });
     handle->bind(
         Configuration::PlayerInput::Down,
-        [s = lua_script.get()](const sf::Event &) { s->lua["squat"](); });
+        [s = lua_script.get()](const sf::Event &) { s->lua["move"](0, 20); });
     handle->bind(
         Configuration::PlayerInput::Down_Realeased,
         [s = lua_script.get()](const sf::Event &) { s->lua["stand"](); });
@@ -59,9 +59,7 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    const sf::Transform &trans =
-        component<foggy::component::Transform>()->getTransform();
-    states.transform = trans;
+    states.transform.translate(getPosition());
     if (has<foggy::component::Skin>()) {
         foggy::component::Skin::Handle skin =
             component<foggy::component::Skin>();

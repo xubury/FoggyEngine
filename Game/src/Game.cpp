@@ -209,28 +209,10 @@ void Game::initGui() {
 }
 
 void Game::initWorld() {
-    b2BodyDef body_def;
-    body_def.position.Set(0, foggy::converter::pixelsToMeters(80));
-    body_def.type = b2_staticBody;
-    uint32_t id = m_app.entities.create();
-    m_layer->Add(m_app.entities.getPtr(id));
-    foggy::component::Collision::Handle collsion =
-        m_app.entities.addComponent<foggy::component::Collision>(id, body_def);
-
-    float width = 800;
-    float height = 20;
-    b2PolygonShape b2polygon_shape;
-    b2polygon_shape.SetAsBox(foggy::converter::pixelsToMeters(width / 2),
-                             foggy::converter::pixelsToMeters(height / 2));
-    b2FixtureDef fixture;
-    fixture.density = 1.0;
-    fixture.friction = 1.0;
-    fixture.restitution = 0;
-    fixture.shape = &b2polygon_shape;
-    collsion->addFixture(fixture);
-
     m_player_id = m_app.entities.create<Player>();
     m_layer->Add(m_app.entities.getPtr(m_player_id));
+    m_app.entities.get(m_player_id)
+        .setPosition(m_viewer.mapTileToCoords(sf::Vector2i(2, 2)));
     m_main_menu.hide();
     m_status = Normal;
 }

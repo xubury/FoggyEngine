@@ -1,8 +1,10 @@
+#include "EntitySystem/Systems/CollisionSystem.hpp"
+
 #include <sol/sol.hpp>
 
 #include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/Transform.hpp"
-#include "EntitySystem/Systems/CollisionSystem.hpp"
+
 
 namespace foggy {
 namespace es {

@@ -1,9 +1,10 @@
+#include "EntitySystem/Entities/Entity.hpp"
+
 #include <box2d/box2d.h>
 
 #include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/Skin.hpp"
 #include "EntitySystem/Components/Transform.hpp"
-#include "EntitySystem/Entities/Entity.hpp"
 
 namespace foggy {
 namespace es {
@@ -19,10 +20,20 @@ DefaultEntity::DefaultEntity(foggy::es::EntityManager<DefaultEntity> *manager,
 
 void DefaultEntity::setPosition(const sf::Vector2f &pos) {
     component<component::Transform>()->setPosition(pos);
+    if (has<component::Collision>()) {
+        component<component::Collision>()->b2body_ref->SetTransform(
+            b2Vec2(converter::pixelsToMeters(pos.x),
+                   converter::pixelsToMeters(pos.y)),
+            getRotation());
+    }
 }
 
 sf::Vector2f DefaultEntity::getPosition() const {
     return component<component::Transform>()->getPosition();
+}
+
+float DefaultEntity::getRotation() const {
+    return component<component::Transform>()->getRotation();
 }
 
 void DefaultEntity::draw(sf::RenderTarget &target,
