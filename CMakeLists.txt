@@ -25,16 +25,17 @@ set(ES_Src
     Engine/EntitySystem/Systems/src/SkinSystem.cpp)
 
 set(GUI_Src
+    Engine/GUI/src/Configuration.cpp
     Engine/GUI/src/Widget.cpp
-    Engine/GUI/src/Label.cpp
-    Engine/GUI/src/Button.cpp
-    Engine/GUI/src/Frame.cpp
     Engine/GUI/src/Container.cpp
-    Engine/GUI/src/Layout.cpp
-    Engine/GUI/src/VLayout.cpp
+    Engine/GUI/src/Frame.cpp
+    Engine/GUI/src/Label.cpp
     Engine/GUI/src/Sprite.cpp
+    Engine/GUI/src/Button.cpp
+    Engine/GUI/src/TextButton.cpp
     Engine/GUI/src/SpriteButton.cpp
-    Engine/GUI/src/Configuration.cpp)
+    Engine/GUI/src/Layout.cpp
+    Engine/GUI/src/VLayout.cpp)
 
 set(TileMap_Src Engine/TileMap/src/VLayer.cpp Engine/TileMap/src/VMap.cpp
                 Engine/TileMap/src/Square.cpp Engine/TileMap/src/MapViewer.cpp)

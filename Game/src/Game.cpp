@@ -11,12 +11,13 @@
 #include "EntitySystem/Components/Transform.hpp"
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 #include "EntitySystem/Systems/SkinSystem.hpp"
-#include "GUI/Button.hpp"
 #include "GUI/Configuration.hpp"
+#include "GUI/TextButton.hpp"
 #include "GUI/VLayout.hpp"
 #include "Player/Player.hpp"
 #include "ResourceManager/Resource.hpp"
 #include "TileMap/VMap.hpp"
+
 
 Game::Game(int width, int height, const std::string &title)
     : m_window(sf::VideoMode(width, height), title),
