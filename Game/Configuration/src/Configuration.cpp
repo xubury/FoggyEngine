@@ -5,8 +5,7 @@
 #include "ResourceManager/Resource.hpp"
 
 foggy::ActionMap<int> Configuration::player_inputs;
-foggy::ResourceManager<foggy::as::Animation, Configuration::PlayerAnim>
-    Configuration::player_anims;
+foggy::ResourceManager<foggy::as::Animation, int> Configuration::player_anims;
 
 foggy::ActionMap<int> Configuration::map_inputs;
 
@@ -30,9 +29,6 @@ void Configuration::initializePlayerInputs() {
 }
 
 void Configuration::loadPlayerAnimation(int id, int texture_id) {
-    if (player_anims.count((PlayerAnim)id) == 0) {
-        player_anims.load((PlayerAnim)id);
-    }
-    foggy::as::Animation &anim = player_anims.get((PlayerAnim)id);
+    foggy::as::Animation &anim = player_anims.getOrLoad(id);
     anim.addFrame(&foggy::Resource::instance().textures.get(texture_id));
 }

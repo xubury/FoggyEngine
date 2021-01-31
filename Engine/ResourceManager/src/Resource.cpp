@@ -26,19 +26,27 @@ void Resource::runSrcipt(const std::string &filename) {
 
 int Resource::getResourceID(const std::string &table_name,
                             const std::string &name) {
-    sol::table table = lua()[table_name];
+    sol::object table = m_lua[table_name];
     if (!table.valid()) {
-        std::cout << "table name:" << table_name << " is invalid!" << std::endl;
-        return -1;
+        throw std::runtime_error("table name: " + table_name + " is invalid!");
     }
-    sol::object id = table[name];
+    sol::object id = table.as<sol::table>()[name];
     if (id.is<int>()) {
         return id.as<int>();
     } else {
-        std::cout << "field name:" << name << " in table:" << table_name
-                  << " is invalid!" << std::endl;
+        throw std::runtime_error("field name: " + name +
+                                 " in table: " + table_name + " is invalid!");
         return -1;
     }
+}
+
+sol::table Resource::GetResouceTable(const std::string &table_name) {
+    sol::object table = m_lua[table_name];
+    if (!table.valid()) {
+        throw std::runtime_error("table name: " + table_name + " is invalid!");
+        return sol::table();
+    }
+    return table;
 }
 
 void Resource::loadTexture(int id, const std::string &filename) {

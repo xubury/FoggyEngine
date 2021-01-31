@@ -26,17 +26,7 @@ class Configuration {
 
     static foggy::ActionMap<int> map_inputs;
 
-    enum PlayerAnim : int {
-        Idle,
-        Run,
-        Squat,
-        Sword_Attack_1,
-        Sword_Attack_2,
-        Sword_Attack_3
-    };
-
-    static foggy::ResourceManager<foggy::as::Animation, PlayerAnim>
-        player_anims;
+    static foggy::ResourceManager<foggy::as::Animation, int> player_anims;
 
     static void init();
 

@@ -1,3 +1,5 @@
+#include "Player/Player.hpp"
+
 #include <iostream>
 
 #include "Configuration/Configuration.hpp"
@@ -6,7 +8,6 @@
 #include "EntitySystem/Components/LuaScript.hpp"
 #include "EntitySystem/Components/Skin.hpp"
 #include "EntitySystem/Components/Transform.hpp"
-#include "Player/Player.hpp"
 
 Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     : foggy::es::DefaultEntity(manager, id), m_facing_right(true) {
@@ -46,26 +47,15 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
         Configuration::PlayerInput::Attack,
         [s = lua_script.get()](const sf::Event &) { s->lua["attack"](); });
 
-    skin->m_animations.emplace(
-        Configuration::PlayerAnim::Idle,
-        &Configuration::player_anims.get(Configuration::PlayerAnim::Idle));
-    skin->m_animations.emplace(
-        Configuration::PlayerAnim::Run,
-        &Configuration::player_anims.get(Configuration::PlayerAnim::Run));
-    skin->m_animations.emplace(
-        Configuration::PlayerAnim::Squat,
-        &Configuration::player_anims.get(Configuration::PlayerAnim::Squat));
-    skin->m_animations.emplace(Configuration::PlayerAnim::Sword_Attack_1,
-                               &Configuration::player_anims.get(
-                                   Configuration::PlayerAnim::Sword_Attack_1));
-    skin->m_animations.emplace(Configuration::PlayerAnim::Sword_Attack_2,
-                               &Configuration::player_anims.get(
-                                   Configuration::PlayerAnim::Sword_Attack_2));
-    skin->m_animations.emplace(Configuration::PlayerAnim::Sword_Attack_3,
-                               &Configuration::player_anims.get(
-                                   Configuration::PlayerAnim::Sword_Attack_3));
-    skin->m_sprite.setAnimation(
-        skin->m_animations.at(Configuration::PlayerAnim::Idle));
+    sol::table table =
+        foggy::Resource::instance().GetResouceTable("SwordsmanAnim");
+    for (const auto &[key, value] : table) {
+        skin->m_animations.emplace(
+            value.as<int>(), &Configuration::player_anims.get(value.as<int>()));
+    }
+    int resource_id =
+        foggy::Resource::instance().getResourceID("SwordsmanAnim", "Idle");
+    skin->m_sprite.setAnimation(skin->m_animations.at(resource_id));
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {

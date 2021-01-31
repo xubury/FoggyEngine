@@ -13,20 +13,22 @@ class Resource {
     Resource(const Resource &) = delete;
     Resource &operator=(const Resource &) = delete;
 
-    foggy::ResourceManager<sf::Texture, int> textures;
-
-    foggy::ResourceManager<sf::Font, int> fonts;
-
-    void runSrcipt(const std::string &filename);
-
-    int getResourceID(const std::string &table, const std::string &name);
-
     static Resource &instance() {
         static Resource s;
         return s;
     }
 
+    foggy::ResourceManager<sf::Texture, int> textures;
+
+    foggy::ResourceManager<sf::Font, int> fonts;
+
     static sol::state &lua() { return instance().m_lua; }
+
+    void runSrcipt(const std::string &filename);
+
+    int getResourceID(const std::string &table, const std::string &name);
+
+    sol::table GetResouceTable(const std::string &table);
 
    private:
     sol::state m_lua;
