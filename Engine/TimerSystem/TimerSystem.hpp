@@ -1,15 +1,17 @@
 #ifndef TIMERSYSTEM_H
 #define TIMERSYSTEM_H
 
-#include <functional>
 #include <SFML/System/Clock.hpp>
-#include "util/PriorityQueue.hpp"
+#include <functional>
+
+#include "Utils/PriorityQueue.hpp"
+
 
 namespace foggy {
 namespace ts {
 
 struct Timer {
-public:
+   public:
     using FuncType = std::function<void()>;
 
     Timer(const sf::Time &life_time, FuncType callback);
@@ -30,7 +32,7 @@ public:
 
     void restart();
 
-private:
+   private:
     sf::Clock m_spawn_timer;
     sf::Time m_life_time;
     FuncType m_callback;
@@ -46,7 +48,7 @@ class TimerSystem {
     PriorityQueue<Timer, std::vector<Timer>, Timer::LessRemainingTime> m_queue;
 };
 
-}  // namespace es
+}  // namespace ts
 }  // namespace foggy
 
 #endif /* TIMERSYSTEM_H */

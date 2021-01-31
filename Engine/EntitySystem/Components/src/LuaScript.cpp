@@ -1,10 +1,12 @@
 #define SOL_ALL_SAFETIES_ON 1
+#include "EntitySystem/Components/LuaScript.hpp"
+
 #include <box2d/box2d.h>
 
 #include "EntitySystem/Components/Collision.hpp"
-#include "EntitySystem/Components/LuaScript.hpp"
 #include "EntitySystem/Components/Skin.hpp"
-#include "util/converter.hpp"
+#include "Utils/Converter.hpp"
+
 namespace foggy {
 namespace component {
 

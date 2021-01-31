@@ -9,7 +9,7 @@
 #include "EntitySystem/Components/Component.hpp"
 #include "EntitySystem/Defines.hpp"
 #include "EntitySystem/Systems/System.hpp"
-#include "util/Memory.hpp"
+#include "Utils/Memory.hpp"
 
 namespace foggy {
 namespace es {

@@ -8,7 +8,7 @@ find_package(Lua REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(JSONCPP jsoncpp)
 
-set(Utils_Src Engine/util/src/Memory.cpp)
+set(Utils_Src Engine/Utils/src/Memory.cpp)
 
 set(Resource_Src Engine/ResourceManager/src/Resource.cpp)
 
@@ -48,7 +48,6 @@ set(Engine_Src
     ${Lua_Src}
     ${TileMap_Src}
     Engine/ActionSystem/src/Action.cpp
-    Engine/Camera/src/Camera.cpp
     Engine/TimerSystem/src/TimerSystem.cpp)
 
 add_executable(

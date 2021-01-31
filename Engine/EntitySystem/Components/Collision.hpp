@@ -6,7 +6,7 @@
 #include <SFML/Graphics/Shape.hpp>
 
 #include "EntitySystem/ES.hpp"
-#include "util/converter.hpp"
+#include "Utils/Converter.hpp"
 
 namespace foggy {
 namespace component {

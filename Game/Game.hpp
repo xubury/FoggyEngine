@@ -7,7 +7,6 @@
 #include <SFML/Graphics/Text.hpp>
 #include <list>
 
-#include "Camera/Camera.hpp"
 #include "EntitySystem/Application.hpp"
 #include "GUI/Frame.hpp"
 #include "Systems/HealthSystem.hpp"
