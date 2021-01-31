@@ -2,6 +2,15 @@ local machine = require 'res/scripts/libs/statemachine'
 local deque = require 'res/scripts/libs/deque'
 require 'res/scripts/Animation'
 
+Animation =  {
+    Idle = Swordsman.idle.id,
+    Run = Swordsman.run.id,
+    Squat = Swordsman.squat.id,
+    Sword_Attack_1 = Swordsman.attack1.id,
+    Sword_Attack_2 = Swordsman.attack2.id,
+    Sword_Attack_3 = Swordsman.attack3.id,
+}
+
 local PlayAttackAnim = function (id)
     C_setAnimation(id)
     C_setRepeat(1)
@@ -30,30 +39,30 @@ CompAnimation = {
         },
         callbacks = {
             onMove = function(self, event, from, to)
-                C_setAnimation(SwordsmanAnim.Run)
+                C_setAnimation(Animation.Run)
                 C_setLoop(true)
                 C_play()
             end,
             onReset = function(self, event, from, to)
-                C_setAnimation(SwordsmanAnim.Idle)
+                C_setAnimation(Animation.Idle)
                 C_setLoop(true)
                 C_play()
             end,
             onAttack = function(self, event, from, to)
                 if to == 'attack1' then
-                    PlayAttackAnim(SwordsmanAnim.Sword_Attack_1)
+                    PlayAttackAnim(Animation.Sword_Attack_1)
                     CompAnimation.anim_queue:push_right(function ()
                         CompAnimation.states:Reset()
                     end)
                 elseif to == 'attack2' then
                     CompAnimation.anim_queue:push_left(function ()
-                        PlayAttackAnim(SwordsmanAnim.Sword_Attack_2)
+                        PlayAttackAnim(Animation.Sword_Attack_2)
                     end)
                 elseif to == 'attack3' then
                     CompAnimation.anim_queue:pop_right()
                     CompAnimation.anim_queue:push_right(function ()
                         C_applyLinearImpulse(100 * front_x, 0)
-                        PlayAttackAnim(SwordsmanAnim.Sword_Attack_3)
+                        PlayAttackAnim(Animation.Sword_Attack_3)
                     end)
                     CompAnimation.anim_queue:push_right(function ()
                         CompAnimation.states:Reset()
@@ -61,7 +70,7 @@ CompAnimation = {
                 end
             end,
             onSquat = function (self, event, from, to)
-                C_setAnimation(SwordsmanAnim.Squat)
+                C_setAnimation(Animation.Squat)
                 C_setLoop(true)
                 C_play()
             end

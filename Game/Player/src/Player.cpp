@@ -12,7 +12,7 @@
 Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     : foggy::es::DefaultEntity(manager, id), m_facing_right(true) {
     auto lua_script = manager->addComponent<foggy::component::LuaScript>(id);
-    lua_script->initScript("res/scripts/Player.lua");
+    lua_script->initScript("res/scripts/Elf.lua");
     lua_script->lua.set_function(
         "C_applyLinearImpulse", [this](float x, float y) {
             b2Body *b2body_ref =
@@ -35,27 +35,18 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
         Configuration::PlayerInput::Down,
         [s = lua_script.get()](const sf::Event &) { s->lua["move"](0, 20); });
     handle->bind(
-        Configuration::PlayerInput::Down_Realeased,
-        [s = lua_script.get()](const sf::Event &) { s->lua["stand"](); });
-    handle->bind(
         Configuration::PlayerInput::Left,
         [s = lua_script.get()](const sf::Event &) { s->lua["move"](-20, 0); });
     handle->bind(
         Configuration::PlayerInput::Right,
         [s = lua_script.get()](const sf::Event &) { s->lua["move"](20, 0); });
-    handle->bind(
-        Configuration::PlayerInput::Attack,
-        [s = lua_script.get()](const sf::Event &) { s->lua["attack"](); });
 
-    sol::table table =
-        foggy::Resource::instance().GetResouceTable("SwordsmanAnim");
+    sol::table table = lua_script->lua["Animation"];
     for (const auto &[key, value] : table) {
         skin->m_animations.emplace(
             value.as<int>(), &Configuration::player_anims.get(value.as<int>()));
     }
-    int resource_id =
-        foggy::Resource::instance().getResourceID("SwordsmanAnim", "Idle");
-    skin->m_sprite.setAnimation(skin->m_animations.at(resource_id));
+    skin->m_sprite.setAnimation(skin->m_animations.at(table["Idle"]));
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {

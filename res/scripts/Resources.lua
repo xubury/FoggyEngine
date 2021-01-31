@@ -34,6 +34,16 @@ Textures = enum {
     "Swordsman_crouch_1",
     "Swordsman_crouch_2",
     "Swordsman_crouch_3",
+
+    "Elf_Male_Idle_0",
+    "Elf_Male_Idle_1",
+    "Elf_Male_Idle_2",
+    "Elf_Male_Idle_3",
+
+    "Elf_Male_Run_0",
+    "Elf_Male_Run_1",
+    "Elf_Male_Run_2",
+    "Elf_Male_Run_3",
 }
 
 Font = enum {
@@ -77,6 +87,16 @@ function loadResources()
     C_loadTexture(Textures.Swordsman_crouch_1, "res/player/Individual Sprites/adventurer-crouch-01.png");
     C_loadTexture(Textures.Swordsman_crouch_2, "res/player/Individual Sprites/adventurer-crouch-02.png");
     C_loadTexture(Textures.Swordsman_crouch_3, "res/player/Individual Sprites/adventurer-crouch-03.png");
+
+    C_loadTexture(Textures.Elf_Male_Idle_0, "res/player/elf/elf_m_idle_anim_f0.png");
+    C_loadTexture(Textures.Elf_Male_Idle_1, "res/player/elf/elf_m_idle_anim_f1.png");
+    C_loadTexture(Textures.Elf_Male_Idle_2, "res/player/elf/elf_m_idle_anim_f2.png");
+    C_loadTexture(Textures.Elf_Male_Idle_3, "res/player/elf/elf_m_idle_anim_f3.png");
+
+    C_loadTexture(Textures.Elf_Male_Run_0, "res/player/elf/elf_m_run_anim_f0.png");
+    C_loadTexture(Textures.Elf_Male_Run_1, "res/player/elf/elf_m_run_anim_f1.png");
+    C_loadTexture(Textures.Elf_Male_Run_2, "res/player/elf/elf_m_run_anim_f2.png");
+    C_loadTexture(Textures.Elf_Male_Run_3, "res/player/elf/elf_m_run_anim_f3.png");
 
     C_loadFont(Font.GUI, "res/font/arial.ttf");
     C_loadFont(Font.Fira, "res/font/fira.ttf");
