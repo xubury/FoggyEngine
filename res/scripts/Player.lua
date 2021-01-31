@@ -13,7 +13,7 @@ local front_x = 1
 
 CompAnimation = {
     anim_queue = deque.new(),
-    OnFinish = function ()
+    onFinished = function ()
         local q = CompAnimation.anim_queue:peek_left()
         q()
         CompAnimation.anim_queue:pop_left()
@@ -21,50 +21,46 @@ CompAnimation = {
     states = machine.create({
         initial = 'idle',
         events = {
-            {name = 'move',   from = 'idle',                                            to = 'run'},
-            {name = 'squat',  from = {'idle', 'run'},                                   to = 'squat'},
-            {name = 'attack', from = {'idle', 'run'},                                   to = 'attack0'},
-            {name = 'attack', from = 'attack0',                                         to = 'attack1'},
-            {name = 'attack', from = 'attack1',                                         to = 'attack2'},
-            {name = 'reset',  from = {'run', 'squat', 'attack0', 'attack1', 'attack2'}, to = 'idle'},
+            {name = 'Move',   from = 'idle',                                            to = 'run'},
+            {name = 'Squat',  from = {'idle', 'run'},                                   to = 'squat'},
+            {name = 'Attack', from = {'idle', 'run'},                                   to = 'attack1'},
+            {name = 'Attack', from = 'attack1',                                         to = 'attack2'},
+            {name = 'Attack', from = 'attack2',                                         to = 'attack3'},
+            {name = 'Reset',  from = {'run', 'squat', 'attack1', 'attack2', 'attack3'}, to = 'idle'},
         },
         callbacks = {
-            onmove = function(self, event, from, to)
+            onMove = function(self, event, from, to)
                 C_setAnimation(SwordsmanAnim.Run)
                 C_setLoop(true)
                 C_play()
             end,
-            onreset = function(self, event, from, to)
+            onReset = function(self, event, from, to)
                 C_setAnimation(SwordsmanAnim.Idle)
                 C_setLoop(true)
                 C_play()
             end,
-            onattack = function(self, event, from, to)
-                if to == 'attack0' then
+            onAttack = function(self, event, from, to)
+                if to == 'attack1' then
                     PlayAttackAnim(SwordsmanAnim.Sword_Attack_1)
                     CompAnimation.anim_queue:push_right(function ()
-                        CompAnimation.states:reset()
-                    end)
-                elseif to == 'attack1' then
-                    CompAnimation.anim_queue:pop_right()
-                    CompAnimation.anim_queue:push_right(function ()
-                        PlayAttackAnim(SwordsmanAnim.Sword_Attack_2)
-                    end)
-                    CompAnimation.anim_queue:push_right(function ()
-                        CompAnimation.states:reset()
+                        CompAnimation.states:Reset()
                     end)
                 elseif to == 'attack2' then
+                    CompAnimation.anim_queue:push_left(function ()
+                        PlayAttackAnim(SwordsmanAnim.Sword_Attack_2)
+                    end)
+                elseif to == 'attack3' then
                     CompAnimation.anim_queue:pop_right()
                     CompAnimation.anim_queue:push_right(function ()
                         C_applyLinearImpulse(100 * front_x, 0)
                         PlayAttackAnim(SwordsmanAnim.Sword_Attack_3)
                     end)
                     CompAnimation.anim_queue:push_right(function ()
-                        CompAnimation.states:reset()
+                        CompAnimation.states:Reset()
                     end)
                 end
             end,
-            onsquat = function (self, event, from, to)
+            onSquat = function (self, event, from, to)
                 C_setAnimation(SwordsmanAnim.Squat)
                 C_setLoop(true)
                 C_play()
@@ -93,7 +89,7 @@ function update()
     local x, y = C_getSpeed()
     local current = CompAnimation.states.current
     if current == 'run' and math.sqrt(x * x + y * y) < 50 / 32 then
-        CompAnimation.states:reset()
+        CompAnimation.states:Reset()
     end
 end
 
@@ -117,7 +113,7 @@ function move(x, y)
     if current_state == 'idle' or current_state == 'run' then
         C_applyLinearImpulse(x, y)
     end
-    CompAnimation.states:move()
+    CompAnimation.states:Move()
 end
 
 
@@ -128,15 +124,15 @@ function attack()
         return
     end
     last_attack_timer = attack_timer
-    CompAnimation.states:attack()
+    CompAnimation.states:Attack()
 end
 
 function squat()
-    CompAnimation.states:squat()
+    CompAnimation.states:Squat()
 end
 
 function stand()
-    CompAnimation.states:reset()
+    CompAnimation.states:Reset()
 end
 
 function isAttacking()

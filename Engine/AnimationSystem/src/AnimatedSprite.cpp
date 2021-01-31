@@ -9,7 +9,7 @@ AnimatedSprite::FuncType AnimatedSprite::default_func;
 AnimatedSprite::AnimatedSprite(Animation *animation, Status status,
                                const sf::Time &delta_time, bool loop,
                                int repeat)
-    : OnFinished(nullptr),
+    : onFinished(nullptr),
       m_status(status),
       m_delta_time(delta_time),
       m_loop(loop),
@@ -82,8 +82,8 @@ void AnimatedSprite::update(const sf::Time &delta_time) {
                     --m_repeat;
                     if (m_repeat <= 0) {
                         m_status = Stopped;
-                        if (OnFinished != nullptr) {
-                            OnFinished();
+                        if (onFinished != nullptr) {
+                            onFinished();
                         }
                         // if (!OnFinishd.empty() && OnFinishd.top() != nullptr)
                         // {
@@ -104,14 +104,10 @@ void AnimatedSprite::setFrame(std::size_t index, bool reset_time) {
         m_texture = m_animation->getFrame(index);
         float width = m_texture->getSize().x;
         float height = m_texture->getSize().y;
-        m_vertices[0].position =
-            sf::Vector2f(-width / 2, -height / 2);
-        m_vertices[1].position =
-            sf::Vector2f(-width / 2, height / 2);
-        m_vertices[2].position =
-            sf::Vector2f(width / 2, height / 2);
-        m_vertices[3].position =
-            sf::Vector2f(width / 2, -height / 2);
+        m_vertices[0].position = sf::Vector2f(-width / 2, -height / 2);
+        m_vertices[1].position = sf::Vector2f(-width / 2, height / 2);
+        m_vertices[2].position = sf::Vector2f(width / 2, height / 2);
+        m_vertices[3].position = sf::Vector2f(width / 2, -height / 2);
 
         m_vertices[0].texCoords = sf::Vector2f(0, 0);
         m_vertices[1].texCoords = sf::Vector2f(0, height);

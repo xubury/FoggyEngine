@@ -1,7 +1,8 @@
+#include "EntitySystem/Components/Skin.hpp"
+
 #include <utility>
 
 #include "EntitySystem/Components/LuaScript.hpp"
-#include "EntitySystem/Components/Skin.hpp"
 
 namespace foggy {
 namespace component {
@@ -30,7 +31,7 @@ void Skin::registerLuaScript() {
     });
     lua.set_function("C_setSpriteScale",
                      [this](float x, float y) { m_sprite.setScale(x, y); });
-    m_sprite.OnFinished = [&lua]() { lua["CompAnimation"]["OnFinish"](); };
+    m_sprite.onFinished = [&lua]() { lua["CompAnimation"]["onFinished"](); };
 }
 
 }  // namespace component
