@@ -1,6 +1,6 @@
-local machine = require 'res/scripts/statemachine'
+local machine = require 'res/scripts/libs/statemachine'
+local deque = require 'res/scripts/libs/deque'
 require 'res/scripts/Animation'
-local deque = require 'res/scripts/deque'
 
 local PlayAttackAnim = function (id)
     C_setAnimation(id)
