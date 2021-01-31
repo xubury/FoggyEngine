@@ -40,7 +40,6 @@ CompAnimation = {
                 C_play()
             end,
             onattack = function(self, event, from, to)
-                print(to)
                 if to == 'attack0' then
                     PlayAttackAnim(SwordsmanAnim.Sword_Attack_1)
                     CompAnimation.anim_queue:push_right(function ()
