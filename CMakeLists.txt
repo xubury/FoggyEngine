@@ -35,7 +35,8 @@ set(GUI_Src
     Engine/GUI/src/TextButton.cpp
     Engine/GUI/src/SpriteButton.cpp
     Engine/GUI/src/Layout.cpp
-    Engine/GUI/src/VLayout.cpp)
+    Engine/GUI/src/VLayout.cpp
+    Engine/GUI/src/Hlayout.cpp)
 
 set(TileMap_Src Engine/TileMap/src/VLayer.cpp Engine/TileMap/src/VMap.cpp
                 Engine/TileMap/src/Square.cpp Engine/TileMap/src/MapViewer.cpp)

@@ -12,12 +12,12 @@
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 #include "EntitySystem/Systems/SkinSystem.hpp"
 #include "GUI/Configuration.hpp"
+#include "GUI/HLayout.hpp"
 #include "GUI/TextButton.hpp"
 #include "GUI/VLayout.hpp"
 #include "Player/Player.hpp"
 #include "ResourceManager/Resource.hpp"
 #include "TileMap/VMap.hpp"
-
 
 Game::Game(int width, int height, const std::string &title)
     : m_window(sf::VideoMode(width, height), title),
@@ -185,7 +185,7 @@ void Game::render() {
 }
 
 void Game::initGui() {
-    auto *layout = new foggy::gui::VLayout();
+    auto *layout = new foggy::gui::HLayout();
     layout->setSpace(25);
     sf::Font &font = foggy::Resource::instance().fonts.get(
         foggy::Resource::instance().getResourceID("Font", "GUI"));
@@ -197,10 +197,10 @@ void Game::initGui() {
         initWorld();
     };
     layout->add(btn);
-    layout->add(btn2);
     auto *layout2 = new foggy::gui::VLayout();
     auto *btn3 = new foggy::gui::TextButton(
         "test", sf::Color::Green, sf::Color::White, 5, font, sf::Color::White);
+    layout2->add(btn2);
     layout2->add(btn3);
     layout->add(layout2);
     m_main_menu.setPosition(60, 50);

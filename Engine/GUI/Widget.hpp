@@ -26,6 +26,7 @@ class Widget : public sf::Drawable {
    protected:
     friend class Container;
     friend class VLayout;
+    friend class HLayout;
     virtual bool processEvent(const sf::Event &event,
                               const sf::Vector2f &parent_pos);
     virtual void processEvents(const sf::Vector2f &parent_pos);
