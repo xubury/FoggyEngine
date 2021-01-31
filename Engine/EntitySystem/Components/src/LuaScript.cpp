@@ -1,9 +1,9 @@
+#include "EntitySystem/Components/Transform.hpp"
 #define SOL_ALL_SAFETIES_ON 1
-#include "EntitySystem/Components/LuaScript.hpp"
-
 #include <box2d/box2d.h>
 
 #include "EntitySystem/Components/Collision.hpp"
+#include "EntitySystem/Components/LuaScript.hpp"
 #include "EntitySystem/Components/Skin.hpp"
 #include "Utils/Converter.hpp"
 
@@ -68,12 +68,16 @@ void LuaScript::initSkin() {
 
 void LuaScript::populatePolygonFixture(sol::table &table) {
     auto collision = manager()->getComponent<component::Collision>(ownerID());
+    auto trans = manager()->getComponent<component::Transform>(ownerID());
+    sf::Vector2f scale = trans->getScale();
     sol::table vertices_table = table["vertices"];
     std::vector<b2Vec2> vertices;
     for (const auto &pair : vertices_table) {
         sol::table pos = pair.second;
         float x = pos["x"];
         float y = pos["y"];
+        x *= scale.x;
+        y *= scale.y;
         vertices.emplace_back(converter::pixelsToMeters(x),
                               converter::pixelsToMeters(y));
     }
@@ -82,6 +86,7 @@ void LuaScript::populatePolygonFixture(sol::table &table) {
     b2shape.Set(vertices.data(), vertices.size());
     b2FixtureDef fixture_def;
     fixture_def.density = table["density"];
+    fixture_def.density /= (scale.x * scale.y);
     fixture_def.friction = table["friction"];
     fixture_def.restitution = table["restitution"];
     fixture_def.shape = &b2shape;

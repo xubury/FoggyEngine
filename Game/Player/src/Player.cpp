@@ -11,6 +11,7 @@
 
 Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     : foggy::es::DefaultEntity(manager, id), m_facing_right(true) {
+    component<foggy::component::Transform>()->setScale(2.f, 2.f);
     auto lua_script = manager->addComponent<foggy::component::LuaScript>(id);
     lua_script->initScript("res/scripts/Elf.lua");
     lua_script->lua.set_function(
@@ -50,7 +51,9 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    states.transform.translate(getPosition());
+    const sf::Transform &trans =
+        component<foggy::component::Transform>()->getTransform();
+    states.transform = trans;
     if (has<foggy::component::Skin>()) {
         foggy::component::Skin::Handle skin =
             component<foggy::component::Skin>();

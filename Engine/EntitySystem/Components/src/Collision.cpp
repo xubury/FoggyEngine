@@ -1,7 +1,8 @@
+#include "EntitySystem/Components/Collision.hpp"
+
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/ConvexShape.hpp>
 
-#include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/Transform.hpp"
 #include "EntitySystem/Systems/CollisionSystem.hpp"
 
@@ -48,7 +49,7 @@ void Collision::addFixture(const b2FixtureDef &fixture) {
             b2Vec2 pt = rect->m_vertices[i];
             convex->setPoint(
                 i, sf::Vector2f(converter::metersToPixels(pt.x / scale.x),
-                                converter::metersToPixels(-pt.y / scale.y)));
+                                converter::metersToPixels(pt.y / scale.y)));
         }
     }
     debug_shape.back()->setFillColor(sf::Color::Transparent);

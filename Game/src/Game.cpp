@@ -89,7 +89,7 @@ void Game::processEvent() {
 }
 
 void Game::processEvents() {
-    // processMouseEvents();
+    processMouseEvents();
     switch (m_status) {
         case Normal: {
             foggy::component::Controller::Handle controller;
@@ -203,7 +203,7 @@ void Game::initGui() {
     layout2->add(btn2);
     layout2->add(btn3);
     layout->add(layout2);
-    m_main_menu.setPosition(60, 50);
+    m_main_menu.setPosition(400, 100);
     m_main_menu.setSize(sf::Vector2f(500, 400));
     m_main_menu.setLayout(layout);
 }

@@ -44,8 +44,8 @@ CompCollision = {
         body = {
             shape = "Polygon",
             center = {0.5, 0.5},
-            vertices = {{x = -7.5, y = 17.5}, {x = -7.5, y = -17.5}, {x = 7.5, y = -17.5}, {x = 7.5, y = 17.5}},
-            density = 0.5 / (15 /32 * 32.5 /32),
+            vertices = {{x = -7.5, y = 14}, {x = -7.5, y = -6}, {x = 7.5, y = -6}, {x = 7.5, y = 14}},
+            density = 0.5 / (15 / 32 * 22 / 32),
             friction = 1,
             restitution = 0
         }
