@@ -1,12 +1,12 @@
 require 'res/scripts/Resources'
 
-SwordsmanAnim = {
-    Idle           = 0,
-    Run            = 1,
-    Squat          = 2,
-    Sword_Attack_1 = 3,
-    Sword_Attack_2 = 4,
-    Sword_Attack_3 = 5
+SwordsmanAnim = enum {
+    "Idle"          ,
+    "Run"           ,
+    "Squat"         ,
+    "Sword_Attack_1",
+    "Sword_Attack_2",
+    "Sword_Attack_3"
 }
 
 Animation = {

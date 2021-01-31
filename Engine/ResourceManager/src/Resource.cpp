@@ -31,7 +31,7 @@ int Resource::getResourceID(const std::string &table_name,
         throw std::runtime_error("table name: " + table_name + " is invalid!");
     }
     sol::object id = table.as<sol::table>()[name];
-    if (id.is<int>()) {
+    if (id.valid() && id.is<int>()) {
         return id.as<int>();
     } else {
         throw std::runtime_error("field name: " + name +
