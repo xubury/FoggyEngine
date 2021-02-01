@@ -26,3 +26,4 @@ Features
 Demo
 ------
 <img src="https://github.com/xubury/FoggyEngine/blob/master/res/demo/attack-demo.gif" width="400" height="300" />
+<img src="https://github.com/xubury/FoggyEngine/blob/master/res/demo/tile-gui-demo.gif" width="360" height="300" />
