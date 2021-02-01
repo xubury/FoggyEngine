@@ -4,7 +4,6 @@
 
 #include "GUI/Configuration.hpp"
 
-
 namespace foggy {
 namespace gui {
 

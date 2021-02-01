@@ -190,16 +190,16 @@ void Game::initGui() {
     sf::Font &font = foggy::Resource::instance().fonts.get(
         foggy::Resource::instance().getResourceID("Font", "GUI"));
     auto *btn = new foggy::gui::TextButton(
-        "New", sf::Color::Green, sf::Color::White, 0, font, sf::Color::White);
+        "New", sf::Color::Black, sf::Color::White, 1, font, sf::Color::White);
     auto *btn2 = new foggy::gui::TextButton(
-        "About", sf::Color::Green, sf::Color::White, 5, font, sf::Color::White);
+        "About", sf::Color::Black, sf::Color::White, 1, font, sf::Color::White);
     btn->onClick = [this](const sf::Event &, foggy::gui::Button &) {
         initWorld();
     };
     layout->add(btn);
     auto *layout2 = new foggy::gui::VLayout();
     auto *btn3 = new foggy::gui::TextButton(
-        "test", sf::Color::Green, sf::Color::White, 5, font, sf::Color::White);
+        "test", sf::Color::Black, sf::Color::White, 1, font, sf::Color::White);
     layout2->add(btn2);
     layout2->add(btn3);
     layout->add(layout2);
