@@ -13,7 +13,7 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     : foggy::es::DefaultEntity(manager, id), m_facing_right(true) {
     component<foggy::component::Transform>()->setScale(2.f, 2.f);
     auto lua_script = manager->addComponent<foggy::component::LuaScript>(id);
-    lua_script->initScript("res/scripts/Elf.lua");
+    lua_script->initScript("res/scripts/characters/Elf.lua");
     lua_script->lua.set_function(
         "C_applyLinearImpulse", [this](float x, float y) {
             b2Body *b2body_ref =
