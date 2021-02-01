@@ -24,8 +24,6 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
                 b2body_ref->GetWorldCenter(), true);
         });
 
-    auto skin = component<foggy::component::Skin>();
-
     foggy::component::Controller::Handle handle =
         manager->addComponent<foggy::component::Controller>(
             id, Configuration::player_inputs);
@@ -41,13 +39,6 @@ Player::Player(foggy::es::EntityManager<DefaultEntity> *manager, uint32_t id)
     handle->bind(
         Configuration::PlayerInput::Right,
         [s = lua_script.get()](const sf::Event &) { s->lua["move"](20, 0); });
-
-    sol::table table = lua_script->lua["Animation"];
-    for (const auto &[key, value] : table) {
-        skin->m_animations.emplace(
-            value.as<int>(), &Configuration::player_anims.get(value.as<int>()));
-    }
-    skin->m_sprite.setAnimation(skin->m_animations.at(table["Idle"]));
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {

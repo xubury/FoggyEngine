@@ -26,14 +26,11 @@ class Configuration {
 
     static foggy::ActionMap<int> map_inputs;
 
-    static foggy::ResourceManager<foggy::as::Animation, int> player_anims;
-
     static void init();
 
    private:
     static void initializePlayerInputs();
 
-    static void loadPlayerAnimation(int id, int texture_id);
     static struct __Initializer {
         __Initializer() { Configuration::init(); };
     } __initializer__;

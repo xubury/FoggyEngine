@@ -22,6 +22,8 @@ class Resource {
 
     foggy::ResourceManager<sf::Font, int> fonts;
 
+    foggy::ResourceManager<foggy::as::Animation, int> character_anims;
+
     static sol::state &lua() { return instance().m_lua; }
 
     void runSrcipt(const std::string &filename);
@@ -38,7 +40,7 @@ class Resource {
     void initLua();
     void loadTexture(int id, const std::string &name);
     void loadFont(int id, const std::string &name);
-    void loadAnimation(int id, int texture_id);
+    void loadCharacterAnimation(int id, int texture_id);
 };
 
 }  // namespace foggy

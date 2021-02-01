@@ -11,8 +11,14 @@ void Resource::initLua() {
                        [this](int id, const std::string &name) {
                            this->loadTexture(id, name);
                        });
+    m_lua.set_function("C_loadCharacterAnimation",
+                       [this](int id, int texture_id) {
+                           this->loadCharacterAnimation(id, texture_id);
+                       });
     runSrcipt("res/scripts/Resources.lua");
+    runSrcipt("res/scripts/Animation.lua");
     m_lua["loadResources"]();
+    m_lua["initAnimation"]();
 }
 
 void Resource::runSrcipt(const std::string &filename) {
@@ -55,6 +61,11 @@ void Resource::loadTexture(int id, const std::string &filename) {
 
 void Resource::loadFont(int id, const std::string &filename) {
     fonts.load(id, filename);
+}
+
+void Resource::loadCharacterAnimation(int id, int texture_id) {
+    as::Animation &anim = character_anims.getOrLoad(id);
+    anim.addFrame(&textures.get(texture_id));
 }
 
 }  // namespace foggy

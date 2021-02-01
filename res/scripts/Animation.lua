@@ -1,6 +1,6 @@
 require 'res/scripts/Resources'
 
-local Animation = enum {
+local CharAnimTable = enum {
     "Swordsman_Idle",
     "Swordsman_Run",
     "Swordsman_Squat",
@@ -11,9 +11,11 @@ local Animation = enum {
     "ElfMale_Run"
 }
 
-ElfMale = {
+CharAnimation = {}
+
+CharAnimation.ElfMale = {
     idle = {
-        id = Animation.ElfMale_Idle,
+        id = CharAnimTable.ElfMale_Idle,
         frames = {
             Textures.Elf_Male_Idle_0,
             Textures.Elf_Male_Idle_1,
@@ -22,7 +24,7 @@ ElfMale = {
         }
     },
     run = {
-        id = Animation.ElfMale_Run,
+        id = CharAnimTable.ElfMale_Run,
         frames = {
             Textures.Elf_Male_Run_0,
             Textures.Elf_Male_Run_1,
@@ -32,16 +34,16 @@ ElfMale = {
     }
 }
 
-Swordsman = {
+CharAnimation.Swordsman = {
     idle = {
-        id = Animation.Swordsman_Idle,
+        id = CharAnimTable.Swordsman_Idle,
         frames = {Textures.Swordsman_idle_0,
                   Textures.Swordsman_idle_1,
                   Textures.Swordsman_idle_2
         },
     },
     run = {
-        id = Animation.Swordsman_Run,
+        id = CharAnimTable.Swordsman_Run,
         frames = {Textures.Swordsman_run_0,
                   Textures.Swordsman_run_1,
                   Textures.Swordsman_run_2,
@@ -51,7 +53,7 @@ Swordsman = {
         }
     },
     squat = {
-        id = Animation.Swordsman_Squat,
+        id = CharAnimTable.Swordsman_Squat,
         frames = {Textures.Swordsman_crouch_0,
                   Textures.Swordsman_crouch_1,
                   Textures.Swordsman_crouch_2,
@@ -59,7 +61,7 @@ Swordsman = {
         }
     },
     attack1 = {
-        id = Animation.Swordsman_Attack_1,
+        id = CharAnimTable.Swordsman_Attack_1,
         frames = {Textures.Swordsman_attack1_0,
                   Textures.Swordsman_attack1_1,
                   Textures.Swordsman_attack1_2,
@@ -67,7 +69,7 @@ Swordsman = {
         }
     },
     attack2 = {
-        id = Animation.Swordsman_Attack_2,
+        id = CharAnimTable.Swordsman_Attack_2,
         frames = {Textures.Swordsman_attack2_0,
                   Textures.Swordsman_attack2_1,
                   Textures.Swordsman_attack2_2,
@@ -77,7 +79,7 @@ Swordsman = {
         }
     },
     attack3 = {
-        id = Animation.Swordsman_Attack_3,
+        id = CharAnimTable.Swordsman_Attack_3,
         frames = {Textures.Swordsman_attack3_0,
                   Textures.Swordsman_attack3_1,
                   Textures.Swordsman_attack3_2,
@@ -88,15 +90,15 @@ Swordsman = {
     }
 }
 
-function loadAnimation(t)
+function loadCharacterAnimation(t)
     for k,v in pairs(t) do
         for i = 1, #v.frames do
-            C_loadAnimation(v.id, v.frames[i])
+            C_loadCharacterAnimation(v.id, v.frames[i])
         end
     end
 end
 
 function initAnimation()
-    loadAnimation(Swordsman)
-    loadAnimation(ElfMale)
+    loadCharacterAnimation(CharAnimation.Swordsman)
+    loadCharacterAnimation(CharAnimation.ElfMale)
 end

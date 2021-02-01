@@ -2,18 +2,15 @@ local machine = require 'res/scripts/libs/statemachine'
 local deque = require 'res/scripts/libs/deque'
 require 'res/scripts/Animation'
 
-Animation =  {
-    Idle = ElfMale.idle.id,
-    Run = ElfMale.run.id
-}
-
-local front_x = 1
 CompAnimation = {
-    anim_queue = deque.new(),
-    onFinished = function ()
-        local q = CompAnimation.anim_queue:peek_left()
-        q()
-        CompAnimation.anim_queue:pop_left()
+    Animation =  {
+        Idle = CharAnimation.ElfMale.idle.id,
+        Run = CharAnimation.ElfMale.run.id
+    },
+    initialize = function ()
+        C_setAnimation(CompAnimation.Animation.Idle)
+        C_setLoop(true)
+        C_play()
     end,
     states = machine.create({
         initial = 'idle',
@@ -23,12 +20,12 @@ CompAnimation = {
         },
         callbacks = {
             onMove = function(self, event, from, to)
-                C_setAnimation(Animation.Run)
+                C_setAnimation(CompAnimation.Animation.Run)
                 C_setLoop(true)
                 C_play()
             end,
             onReset = function(self, event, from, to)
-                C_setAnimation(Animation.Idle)
+                C_setAnimation(CompAnimation.Animation.Idle)
                 C_setLoop(true)
                 C_play()
             end
@@ -60,6 +57,7 @@ function update()
     end
 end
 
+local front_x = 1
 local last_move_timer = os.clock()
 function move(x, y)
     local current_state = CompAnimation.states.current

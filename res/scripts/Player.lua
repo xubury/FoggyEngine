@@ -3,12 +3,12 @@ local deque = require 'res/scripts/libs/deque'
 require 'res/scripts/Animation'
 
 Animation =  {
-    Idle = Swordsman.idle.id,
-    Run = Swordsman.run.id,
-    Squat = Swordsman.squat.id,
-    Sword_Attack_1 = Swordsman.attack1.id,
-    Sword_Attack_2 = Swordsman.attack2.id,
-    Sword_Attack_3 = Swordsman.attack3.id,
+    Idle = CharAnimation.Swordsman.idle.id,
+    Run = CharAnimation.Swordsman.run.id,
+    Squat = CharAnimation.Swordsman.squat.id,
+    Sword_Attack_1 = CharAnimation.Swordsman.attack1.id,
+    Sword_Attack_2 = CharAnimation.Swordsman.attack2.id,
+    Sword_Attack_3 = CharAnimation.Swordsman.attack3.id,
 }
 
 local PlayAttackAnim = function (id)

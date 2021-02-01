@@ -5,6 +5,7 @@
 #include "EntitySystem/Components/Collision.hpp"
 #include "EntitySystem/Components/LuaScript.hpp"
 #include "EntitySystem/Components/Skin.hpp"
+#include "ResourceManager/Resource.hpp"
 #include "Utils/Converter.hpp"
 
 namespace foggy {
@@ -63,6 +64,14 @@ void LuaScript::initSkin() {
     if (comp.is<sol::table>()) {
         auto skin = manager()->addComponent<component::Skin>(ownerID());
         skin->registerLuaScript();
+
+        sol::table table = comp.as<sol::table>()["Animation"];
+        for (const auto &[key, value] : table) {
+            skin->m_animations.emplace(
+                value.as<int>(),
+                &Resource::instance().character_anims.get(value.as<int>()));
+        }
+        comp.as<sol::table>()["initialize"]();
     }
 }
 
