@@ -1,5 +1,5 @@
-#ifndef TRANSFORM_H
-#define TRANSFORM_H
+#ifndef TRANSFORM_HPP
+#define TRANSFORM_HPP
 
 #include <SFML/Graphics/Transformable.hpp>
 #include <iostream>
@@ -18,4 +18,4 @@ struct Transform : es::Component<Transform, es::DefaultEntity>,
 }  // namespace component
 }  // namespace foggy
 
-#endif /* TRANSFORM_H */
+#endif /* TRANSFORM_HPP */

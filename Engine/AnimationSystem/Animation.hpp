@@ -1,5 +1,5 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
+#ifndef ANIMATION_HPP
+#define ANIMATION_HPP
 
 #include <SFML/Graphics.hpp>
 namespace foggy {
@@ -23,4 +23,4 @@ class Animation {
 }  // namespace as
 }  // namespace foggy
 
-#endif /* ANIMATION_H */
+#endif /* ANIMATION_HPP */

@@ -1,5 +1,5 @@
-#ifndef SPRITE_H
-#define SPRITE_H
+#ifndef SPRITE_HPP
+#define SPRITE_HPP
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -35,4 +35,4 @@ class Sprite : virtual public Widget {
 }  // namespace gui
 }  // namespace foggy
 
-#endif /* SPRITE_H */
+#endif /* SPRITE_HPP */

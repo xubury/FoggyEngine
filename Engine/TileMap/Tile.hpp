@@ -1,5 +1,5 @@
-#ifndef TILE_H
-#define TILE_H
+#ifndef TILE_HPP
+#define TILE_HPP
 
 #include <SFML/Graphics.hpp>
 
@@ -133,4 +133,4 @@ inline void Tile<GEOMETRY>::draw(sf::RenderTarget& target,
 
 }  // namespace foggy
 
-#endif /* TILE_H */
+#endif /* TILE_HPP */

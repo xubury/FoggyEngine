@@ -1,5 +1,5 @@
-#ifndef HEALTHSYSTEM_H
-#define HEALTHSYSTEM_H
+#ifndef HEALTHSYSTEM_HPP
+#define HEALTHSYSTEM_HPP
 
 #include "EntitySystem/Entities/Entity.hpp"
 
@@ -16,4 +16,4 @@ class HealthSystem
         const sf::Time &delta_time) override;
 };
 
-#endif /* HEALTHSYSTEM_H */
+#endif /* HEALTHSYSTEM_HPP */

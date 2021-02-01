@@ -1,5 +1,5 @@
-#ifndef ANIMATEDSPRITE_H
-#define ANIMATEDSPRITE_H
+#ifndef ANIMATEDSPRITE_HPP
+#define ANIMATEDSPRITE_HPP
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
@@ -70,4 +70,4 @@ class AnimatedSprite : public sf::Drawable, public sf::Transformable {
 }  // namespace as
 }  // namespace foggy
 
-#endif /* ANIMATEDSPRITE_H */
+#endif /* ANIMATEDSPRITE_HPP */

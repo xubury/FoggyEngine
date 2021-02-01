@@ -1,5 +1,5 @@
-#ifndef CONTAINER_H
-#define CONTAINER_H
+#ifndef CONTAINER_HPP
+#define CONTAINER_HPP
 
 #include <SFML/Graphics/RectangleShape.hpp>
 
@@ -43,4 +43,4 @@ class Container : virtual public Widget {
 }  // namespace gui
 }  // namespace foggy
 
-#endif /* CONTAINER_H */
+#endif /* CONTAINER_HPP */

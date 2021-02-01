@@ -1,5 +1,5 @@
-#ifndef ENTITYMANAGER_H
-#define ENTITYMANAGER_H
+#ifndef ENTITYMANAGER_HPP
+#define ENTITYMANAGER_HPP
 #include <algorithm>
 #include <bitset>
 #include <list>
@@ -560,4 +560,4 @@ bool EntityManager<ENTITY>::View<COMPONENT...>::Iterator::operator!=(
 }  // namespace es
 }  // namespace foggy
 
-#endif /* ENTITYMANAGER_H */
+#endif /* ENTITYMANAGER_HPP */

@@ -1,5 +1,5 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
 
 #include "EntitySystem/Entities/Entity.hpp"
 #include "EntitySystem/Systems/CollisionSystem.hpp"
@@ -18,4 +18,4 @@ class Player : public foggy::es::DefaultEntity {
     bool m_facing_right;
 };
 
-#endif /* PLAYER_H */
+#endif /* PLAYER_HPP */

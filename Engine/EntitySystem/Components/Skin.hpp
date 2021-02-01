@@ -1,5 +1,5 @@
-#ifndef SKIN_H
-#define SKIN_H
+#ifndef SKIN_HPP
+#define SKIN_HPP
 
 #include <sol/sol.hpp>
 
@@ -23,4 +23,4 @@ struct Skin : es::Component<Skin, es::DefaultEntity> {
 }  // namespace component
 }  // namespace foggy
 
-#endif /* SKIN_H */
+#endif /* SKIN_HPP */

@@ -1,5 +1,5 @@
-#ifndef SKINSYSTEM_H
-#define SKINSYSTEM_H
+#ifndef SKINSYSTEM_HPP
+#define SKINSYSTEM_HPP
 
 #include "EntitySystem/ES.hpp"
 #include "EntitySystem/Entities/Entity.hpp"
@@ -17,4 +17,4 @@ class SkinSystem : public es::System<component::Skin, es::DefaultEntity> {
 }  // namespace es
 }  // namespace foggy
 
-#endif /* SKINSYSTEM_H */
+#endif /* SKINSYSTEM_HPP */

@@ -1,5 +1,5 @@
-#ifndef SYSTEM_H
-#define SYSTEM_H
+#ifndef SYSTEM_HPP
+#define SYSTEM_HPP
 
 #include <SFML/System.hpp>
 #include <cassert>
@@ -92,8 +92,7 @@ SystemManager<ENTITY>::SystemManager(EntityManager<ENTITY>& manager)
 
 template <typename ENTITY>
 void SystemManager<ENTITY>::updateAll(const sf::Time& deltaTime) {
-    for (auto& pair : m_systems)
-        pair.second->update(m_manager, deltaTime);
+    for (auto& pair : m_systems) pair.second->update(m_manager, deltaTime);
 }
 
 template <typename ENTITY>
@@ -142,4 +141,4 @@ inline void SystemManager<ENTITY>::update(const sf::Time& deltaTime) {
 }  // namespace es
 }  // namespace foggy
 
-#endif /* SYSTEM_H */
+#endif /* SYSTEM_HPP */

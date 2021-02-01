@@ -1,5 +1,5 @@
-#ifndef MAPVIEWER_H
-#define MAPVIEWER_H
+#ifndef MAPVIEWER_HPP
+#define MAPVIEWER_HPP
 
 #include <SFML/Graphics.hpp>
 
@@ -72,4 +72,4 @@ class MapViewer : public sf::Drawable, protected ActionTarget<int> {
 
 }  // namespace foggy
 
-#endif /* MAPVIEWER_H */
+#endif /* MAPVIEWER_HPP */

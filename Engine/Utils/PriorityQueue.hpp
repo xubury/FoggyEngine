@@ -1,5 +1,5 @@
-#ifndef PRIORITYQUEUE_H
-#define PRIORITYQUEUE_H
+#ifndef PRIORITYQUEUE_HPP
+#define PRIORITYQUEUE_HPP
 #include <algorithm>
 #include <queue>
 namespace foggy {
@@ -40,4 +40,4 @@ bool PriorityQueue<T, Container, Compare>::remove(Predicate pred) {
 
 }  // namespace foggy
 
-#endif /* PRIORITYQUEUE_H */
+#endif /* PRIORITYQUEUE_HPP */

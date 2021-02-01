@@ -1,5 +1,5 @@
-#ifndef VMAP_H
-#define VMAP_H
+#ifndef VMAP_HPP
+#define VMAP_HPP
 
 #include <json/json.h>
 #include <json/value.h>
@@ -68,4 +68,4 @@ class VMap {
 };
 }  // namespace foggy
 
-#endif /* VMAP_H */
+#endif /* VMAP_HPP */

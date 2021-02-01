@@ -1,5 +1,5 @@
-#ifndef LABEL_H
-#define LABEL_H
+#ifndef LABEL_HPP
+#define LABEL_HPP
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -36,4 +36,4 @@ class Label : public Widget {
 }  // namespace gui
 }  // namespace foggy
 
-#endif /* LABEL_H */
+#endif /* LABEL_HPP */

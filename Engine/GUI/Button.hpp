@@ -1,5 +1,5 @@
-#ifndef BUTTON_H
-#define BUTTON_H
+#ifndef BUTTON_HPP
+#define BUTTON_HPP
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -33,4 +33,4 @@ class Button : virtual public Widget {
 }  // namespace gui
 }  // namespace foggy
 
-#endif /* BUTTON_H */
+#endif /* BUTTON_HPP */

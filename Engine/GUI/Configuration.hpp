@@ -1,5 +1,5 @@
-#ifndef GUI_CONFIGURATION_H
-#define GUI_CONFIGURATION_H
+#ifndef GUI_CONFIGURATION_HPP
+#define GUI_CONFIGURATION_HPP
 
 #include "ActionSystem/ActionMap.hpp"
 #include "ResourceManager/ResourceManager.hpp"
@@ -43,4 +43,4 @@ class Configuration {
 
 }  // namespace foggy
 
-#endif /* GUI_CONFIGURATION_H */
+#endif /* GUI_CONFIGURATION_HPP */

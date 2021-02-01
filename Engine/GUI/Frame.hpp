@@ -1,5 +1,5 @@
-#ifndef FRAME_H
-#define FRAME_H
+#ifndef FRAME_HPP
+#define FRAME_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -42,4 +42,4 @@ class Frame : public Container, protected ActionTarget<int> {
 }  // namespace gui
 }  // namespace foggy
 
-#endif /* FRAME_H */
+#endif /* FRAME_HPP */

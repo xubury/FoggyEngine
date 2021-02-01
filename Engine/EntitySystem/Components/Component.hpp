@@ -1,5 +1,5 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef COMPONENT_HPP
+#define COMPONENT_HPP
 
 #include <stdint.h>
 
@@ -137,4 +137,4 @@ inline uint32_t Component<COMPONENT, ENTITY>::family() {
 }  // namespace es
 }  // namespace foggy
 
-#endif /* COMPONENT_H */
+#endif /* COMPONENT_HPP */

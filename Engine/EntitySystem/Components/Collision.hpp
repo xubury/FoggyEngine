@@ -1,5 +1,5 @@
-#ifndef COLLISION_H
-#define COLLISION_H
+#ifndef COLLISION_HPP
+#define COLLISION_HPP
 
 #include <box2d/box2d.h>
 
@@ -29,4 +29,4 @@ struct Collision : es::Component<Collision, es::DefaultEntity> {
 }  // namespace component
 }  // namespace foggy
 
-#endif /* COLLISION_H */
+#endif /* COLLISION_HPP */

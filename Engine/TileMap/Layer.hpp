@@ -1,5 +1,5 @@
-#ifndef LAYER_H
-#define LAYER_H
+#ifndef LAYER_HPP
+#define LAYER_HPP
 
 #include "TileMap/VLayer.hpp"
 #include "TileMap/VMap.hpp"
@@ -247,4 +247,4 @@ void Layer<CONTENT*>::draw(sf::RenderTarget& target, sf::RenderStates states,
 
 }  // namespace foggy
 
-#endif /* LAYER_H */
+#endif /* LAYER_HPP */

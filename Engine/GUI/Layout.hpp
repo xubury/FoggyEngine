@@ -1,5 +1,5 @@
-#ifndef LAYOUT_H
-#define LAYOUT_H
+#ifndef LAYOUT_HPP
+#define LAYOUT_HPP
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <vector>
@@ -28,4 +28,4 @@ class Layout : virtual public Widget {
 }  // namespace gui
 }  // namespace foggy
 
-#endif /* LAYOUT_H */
+#endif /* LAYOUT_HPP */

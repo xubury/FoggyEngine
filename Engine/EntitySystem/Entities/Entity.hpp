@@ -1,5 +1,5 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#ifndef ENTITY_HPP
+#define ENTITY_HPP
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -144,4 +144,4 @@ Entity<ENTITY>::components() const {
 }  // namespace es
 }  // namespace foggy
 
-#endif /* ENTITY_H */
+#endif /* ENTITY_HPP */

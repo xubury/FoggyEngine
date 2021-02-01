@@ -1,5 +1,5 @@
-#ifndef ACTIONTARGET_H
-#define ACTIONTARGET_H
+#ifndef ACTIONTARGET_HPP
+#define ACTIONTARGET_HPP
 
 #include <functional>
 #include <list>
@@ -114,4 +114,4 @@ void ActionTarget<T>::unbind(const T &key) {
 
 }  // namespace foggy
 
-#endif /* ACTIONTARGET_H */
+#endif /* ACTIONTARGET_HPP */

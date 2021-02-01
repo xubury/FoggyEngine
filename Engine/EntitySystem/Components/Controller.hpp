@@ -1,5 +1,5 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#ifndef CONTROLLER_HPP
+#define CONTROLLER_HPP
 
 #include "ActionSystem/ActionTarget.hpp"
 #include "Configuration/Configuration.hpp"
@@ -17,4 +17,4 @@ struct Controller : es::Component<Controller, es::DefaultEntity>,
 
 }  // namespace foggy
 
-#endif /* CONTROLLER_H */
+#endif /* CONTROLLER_HPP */

@@ -1,5 +1,5 @@
-#ifndef SPRITEBUTTON_H
-#define SPRITEBUTTON_H
+#ifndef SPRITEBUTTON_HPP
+#define SPRITEBUTTON_HPP
 
 #include "GUI/Button.hpp"
 #include "GUI/Sprite.hpp"
@@ -30,7 +30,6 @@ class SpriteButton : virtual public Widget, public Button, public Sprite {
 };
 
 }  // namespace gui
-
 }  // namespace foggy
 
-#endif /* SPRITEBUTTON_H */
+#endif /* SPRITEBUTTON_HPP */

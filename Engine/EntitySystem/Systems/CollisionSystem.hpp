@@ -1,5 +1,5 @@
-#ifndef COLLISIONSYSTEM_H
-#define COLLISIONSYSTEM_H
+#ifndef COLLISIONSYSTEM_HPP
+#define COLLISIONSYSTEM_HPP
 
 #include <box2d/box2d.h>
 
@@ -20,4 +20,4 @@ class CollisionSystem : public System<component::Collision, es::DefaultEntity>,
 }  // namespace es
 }  // namespace foggy
 
-#endif /* COLLISIONSYSTEM_H */
+#endif /* COLLISIONSYSTEM_HPP */

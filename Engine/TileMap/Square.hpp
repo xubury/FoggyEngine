@@ -1,5 +1,5 @@
-#ifndef SQUARE_H
-#define SQUARE_H
+#ifndef SQUARE_HPP
+#define SQUARE_HPP
 
 #include <SFML/Graphics.hpp>
 
@@ -24,4 +24,4 @@ struct Square {
 
 }  // namespace geometry
 
-#endif /* SQUARE_H */
+#endif /* SQUARE_HPP */

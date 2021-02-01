@@ -1,5 +1,5 @@
-#ifndef ES_H
-#define ES_H
+#ifndef ES_HPP
+#define ES_HPP
 
 #include "EntitySystem/Components/Component.hpp"
 #include "EntitySystem/Entities/Entity.hpp"
@@ -21,4 +21,4 @@ struct LuaScript;
 }  // namespace component
 }  // namespace foggy
 
-#endif /* ES_H */
+#endif /* ES_HPP */

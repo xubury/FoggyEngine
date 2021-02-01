@@ -1,5 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef GAME_HPP
+#define GAME_HPP
 
 #include <box2d/box2d.h>
 
@@ -64,4 +64,4 @@ class Game {
     Status m_status;
 };
 
-#endif /* GAME_H */
+#endif /* GAME_HPP */

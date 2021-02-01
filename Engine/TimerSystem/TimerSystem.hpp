@@ -1,11 +1,10 @@
-#ifndef TIMERSYSTEM_H
-#define TIMERSYSTEM_H
+#ifndef TIMERSYSTEM_HPP
+#define TIMERSYSTEM_HPP
 
 #include <SFML/System/Clock.hpp>
 #include <functional>
 
 #include "Utils/PriorityQueue.hpp"
-
 
 namespace foggy {
 namespace ts {
@@ -51,4 +50,4 @@ class TimerSystem {
 }  // namespace ts
 }  // namespace foggy
 
-#endif /* TIMERSYSTEM_H */
+#endif /* TIMERSYSTEM_HPP */

@@ -1,5 +1,5 @@
-#ifndef ACTION_H
-#define ACTION_H
+#ifndef ACTION_HPP
+#define ACTION_HPP
 
 #include <SFML/Window/Event.hpp>
 
@@ -32,4 +32,4 @@ class Action {
 
 }  // namespace foggy
 
-#endif /* ACTION_H */
+#endif /* ACTION_HPP */

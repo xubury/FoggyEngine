@@ -1,5 +1,5 @@
-#ifndef TEXTBUTTON_H
-#define TEXTBUTTON_H
+#ifndef TEXTBUTTON_HPP
+#define TEXTBUTTON_HPP
 
 #include "GUI/Button.hpp"
 
@@ -37,4 +37,4 @@ class TextButton : public Button {
 }  // namespace gui
 }  // namespace foggy
 
-#endif /* TEXTBUTTON_H */
+#endif /* TEXTBUTTON_HPP */

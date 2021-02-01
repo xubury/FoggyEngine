@@ -1,5 +1,5 @@
-#ifndef ACTIONMAP_H
-#define ACTIONMAP_H
+#ifndef ACTIONMAP_HPP
+#define ACTIONMAP_HPP
 
 #include <unordered_map>
 
@@ -33,4 +33,4 @@ const Action &ActionMap<T>::get(const T &key) const {
 
 }  // namespace foggy
 
-#endif /* ACTIONMAP_H */
+#endif /* ACTIONMAP_HPP */

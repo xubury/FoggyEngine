@@ -1,5 +1,5 @@
-#ifndef MEMORY_H
-#define MEMORY_H
+#ifndef MEMORY_HPP
+#define MEMORY_HPP
 
 #include <vector>
 namespace foggy {
@@ -166,4 +166,4 @@ VPool::Iterator<T> Pool<T>::End() const {
 }  // namespace utils
 }  // namespace foggy
 
-#endif /* MEMORY_H */
+#endif /* MEMORY_HPP */

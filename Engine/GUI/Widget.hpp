@@ -1,5 +1,5 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef WIDGET_HPP
+#define WIDGET_HPP
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Window/Event.hpp>
@@ -40,4 +40,4 @@ class Widget : public sf::Drawable {
 }  // namespace gui
 }  // namespace foggy
 
-#endif /* WIDGET_H */
+#endif /* WIDGET_HPP */

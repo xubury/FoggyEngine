@@ -1,5 +1,5 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef MAP_HPP
+#define MAP_HPP
 
 #include "TileMap/Layer.hpp"
 #include "TileMap/Tile.hpp"
@@ -179,4 +179,4 @@ int Map<GEOMETRY>::getDistance(const sf::Vector2i& origin,
 
 }  // namespace foggy
 
-#endif /* MAP_H */
+#endif /* MAP_HPP */

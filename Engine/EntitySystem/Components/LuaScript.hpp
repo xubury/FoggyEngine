@@ -1,5 +1,5 @@
-#ifndef LUASCRIPT_H
-#define LUASCRIPT_H
+#ifndef LUASCRIPT_HPP
+#define LUASCRIPT_HPP
 
 #include <sol/sol.hpp>
 
@@ -25,4 +25,4 @@ struct LuaScript : es::Component<LuaScript, es::DefaultEntity> {
 }  // namespace component
 }  // namespace foggy
 
-#endif /* LUASCRIPT_H */
+#endif /* LUASCRIPT_HPP */

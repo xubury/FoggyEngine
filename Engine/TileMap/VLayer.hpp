@@ -1,5 +1,5 @@
-#ifndef VLAYER_H
-#define VLAYER_H
+#ifndef VLAYER_HPP
+#define VLAYER_HPP
 
 #include <SFML/Graphics.hpp>
 #include <list>
@@ -37,4 +37,4 @@ class VLayer {
 
 }  // namespace foggy
 
-#endif /* VLAYER_H */
+#endif /* VLAYER_HPP */

@@ -1,5 +1,5 @@
-#ifndef APPLICATION_H
-#define APPLICATION_H
+#ifndef APPLICATION_HPP
+#define APPLICATION_HPP
 
 #include <SFML/System/Time.hpp>
 
@@ -36,4 +36,4 @@ void Application<ENTITY>::update(const sf::Time &deltaTime) {
 }  // namespace es
 }  // namespace foggy
 
-#endif /* APPLICATION_H */
+#endif /* APPLICATION_HPP */

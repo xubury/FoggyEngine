@@ -1,5 +1,5 @@
-#ifndef RESOURCE_H
-#define RESOURCE_H
+#ifndef RESOURCE_HPP
+#define RESOURCE_HPP
 
 #include <sol/sol.hpp>
 #include <string>
@@ -45,4 +45,4 @@ class Resource {
 
 }  // namespace foggy
 
-#endif /* RESOURCES_CONFIGURATION_H */
+#endif /* RESOURCES_HPP */
