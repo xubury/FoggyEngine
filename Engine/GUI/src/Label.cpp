@@ -1,6 +1,7 @@
+#include "GUI/Label.hpp"
+
 #include <SFML/Graphics/RenderTarget.hpp>
 
-#include "GUI/Label.hpp"
 
 namespace foggy {
 namespace gui {
@@ -28,7 +29,7 @@ uint32_t Label::getCharacterSize() const { return m_text.getCharacterSize(); }
 void Label::setOrigin(float x, float y) { m_text.setOrigin(x, y); }
 
 sf::Vector2f Label::getSize() const {
-    sf::FloatRect rect = m_text.getGlobalBounds();
+    sf::FloatRect rect = m_text.getLocalBounds();
     return sf::Vector2f(rect.width, rect.height);
 }
 
