@@ -37,6 +37,8 @@ class Frame : public Container, protected ActionTarget<int> {
     sf::RenderWindow& m_window;
     sf::Vector2f m_size;
     sf::View m_view;
+    sf::Vector2f m_last_mouse_pos;
+    bool m_is_dragged;
 };
 
 }  // namespace gui

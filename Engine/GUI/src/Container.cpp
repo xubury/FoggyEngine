@@ -73,14 +73,14 @@ bool Container::processEvent(const sf::Event &event,
                              const sf::Vector2f &parent_pos) {
     bool res = false;
     if (isVisible() && m_layout != nullptr) {
-        res = m_layout->processEvent(event, parent_pos);
+        res = m_layout->processEvent(event, parent_pos + getPosition());
     }
     return res;
 }
 
 void Container::processEvents(const sf::Vector2f &parent_pos) {
     if (isVisible() && m_layout != nullptr) {
-        m_layout->processEvents(parent_pos);
+        m_layout->processEvents(parent_pos + getPosition());
     }
 }
 

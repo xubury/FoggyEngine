@@ -30,6 +30,7 @@ bool Button::processEvent(const sf::Event &event,
         m_status = None;
         if (rect.contains(mouse_pos)) {
             m_status = Hover;
+            res = true;
         }
         if ((old_status & Hover) && !(m_status & Hover)) {
             onMouseLeft();

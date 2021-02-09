@@ -109,6 +109,7 @@ void Game::processEvents() {
 }
 
 void Game::processMouseEvents() {
+    if (m_status != Normal) return;
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         sf::Vector2f pos =
             m_viewer.mapPixelToCoords(sf::Mouse::getPosition(m_window));
